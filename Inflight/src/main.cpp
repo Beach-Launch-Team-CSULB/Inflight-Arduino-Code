@@ -1,229 +1,98 @@
-// Basic demo for accelerometer readings from Adafruit ICM20649
-
-
-#include <SPI.h>
-#include <Adafruit_Sensor.h>
-#include <Adafruit_ICM20649.h>
-#include <Adafruit_BMP3XX.h>
+// Basic demo for readings from Adafruit BNO08x
 #include <Adafruit_BNO08x.h>
-//#include <SD.h>
 
+// For SPI mode, we also need a RESET
+// but not for I2C or UART
+const int8_t BNO08X_RESET = -1;
 
-using namespace std;
+Adafruit_BNO08x  bno08x(BNO08X_RESET);
+sh2_SensorValue_t sensorValue;
 
-Adafruit_ICM20649 icm;
-Adafruit_BMP3XX bmp;
-Adafruit_BNO08x bno;
-
-//const float numMinutes = 0.01;
-const float seaLevelPressure = 1019;
-//const uint8_t cs_SD = 1;
-//const uint16_t measurement_delay_us = 65535;
-const uint8_t numSensorsEnabled = 3;
-
-sensors_event_t events[3];
-sh2_SensorValue_t bnoSensorValue;
-bool collectedReadings[numSensorsEnabled];
-uint16_t numReadings;
-
-struct bnoReading {
-    sh2_Gyroscope_t gyroscope;
-    sh2_Accelerometer_t accelerometer;
-    sh2_MagneticField_t magnetometer;
-};
-bnoReading bnoData;
-
-void checkReading(uint8_t i) {
-    if(!collectedReadings[i]) {
-        collectedReadings[i] = true;
-        numReadings++;
+// Here is where you define the sensor outputs you want to receive
+void setReports() {
+    Serial.println("Setting desired reports");
+    if (! bno08x.enableReport(SH2_ACCELEROMETER, 1)) {
+        Serial.println("Could not enable accelerometer");
+    }
+    if (! bno08x.enableReport(SH2_GYROSCOPE_CALIBRATED, 1)) {
+        Serial.println("Could not enable gyroscope");
+    }
+    if (! bno08x.enableReport(SH2_MAGNETIC_FIELD_CALIBRATED, 1)) {
+        Serial.println("Could not enable ");
     }
 }
+
 
 void setup(void) {
     Serial.begin(115200);
-    while (!Serial)
-        delay(10);
-
-    Serial.println("Begin data logging");
+    while (!Serial) delay(10);     // will pause Zero, Leonardo, etc until serial console opens
+    Serial.println("Adafruit BNO08x test!");
 
     // Try to initialize!
-    if (!icm.begin_I2C()) {
-
-        Serial.println("Failed to find ICM20649 over I2C");
-        while (1) {
-            delay(10);
+    bool f = false;
+    while(!bno08x.begin_I2C()) {
+        if(!f) {
+            Serial.println("Failed to find BNO08x chip");
+            f = true;
         }
     }
+    Serial.println("BNO08x Found!");
 
-    Serial.println("ICM20649 Found");
-    if (!bmp.begin_I2C()) {
-
-        Serial.println("Failed to find BMP390L over I2C");
-        while (1) {
-            delay(10);
-        }
-    }
-    Serial.println("BMP390L Found");
-
-    if (!bmp.begin_I2C()) {
-
-        Serial.println("Failed to find BNO085 over I2C");
-        while (1) {
-            delay(10);
-        }
-    }
-    Serial.println("BNO085 Found");
-/*
-    if(!SD.begin(cs_SD)) {
-        Serial.println("Failed to find SD card over SPI");
-        while (1) {
-            delay(10);
-        }
-    }
-    Serial.println("SD card found");
-*/
-
-    //ICM Accel settings
-    icm.setAccelRange(ICM20649_ACCEL_RANGE_30_G);
-    icm.setAccelRateDivisor(0);
-    icm.enableAccelDLPF(true, ICM20X_ACCEL_FREQ_246_0_HZ);
-
-    //ICM Gyro settings
-    icm.setGyroRange(ICM20649_GYRO_RANGE_4000_DPS);
-    icm.setGyroRateDivisor(0);
-    icm.enableGyrolDLPF(true, ICM20X_GYRO_FREQ_196_6_HZ);
-
-    Serial.println("Set ICM characteristics");
-
-    //BMP390L settings
-    bmp.setTemperatureOversampling(1);
-    bmp.setPressureOversampling(1);
-    bmp.setPressureOversampling(1);
-    bmp.setIIRFilterCoeff(128);
-    bmp.setOutputDataRate(BMP3_ODR_200_HZ);
-    //Sea Level pressure set at top of program
-
-    Serial.println("Set BMP390L characteristics");
-
-    //BNO085 settings
-    //sh2_SensorId_e setSensors [numSensorsEnabled] = {SH2_GYROSCOPE_CALIBRATED, SH2_ACCELEROMETER, SH2_MAGNETIC_FIELD_CALIBRATED};
-    /*
-    if(!bno.enableReport(SH2_ACCELEROMETER)) {
-        Serial.print("Failed to enable accelerometer");
-    }
-    else {
-        Serial.print("Enabled gyroscope");
-    }
-    if(!bno.enableReport(SH2_GYROSCOPE_CALIBRATED)) {
-        Serial.print("Failed to enable gyroscope");
-    }
-    else {
-        Serial.print("Enabled gyroscope");
+    for (int n = 0; n < bno08x.prodIds.numEntries; n++) {
+        Serial.print("Part ");
+        Serial.print(bno08x.prodIds.entry[n].swPartNumber);
+        Serial.print(": Version :");
+        Serial.print(bno08x.prodIds.entry[n].swVersionMajor);
+        Serial.print(".");
+        Serial.print(bno08x.prodIds.entry[n].swVersionMinor);
+        Serial.print(".");
+        Serial.print(bno08x.prodIds.entry[n].swVersionPatch);
+        Serial.print(" Build ");
+        Serial.println(bno08x.prodIds.entry[n].swBuildNumber);
     }
 
-    if(!bno.enableReport(SH2_MAGNETIC_FIELD_CALIBRATED)) {
-        Serial.print("Failed to enable magnetometer");
-    }
-    else {
-        Serial.print("Enabled magnetometer");
-    }*/
+    setReports();
 
+    Serial.println("Reading events");
+    delay(100);
 }
+
+
 
 void loop() {
-    Serial.println("Begin loop");
-    if(!icm.getEvent(&events[0], &events[1], &events[2])) {
-        Serial.print("ICM20649 failed to perform reading");
-    }
-    else {
-        Serial.print("ICM20649 performed reading");
-    }
-    if (! bmp.performReading()) {
-        Serial.println("BMP390L Failed to perform reading");
-    }
-    else {
-        Serial.println("BMP390L performed reading");
+    delay(10);
+
+    if (bno08x.wasReset()) {
+        Serial.print("sensor was reset ");
+        setReports();
     }
 
-    numReadings = 0;
-    while(numReadings < numSensorsEnabled) {
-        if(!bno.getSensorEvent(&bnoSensorValue)) {
-            Serial.print("BNO085 failed to perform reading");
-        }
-        Serial.print(bnoSensorValue.sensorId);
-        switch (bnoSensorValue.sensorId) {
-            case SH2_RAW_GYROSCOPE:
-                bnoData.gyroscope = bnoSensorValue.un.gyroscope;
-                checkReading(0);
-                break;
+    while(!bno08x.getSensorEvent(&sensorValue));
 
-            case SH2_RAW_ACCELEROMETER:
-                bnoData.accelerometer = bnoSensorValue.un.accelerometer;
-                checkReading(1);
-                break;
+    switch (sensorValue.sensorId) {
 
-            case SH2_RAW_MAGNETOMETER:
-                bnoData.magnetometer = bnoSensorValue.un.magneticField;
-                checkReading(2);
-                break;
-
-        }
-
-    Serial.print("\t\tTemperature: ");
-    Serial.print(events[2].temperature);
-    Serial.println(" deg C");
-    Serial.print("\t\tAccel X: ");
-    Serial.print(events[0].acceleration.x);
-    Serial.print(" \tY: ");
-    Serial.print(events[0].acceleration.y);
-    Serial.print(" \tZ: ");
-    Serial.print(events[0].acceleration.z);
-    Serial.println(" m/s^2 ");
-    Serial.print("\t\tGyro X: ");
-    Serial.print(events[1].gyro.x);
-    Serial.print(" \tY: ");
-    Serial.print(events[1].gyro.y);
-    Serial.print(" \tZ: ");
-    Serial.print(events[1].gyro.z);
-    Serial.println(" radians/s ");
-    Serial.println();
-    delay(100);
-    Serial.print("Temperature = ");
-    Serial.print(bmp.temperature);
-    Serial.println(" *C");
-
-    Serial.print("Pressure = ");
-    Serial.print(bmp.pressure / 100.0);
-    Serial.println(" hPa");
-
-    Serial.print("Approx. Altitude = ");
-    Serial.print(bmp.readAltitude(seaLevelPressure));
-    Serial.println(" m");
-
-
-    //TODO: Add sensor prints here for BNO085
-    Serial.print("BNO085 Acceleration\nX:");
-    Serial.print(bnoData.accelerometer.x);
-    Serial.print(" Y: ");
-    Serial.print(bnoData.accelerometer.y);
-    Serial.print(" Z: ");
-    Serial.println(bnoData.accelerometer.z);
-    Serial.println("BNO085 Gyroscope\nX: ");
-    Serial.print(bnoData.gyroscope.x);
-    Serial.print(" Y: ");
-    Serial.print(bnoData.gyroscope.y);
-    Serial.print(" Z: ");
-    Serial.println(bnoData.gyroscope.z);
-    Serial.println("BNO085 Magnetometer\nX: ");
-    Serial.print(bnoData.magnetometer.x);
-    Serial.println(" Y: ");
-    Serial.print(bnoData.magnetometer.y);
-    Serial.println(" Z: ");
-    Serial.print(bnoData.magnetometer.z);
-
-    delay(100);
+        case SH2_ACCELEROMETER:
+            Serial.print("Accelerometer:\nX: ");
+            Serial.print(sensorValue.un.accelerometer.x);
+            Serial.print(" Y: ");
+            Serial.print(sensorValue.un.accelerometer.y);
+            Serial.print(" Z: ");
+            Serial.println(sensorValue.un.accelerometer.z);
+            break;
+        case SH2_GYROSCOPE_CALIBRATED:
+            Serial.print("Gyroscope:\nX: ");
+            Serial.print(sensorValue.un.gyroscope.x);
+            Serial.print(" Y: ");
+            Serial.print(sensorValue.un.gyroscope.y);
+            Serial.print(" Z: ");
+            Serial.println(sensorValue.un.gyroscope.z);
+        case SH2_MAGNETIC_FIELD_CALIBRATED:
+            Serial.print("Magnetometer: \nX");
+            Serial.print(sensorValue.un.magneticField.x);
+            Serial.print(" Y: ");
+            Serial.print(sensorValue.un.magneticField.y);
+            Serial.print(" Z: ");
+            Serial.println(sensorValue.un.magneticField.z);
     }
+
 }
-
-

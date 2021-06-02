@@ -2,5 +2,6 @@
 <project version="4">
   <component name="Arduino Project Settings">
     <option name="port" value="/dev/cu.usbmodem1422401" />
+    <option name="showSendOptions" value="false" />
   </component>
 </project>
