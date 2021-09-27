@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.20)
+project(picoProject)
+include(pico_sdk_import.cmake)
+set(CMAKE_CXX_STANDARD 14)
+import(pico_sdk_import.cmake)
+pico_sdk_init()
+add_executable(picoProject main.cpp)
