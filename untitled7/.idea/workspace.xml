@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="55dd36ac-b27b-488c-aadb-a36732913650" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/CMakeFiles/3.21.4/CMakeCCompiler.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/CMakeFiles/3.21.4/CMakeCXXCompiler.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/CMakeFiles/3.21.4/CMakeDetermineCompilerABI_C.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/CMakeFiles/3.21.4/CMakeDetermineCompilerABI_CXX.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/CMakeFiles/3.21.4/CMakeSystem.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/CMakeFiles/3.21.4/CompilerIdC/CMakeCCompilerId.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/CMakeFiles/3.21.4/CompilerIdCXX/CMakeCXXCompilerId.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/.idea/untitled7.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/CMakeLists.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/include/README" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/lib/README" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/platformio.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/src/main.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/test/README" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Teensy-Mini-Code/.idea/Teensy-Mini-Code.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Teensy-Mini-Code/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Teensy-Mini-Code/.idea/serialmonitor_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Teensy-Mini-Code/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Teensy-Mini-Code/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/serialmonitor_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/untitled7.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-teensy41/CMakeFiles/clion-log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Teensy-Code-Scratch-2/.idea/serialmonitor_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch-2/.idea/serialmonitor_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Teensy-Code-Scratch-2/platformio.ini" beforeDir="false" afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch-2/platformio.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Teensy-Code-Scratch-2/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch-2/src/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/CMakeCache.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Teensy-Code-Scratch/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Teensy-Code/.idea/serialmonitor_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Teensy-Code/.idea/serialmonitor_settings.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="20DQ9IF6owQbntFh80b5zzidIGk" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="cf.first.check.clang-format" value="false" />
+    <property name="cidr.known.project.marker" value="true" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="55dd36ac-b27b-488c-aadb-a36732913650" name="Changes" comment="" />
+      <created>1635576526298</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1635576526298</updated>
+      <workItem from="1635576528350" duration="376000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
