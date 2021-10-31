@@ -242,6 +242,11 @@ void loop() {
             records->append(write_str);
         }
     }
+    if (flash_enabled) {
+        File flash_file = flash.open(flash_string.c_str(), FILE_WRITE);
+        flash_file.print(write_str);
+        flash_file.close();
+    }
     if (Serial) {
         Serial.print(write_str);
     }
