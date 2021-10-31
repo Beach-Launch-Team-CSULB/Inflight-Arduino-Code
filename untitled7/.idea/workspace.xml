@@ -10,42 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="55dd36ac-b27b-488c-aadb-a36732913650" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/CMakeFiles/3.21.4/CMakeCCompiler.cmake" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/CMakeFiles/3.21.4/CMakeCXXCompiler.cmake" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/CMakeFiles/3.21.4/CMakeDetermineCompilerABI_C.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/CMakeFiles/3.21.4/CMakeDetermineCompilerABI_CXX.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/CMakeFiles/3.21.4/CMakeSystem.cmake" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/CMakeFiles/3.21.4/CompilerIdC/CMakeCCompilerId.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/CMakeFiles/3.21.4/CompilerIdCXX/CMakeCXXCompilerId.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/.idea/untitled7.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/CMakeLists.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/include/README" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/lib/README" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/platformio.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/src/main.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/test/README" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Teensy-Mini-Code/.idea/Teensy-Mini-Code.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Teensy-Mini-Code/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Teensy-Mini-Code/.idea/serialmonitor_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Teensy-Mini-Code/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Teensy-Mini-Code/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/serialmonitor_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/untitled7.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-teensy41/CMakeFiles/clion-log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Teensy-Code-Scratch-2/.idea/serialmonitor_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch-2/.idea/serialmonitor_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Teensy-Code-Scratch-2/platformio.ini" beforeDir="false" afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch-2/platformio.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Teensy-Code-Scratch-2/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch-2/src/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/CMakeCache.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Teensy-Code-Scratch/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Teensy-Code/.idea/serialmonitor_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Teensy-Code/.idea/serialmonitor_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/src/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

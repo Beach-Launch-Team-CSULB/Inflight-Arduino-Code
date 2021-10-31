@@ -53,7 +53,7 @@ void file_copy(File * copy, File * paste) {
     //Frees buffer from memory
     delete[] buf;
     Serial.print("Dumping " + String(copy->name()) + " Finished");
-    //Closes both files, deletes original file
+    //Closes both files
     copy->close();
     paste->close();
 }
@@ -130,8 +130,10 @@ void setup() {
                     String flash_path = file_name + flash_file;
                     File teensy_copy = teensy_sd.open(flash_path.c_str(), FILE_WRITE);
                     File flash_copy = flash.open(flash_file.c_str(), FILE_READ);
+                    Serial.print("Copying " + flash_file + " To " + flash_path);
                     file_copy(&flash_copy, &teensy_copy);
-                    flash.remove(flash_path.c_str());
+                    Serial.print("Deleting " + flash_file);
+                    flash.remove(flash_file.c_str());
                 }
                 flash_count++;
                 flash_file = "output" + String(flash_count) + ".csv";
