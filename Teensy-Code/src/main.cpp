@@ -19,13 +19,13 @@ const uint_fast16_t GPS_BAUD = 9600;
 const float sea_level_pressure_hpa = 1015.578;
 //Precision values to use when converting from float to decimal
 const u_char float_depth = 18, double_depth = 18;
+//Buffer size for copying files
+const uint_fast16_t buffer_size = 128;
 //Device enable values- checks if device is enabled, skips trying to talk to it if it is not true
 bool bmp_enabled, bno_enabled, icm_enabled, xtsd_enabled, teensy_sd_enabled, gps_enabled, flash_enabled;
 //GPS Time Synchronization value- Checks if GPS time is set, sets it once if it is not
 //Avoids internal clock going out of sync by updating from GPS too often
 bool time_set = false;
-//Buffer sie for copying files
-const uint_fast16_t buffer_size = 128;
 //Recorded values from GPS time
 int_fast32_t gps_time, gps_speed, gps_date, gps_year, gps_month, gps_day, gps_hour,
         gps_minute, gps_second;
@@ -37,7 +37,8 @@ double altitude = 0;
 float bno_accel[3], bno_mag[3], bno_gyro[3];
 //Recorded data from BMP390L
 float bmp_temp, bmp_pressure, bmp_altitude;
-
+//Sets if the rocket has launched
+bool in_air = false, alt_copy = false;
 //Device objects
 //QSPI flash memory on bottom of Teensy
 LittleFS_QSPIFlash flash;
@@ -55,8 +56,23 @@ TinyGPSPlus gps;
 SDClass teensy_sd, xtsd;
 //Sets initial value of device strings
 String sd_string = "output0.csv", xtsd_string = sd_string, flash_string = sd_string;
+uint_fast8_t alt_counter = 0;
+uint_fast32_t end_timer = 0;
+float alt_lockout = 750;
 //Initializes records variable- records data that cannot be written to SD card in memory
-String * records;
+//struct altitude_nums {
+//    float alt;
+//    uint_fast32_t time;
+//    altitude_nums(float f, uint_fast32_t t) {
+//        alt = f;
+//        time = t;
+//    }
+//    altitude_nums() {
+//        alt = 0;
+//        time = 0;
+//    }
+//};
+//altitude_nums * altitude_list;
 
 //FLTS function- returns float as string with full precision
 String flts(float s) {
@@ -66,7 +82,7 @@ String flts(double s) {
     return {s, double_depth};
 }
 
-void file_copy(File * copy, File * paste) {
+void file_copy(File * copy, File * paste, bool close) {
     //Reads data from XTSD to buffer, writes data from buffer to SD card
     //Stores size of buffer
     size_t n;
@@ -80,12 +96,15 @@ void file_copy(File * copy, File * paste) {
     delete[] buf;
     Serial.print("Dumping " + String(copy->name()) + " Finished");
     //Closes both files, deletes original file
-    copy->close();
-    paste->close();
+    if(close) {
+        copy->close();
+        paste->close();
+    }
+
 }
 void setup() {
-    //Sets records value as new string
-    records = new String();
+    //Uncomment for testing
+    //alt_copy = true;
     //Starts GPS UART device
     GPSSerial.begin(GPS_BAUD);
     Serial.print("Start logging\n");
@@ -114,8 +133,8 @@ void setup() {
         icm.setAccelRange(ICM20649_ACCEL_RANGE_30_G);
         icm.setGyroRange(ICM20649_GYRO_RANGE_4000_DPS);
         //Sets output data rate to max supported by sensor
-        icm.setAccelRateDivisor(ICM20X_ACCEL_FREQ_473_HZ);
-        icm.setGyroRateDivisor(ICM20X_GYRO_FREQ_361_4_HZ);
+        icm.setAccelRateDivisor(1);
+        icm.setGyroRateDivisor(1);
     }
     //Initialized BNO085
     bno_enabled = bno.begin_SPI(BNO_CS, BNO_INT);
@@ -140,6 +159,12 @@ void setup() {
     }
     //Initializes XTSD device over SPI
     xtsd_enabled = xtsd.begin(XTSD_CS);
+    if(bmp_enabled) {
+        altitude = bmp_altitude;
+    }
+    else if(gps_enabled) {
+        altitude = gps_altitude;
+    }
     if (!xtsd_enabled) {
         Serial.print("XTSD Init failed!\n");
     } else {
@@ -147,7 +172,7 @@ void setup() {
         //Data copy program
         //If the SD card is installed upon system startup, the system will run this program to dump existing data from
         //the XTSD module to the SD card, and delete the according data.
-        if (teensy_sd_enabled) {
+        if (teensy_sd_enabled && altitude < alt_lockout) {
             //Data dumped from the XTSD module is stored in the /XTSD/ folder on the SD card's root,
             //While SD card data is stored on the SD card root directly.
             //If this directory does not exist, create it
@@ -182,8 +207,8 @@ void setup() {
                     //Opens file being read from and written to
                     File teensy_copy = teensy_sd.open(xtsd_path.c_str(), FILE_WRITE);
                     File xtsd_copy = xtsd.open(xtsd_file.c_str(), FILE_READ);
-                    file_copy(&xtsd_copy, &teensy_copy);
-                    xtsd.remove(xtsd_path.c_str());
+                    file_copy(&xtsd_copy, &teensy_copy, true);
+                    xtsd.remove(xtsd_file.c_str());
                 }
             }
             Serial.println("Copy from XTSD finished");
@@ -196,7 +221,7 @@ void setup() {
         Serial.println("Flash chip not initialized!");
     } else {
         Serial.println("Flash chip initialized!");
-        if (teensy_sd_enabled) {
+        if (teensy_sd_enabled && altitude < alt_lockout) {
             //Teensy SD copy program
             if (!teensy_sd.exists("/flash/")) {
                 teensy_sd.mkdir("/flash/");
@@ -218,14 +243,14 @@ void setup() {
             uint_fast16_t flash_count = 0;
             uint_fast16_t dump_num = 0;
             for (uint_fast16_t i = 0; i < 1024; i++) {
-                if (xtsd.exists(flash_file.c_str())) {
+                if (flash.exists(flash_file.c_str())) {
                     dump_num++;
                     Serial.print("Dumping " + String(flash_file.c_str()));
                     String flash_path = file_name + flash_file;
                     File teensy_copy = teensy_sd.open(flash_path.c_str(), FILE_WRITE);
-                    File flash_copy = xtsd.open(flash_file.c_str(), FILE_READ);
-                    file_copy(&flash_copy, &teensy_copy);
-                    flash.remove(flash_path.c_str());
+                    File flash_copy = flash.open(flash_file.c_str(), FILE_READ);
+                    file_copy(&flash_copy, &teensy_copy, true);
+                    flash.remove(flash_file.c_str());
                 }
                 flash_count++;
                 flash_file = "output" + String(flash_count) + ".csv";
@@ -420,6 +445,16 @@ void loop() {
     }
     write_str.append("\n");
     //Writes data to storage medium
+    if (xtsd_enabled) {
+        File xtsd_file = xtsd.open(xtsd_string.c_str(), FILE_WRITE);
+        xtsd_file.print(write_str);
+        xtsd_file.close();
+    }
+    if (flash_enabled) {
+        File flash_file = flash.open(flash_string.c_str(), FILE_WRITE);
+        flash_file.print(write_str);
+        flash_file.close();
+    }
     //SD card altitude lockout- Updates altitude from either GPS or altimeter
     if (teensy_sd_enabled) {
         if(bmp_enabled) {
@@ -428,27 +463,25 @@ void loop() {
         else if(gps_enabled) {
             altitude = gps_altitude;
         }
-        if(altitude < 750) {
+        if(altitude > alt_lockout) {
+            in_air = true;
+            end_timer = millis() + 12000;
+        }
+        else if (in_air && altitude < alt_lockout && flash_enabled && !alt_copy && end_timer < millis()) {
             File teensy_file = teensy_sd.open(sd_string.c_str(), FILE_WRITE);
-            if(!records->equals("")) {
-                teensy_file.print(*records);
-                delete records;
-                records = new String("");
-            }
-            //Serial.print("Writing data to " + sd_string);
+            File flash_file = flash.open(flash_string.c_str(), FILE_READ);
+            file_copy(&flash_file, &teensy_file, false);
+            flash.remove(flash_string.c_str());
+            alt_copy = true;
+        }
+        if(alt_copy || !flash_enabled) {
+            File teensy_file = flash.open(sd_string.c_str(), FILE_WRITE);
             teensy_file.print(write_str);
             teensy_file.close();
+        }
+    }
 
-        }
-        else {
-            records->append(write_str);
-        }
-    }
-    if (xtsd_enabled) {
-        File xtsd_file = xtsd.open(xtsd_string.c_str(), FILE_WRITE);
-        xtsd_file.print(write_str);
-        xtsd_file.close();
-    }
+
     if (Serial) {
             Serial.print(write_str);
         }

@@ -13,12 +13,18 @@ const uint_fast8_t BMP_CS = 4, ICM_CS = 10;
 const float sea_level_pressure_hpa = 1015.578;
 //Precision values to use when converting from float to decimal
 const u_char float_depth = 18;
-//Device enable values- checks if device is enabled, skips trying to talk to it if it is not true
-bool bmp_enabled, icm_enabled, teensy_sd_enabled, flash_enabled;
 //Buffer sie for copying files
 const uint_fast16_t buffer_size = 128;
+//Device enable values- checks if device is enabled, skips trying to talk to it if it is not true
+bool bmp_enabled, icm_enabled, teensy_sd_enabled, flash_enabled;
 //Recorded data from BMP390L
-float bmp_temp, bmp_pressure, bmp_altitude;
+float bmp_temp, bmp_pressure, bmp_altitude = 0;
+//SD card lockout variables
+//For ground testing, set alt_copy to true
+float alt_lockout = 750;
+bool in_air = false, alt_copy = false;
+uint_fast32_t end_time = 0;
+String * flight_computer_msg;
 
 //Device objects
 //QSPI flash memory on bottom of Teensy
@@ -27,13 +33,10 @@ LittleFS_QSPIFlash flash;
 Adafruit_ICM20948 icm;
 //Altimeter
 Adafruit_BMP3XX bmp;
-
 //SD card device initializations
 SDClass teensy_sd;
 //Sets initial value of device strings
 String sd_string = "output0.csv", flash_string = sd_string;
-//Initializes records variable- records data that cannot be written to SD card in memory
-String * records;
 
 //FLTS function- returns float as string with full precision
 String flts(float s) {
@@ -58,9 +61,9 @@ void file_copy(File * copy, File * paste) {
     paste->close();
 }
 void setup() {
-    //Sets records value as new string
-    records = new String();
-    //Starts GPS UART device
+    //Starts UART device
+    Serial1.begin(9600);
+    flight_computer_msg = new String();
     Serial.print("Start logging\n");
     //Starts BMP390L communication over SPI
     bmp_enabled = bmp.begin_SPI(BMP_CS);
@@ -76,7 +79,7 @@ void setup() {
         bmp.setTemperatureOversampling(BMP3_OVERSAMPLING_32X);
         //Sets filter coefficient
         //idk what this is, should update later
-        bmp.setIIRFilterCoeff(BMP3_IIR_FILTER_COEFF_7);
+        bmp.setIIRFilterCoeff(BMP3_IIR_FILTER_COEFF_3);
     }
     //Initializes ICM20649 device
     icm_enabled = icm.begin_SPI(ICM_CS);
@@ -101,11 +104,12 @@ void setup() {
     }
     //Checks if QSPI flash is available
     flash_enabled = flash.begin();
+
     if (!flash_enabled) {
         Serial.println("Flash chip not initialized!");
     } else {
         Serial.println("Flash chip initialized!");
-        if (teensy_sd_enabled) {
+        if (teensy_sd_enabled && bmp_altitude < alt_lockout) {
             //Teensy SD copy program
             if (!teensy_sd.exists("/flash/")) {
                 teensy_sd.mkdir("/flash/");
@@ -174,7 +178,7 @@ void setup() {
     if (bmp_enabled) {
         strcat(file_hdr, ", BMP Temperature, BMP Pressure, BMP Altitude");
     }
-    strcat(file_hdr, "\n");
+    strcat(file_hdr, ", Flight Computer Message\n");
     Serial.print(file_hdr);
     //Writes data to file depending on if the storage medium is enabled
     if (teensy_sd_enabled) {
@@ -192,6 +196,13 @@ void setup() {
 void loop() {
     //Read data from internal temperature sensor
     float teensy_temp = InternalTemperatureClass::readTemperatureC();
+    if(Serial1.available()) {
+        delete flight_computer_msg;
+        flight_computer_msg = new String();
+        while (Serial1.available()) {
+            flight_computer_msg->append(Serial1.read());
+        }
+    }
     //BMP Temperature, Pressure, and Altitude values
     if (bmp_enabled) {
         //Does reading using BMP driver
@@ -224,31 +235,36 @@ void loop() {
     if (bmp_enabled) {
         write_str += "," + flts(bmp_temp) cm flts(bmp_pressure) cm flts(bmp_altitude);
     }
+    write_str.append(flight_computer_msg->c_str());
     write_str.append("\n");
     //Writes data to storage medium
-    //SD card altitude lockout- Updates altitude from either GPS or altimeter
-    if (teensy_sd_enabled) {
-        if(bmp_altitude < 750) {
-            File teensy_file = teensy_sd.open(sd_string.c_str(), FILE_WRITE);
-            if(!records->equals("")) {
-                teensy_file.print(*records);
-                delete records;
-                records = new String("");
-            }
-            //Serial.print("Writing data to " + sd_string);
-            teensy_file.print(write_str);
-            teensy_file.close();
-
-        }
-        else {
-            records->append(write_str);
-        }
-    }
     if (flash_enabled) {
         File flash_file = flash.open(flash_string.c_str(), FILE_WRITE);
         flash_file.print(write_str);
         flash_file.close();
     }
+    //SD card altitude lockout- Updates altitude from either GPS or altimeter
+    if (teensy_sd_enabled) {
+        if(bmp_altitude > alt_lockout) {
+            in_air = true;
+            end_time = millis() + 120000;
+        }
+        else if (bmp_altitude < alt_lockout && flash_enabled && !alt_copy && in_air && end_time < millis()) {
+            File teensy_file = teensy_sd.open(sd_string.c_str(), FILE_WRITE);
+            File flash_file = flash.open(flash_string.c_str(), FILE_READ);
+            file_copy(&flash_file, &teensy_file);
+            teensy_file.close();
+            flash_file.close();
+            flash.remove(flash_string.c_str());
+            alt_copy = true;
+        }
+        if(alt_copy || !flash_enabled) {
+            File teensy_file = flash.open(sd_string.c_str(), FILE_WRITE);
+            teensy_file.print(write_str);
+            teensy_file.close();
+        }
+    }
+
     if (Serial) {
         Serial.print(write_str);
     }
