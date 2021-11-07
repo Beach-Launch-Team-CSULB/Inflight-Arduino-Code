@@ -43,7 +43,8 @@ String flts(float s) {
     return {s, float_depth};
 }
 
-void file_copy(File * copy, File * paste) {
+void file_copy(File * copy, File * paste, bool close) {
+    tempmonGetTemp();
     //Reads data from Flash to buffer, writes data from buffer to SD card
     //Stores size of buffer
     size_t n;
@@ -57,8 +58,10 @@ void file_copy(File * copy, File * paste) {
     delete[] buf;
     Serial.print("Dumping " + String(copy->name()) + " Finished");
     //Closes both files
-    copy->close();
-    paste->close();
+    if(close) {
+        copy->close();
+        paste->close();
+    }
 }
 void setup() {
     //Starts UART device
@@ -135,7 +138,7 @@ void setup() {
                     File teensy_copy = teensy_sd.open(flash_path.c_str(), FILE_WRITE);
                     File flash_copy = flash.open(flash_file.c_str(), FILE_READ);
                     Serial.print("Copying " + flash_file + " To " + flash_path);
-                    file_copy(&flash_copy, &teensy_copy);
+                    file_copy(&flash_copy, &teensy_copy, true);
                     Serial.print("Deleting " + flash_file);
                     flash.remove(flash_file.c_str());
                 }
@@ -203,6 +206,7 @@ void loop() {
             flight_computer_msg->append(Serial1.read());
         }
     }
+    flight_computer_msg->replace('\n', ' ');
     //BMP Temperature, Pressure, and Altitude values
     if (bmp_enabled) {
         //Does reading using BMP driver
@@ -252,7 +256,7 @@ void loop() {
         else if (bmp_altitude < alt_lockout && flash_enabled && !alt_copy && in_air && end_time < millis()) {
             File teensy_file = teensy_sd.open(sd_string.c_str(), FILE_WRITE);
             File flash_file = flash.open(flash_string.c_str(), FILE_READ);
-            file_copy(&flash_file, &teensy_file);
+            file_copy(&flash_file, &teensy_file, false);
             teensy_file.close();
             flash_file.close();
             flash.remove(flash_string.c_str());
