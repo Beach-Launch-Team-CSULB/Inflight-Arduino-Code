@@ -89,6 +89,7 @@ void setup() {
     if (!icm_enabled) {
         Serial.print("ICM Init failed!\n");
     }
+    //hello
     else {
         Serial.print("ICM Initialized!\n");
         //Enables High G and High DPS mode
