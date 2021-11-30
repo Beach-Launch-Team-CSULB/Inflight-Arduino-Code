@@ -207,7 +207,8 @@ void loop() {
         }
     }
     flight_computer_msg->replace('\n', ' ');
-    //BMP Temperature, Pressure, and Altitude values
+    //BMP Temperature, Pre
+    // ssure, and Altitude values
     if (bmp_enabled) {
         //Does reading using BMP driver
         bmp.performReading();

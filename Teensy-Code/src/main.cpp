@@ -229,11 +229,8 @@ void setup() {
             Serial.println("Starting Data Dump from Flash chip");
             uint_fast16_t count = 0;
             String file_name = "/flash/flash_dump0/";
-            delay(1);
             Serial.print("File name:\n");
-            delay(1);
             Serial.print(file_name);
-            delay(1);
             while (teensy_sd.exists(file_name.c_str())) {
                 count++;
                 file_name = "/flash/flash_dump" + String(count) + "/";

@@ -10,7 +10,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="55dd36ac-b27b-488c-aadb-a36732913650" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../Teensy-Code/.idea/serialmonitor_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Teensy-Code/.idea/serialmonitor_settings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Teensy-Code/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Teensy-Code/src/main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/src/main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -58,6 +57,7 @@
       <updated>1635576526298</updated>
       <workItem from="1635576528350" duration="847000" />
       <workItem from="1635812039864" duration="376000" />
+      <workItem from="1637005392252" duration="9000" />
     </task>
     <servers />
   </component>

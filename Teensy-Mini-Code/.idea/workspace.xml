@@ -7,17 +7,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="13897cfa-8d02-4e9c-bf4b-ca5cfda7d9ca" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/CMakeLists.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/include/README" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/lib/README" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/platformio.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/src/main.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/test/README" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../untitled7/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../untitled7/cmake-build-teensy41/CMakeFiles/clion-log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Teensy-Code-Scratch-2/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Teensy-Code-Scratch-2/src/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Teensy-Code/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Teensy-Code/src/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/src/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../untitled7/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../untitled7/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,9 +46,9 @@
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
   </component>
   <component name="RunManager">
-    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
   </component>
@@ -68,6 +61,7 @@
       <option name="presentableId" value="Default" />
       <updated>1635576492328</updated>
       <workItem from="1635576495046" duration="79000" />
+      <workItem from="1638236588420" duration="14000" />
     </task>
     <servers />
   </component>
@@ -84,6 +78,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
