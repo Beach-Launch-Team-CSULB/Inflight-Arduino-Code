@@ -14,11 +14,9 @@ const float sea_level_pressure_hpa = 1015.578;
 //Precision values to use when converting from float to decimal
 const u_char float_depth = 18;
 //Buffer sie for copying files
-const uint_fast16_t buffer_size = 128;
+//const uint_fast16_t buffer_size = 128;
 //Device enable values- checks if device is enabled, skips trying to talk to it if it is not true
 bool bmp_enabled, icm_enabled, teensy_sd_enabled, flash_enabled;
-//Recorded data from BMP390L
-float bmp_temp, bmp_pressure, bmp_altitude = 0;
 //SD card lockout variables
 //For ground testing, set alt_copy to true
 float alt_lockout = 750;
@@ -37,18 +35,57 @@ Adafruit_BMP3XX bmp;
 SDClass teensy_sd;
 //Sets initial value of device strings
 String sd_string = "output0.csv", flash_string = sd_string;
+uint_fast16_t counter = 0;
+struct {
+    sensors_event_t accel, gyro, temp;
+}icm_data;
+struct icm_sensor_data_t {
+    float reading[3]{};
+    float velocity[3]{};
+    float pitch{};
+    float heading{};
+    float roll{};
+    icm_sensor_data_t(float reading_x, float reading_y, float reading_z, const float* vel, float pitch_val, float heading_val, float roll_val) {
+        reading[0] = reading_x;
+        reading[1] = reading_y;
+        reading[2] = reading_z;
+        velocity[0] = vel[0];
+        velocity[1] = vel[1];
+        velocity[2] = vel[2];
+        pitch = pitch_val;
+        heading = heading_val;
+        roll = roll_val;
+    }
+    icm_sensor_data_t() = default;
+};
+struct bmp_data_t {
+    float temp, pres, alt;
+};
+struct icm_data_t {
+    icm_sensor_data_t accel, gyro;
+    float temp{};
+};
+struct sensor_data_t {
+    icm_data_t icm_data;
+    uint8_t check_val = 239;
+    bmp_data_t bmp_data{};
+    time_t reading_time{};
+    uint32_t reading_millis{};
+    float teensy_int_temp{};
+} sensor_data;
+
 
 //FLTS function- returns float as string with full precision
 String flts(float s) {
     return {s, float_depth};
 }
 
-void file_copy(File * copy, File * paste, bool close) {
-    tempmonGetTemp();
-    //Reads data from Flash to buffer, writes data from buffer to SD card
-    //Stores size of buffer
+void file_copy(File *copy, File *paste, bool close) {
+//    Reads data from Flash to buffer, writes data from buffer to SD card
+//    Stores size of buffer
     size_t n;
     //Stores data being copied
+    uint_fast32_t buffer_size = 128;
     auto *buf = new uint8_t[buffer_size];
     //Continuously copies data from file to buffer, writes data from buffer to file
     while ((n = copy->read(buf, sizeof(buf))) > 0) {
@@ -62,7 +99,52 @@ void file_copy(File * copy, File * paste, bool close) {
         copy->close();
         paste->close();
     }
-}
+//    size_t bytes_copied = 1;
+//    bool hdr = false;
+//    byte copy_data [sizeof(sensor_data_t)];
+//    while(bytes_copied > 0) {
+//        bytes_copied = copy->read(copy_data, sizeof(sensor_data_t));
+//        auto * sensor_out = (sensor_data_t*)(&copy_data);
+//        if(!hdr) {
+//            String write_hdr = "Reading time, Reading millis, Teensy internal temp, ICM temperature, "
+//                               "ICM gyro x, ICM gyro y, ICM gyro z, ICM gyro vel x, ICM gyro vel y, ICM gyro vel z. "
+//                               "ICM gyro heading, ICM gyro pitch, ICM gyro roll, ICM accel x, ICM accel y, ICM accel z, "
+//                               "ICM accel vel x, ICM accel vel y, ICM accel vel z, ICM accel heading, ICM accel pitch, ICM accel roll";
+//            paste->print(write_hdr);
+//            hdr = true;
+//        }
+//        if(sensor_out->check_val == 239) {
+//            Serial.print("Check val passed!");
+//            paste->write("Check val passed!");
+//            String write_str = String(sensor_out->reading_time) cm sensor_out->reading_millis cm flts(
+//                    sensor_out->teensy_int_temp) +
+//                               "," + flts(sensor_out->icm_data.temp) cm flts(sensor_out->icm_data.gyro.reading[0]) cm
+//                               flts(sensor_out->icm_data.gyro.reading[1]) cm
+//                               flts(sensor_out->icm_data.gyro.reading[2]) cm flts(
+//                    sensor_out->icm_data.gyro.velocity[0]) cm
+//                               flts(sensor_out->icm_data.gyro.velocity[1]) cm flts(
+//                    sensor_out->icm_data.gyro.velocity[2]) cm flts(sensor_out->icm_data.gyro.heading) cm
+//                               flts(sensor_out->icm_data.gyro.pitch) cm flts(sensor_out->icm_data.gyro.roll) cm flts(
+//                    sensor_out->icm_data.accel.reading[0]) cm
+//                               flts(sensor_out->icm_data.accel.reading[1]) cm flts(
+//                    sensor_out->icm_data.accel.reading[2]) cm
+//                               flts(sensor_out->icm_data.accel.velocity[0]) cm flts(
+//                    sensor_out->icm_data.accel.velocity[1]) cm
+//                               flts(sensor_out->icm_data.accel.velocity[2]) cm flts(
+//                    sensor_out->icm_data.accel.heading) cm
+//                               flts(sensor_out->icm_data.accel.pitch) cm flts(sensor_out->icm_data.accel.roll);
+//            paste->print(write_str.c_str());
+//        }
+//        else {
+//            paste->println("Data check failed! Value is " + String((char*)(&copy_data)) + " Byte value is " +
+//            String(sizeof(bytes_copied)) + "Real size is " + String(sizeof(sensor_data_t)));
+//        }
+    }
+//    Serial.print("Dumping " + String(copy->name()) + " Finished");
+//    if(close) {
+//        copy->close();
+//        paste->close();
+//    }
 void setup() {
     //Starts UART device
     Serial1.begin(9600);
@@ -113,7 +195,7 @@ void setup() {
         Serial.println("Flash chip not initialized!");
     } else {
         Serial.println("Flash chip initialized!");
-        if (teensy_sd_enabled && bmp_altitude < alt_lockout) {
+        if (teensy_sd_enabled && sensor_data.bmp_data.alt < alt_lockout) {
             //Teensy SD copy program
             if (!teensy_sd.exists("/flash/")) {
                 teensy_sd.mkdir("/flash/");
@@ -199,7 +281,7 @@ void setup() {
 
 void loop() {
     //Read data from internal temperature sensor
-    float teensy_temp = InternalTemperatureClass::readTemperatureC();
+    sensor_data.teensy_int_temp = InternalTemperatureClass::readTemperatureC();
     if(Serial1.available()) {
         delete flight_computer_msg;
         flight_computer_msg = new String();
@@ -208,54 +290,69 @@ void loop() {
         }
     }
     flight_computer_msg->replace('\n', ' ');
-    //BMP Temperature, Pre
-    // ssure, and Altitude values
+    //BMP Temperature, Pressure, and Altitude values
     if (bmp_enabled) {
         //Does reading using BMP driver
         bmp.performReading();
         //Stores data into variables for reference
-        bmp_temp = bmp.readTemperature();
-        bmp_pressure = bmp.readPressure();
+        sensor_data.bmp_data.temp = bmp.readTemperature();
+        sensor_data.bmp_data.pres = bmp.readPressure();
         //Calculates altitude using sea level pressure above
-        bmp_altitude = bmp.readAltitude(sea_level_pressure_hpa);
+        sensor_data.bmp_data.alt = bmp.readAltitude(sea_level_pressure_hpa);
     }
     //Stores data from ICM into variables
-    sensors_event_t icm_accel, icm_gyro, icm_temp;
     if (icm_enabled) {
-        icm.getEvent(&icm_accel, &icm_gyro, &icm_temp);
+        icm.getEvent(&icm_data.accel, &icm_data.gyro, &icm_data.temp);
+        sensor_data.icm_data.accel = icm_sensor_data_t(icm_data.accel.acceleration.x,
+                                                       icm_data.accel.acceleration.y,
+                                                       icm_data.accel.acceleration.z,
+                                                       icm_data.accel.acceleration.v,
+                                                       icm_data.accel.acceleration.pitch,
+                                                       icm_data.accel.acceleration.heading,
+                                                       icm_data.accel.acceleration.roll);
+        sensor_data.icm_data.gyro = icm_sensor_data_t(icm_data.accel.gyro.x,
+                                                       icm_data.accel.gyro.y,
+                                                       icm_data.accel.gyro.z,
+                                                       icm_data.accel.gyro.v,
+                                                       icm_data.accel.gyro.pitch,
+                                                       icm_data.accel.gyro.heading,
+                                                       icm_data.accel.gyro.roll);
+        sensor_data.icm_data.temp = icm_data.temp.temperature;
     }
-    String write_str = String(now()) cm millis() cm flts(teensy_temp);
+    sensor_data.reading_time = now();
+    sensor_data.reading_millis = millis();
+    String write_str = String(now()) cm millis() cm flts(sensor_data.teensy_int_temp);
     write_str.reserve(4096);
     //Iterates through sensors, adds values to output string if enabled
     if (icm_enabled) {
-        write_str += "," + flts(icm_temp.temperature) cm flts(icm_gyro.gyro.x) cm
-                     flts(icm_gyro.gyro.y) cm
-                     flts(icm_gyro.gyro.z) cm flts(icm_gyro.gyro.v[0]) cm
-                     flts(icm_gyro.gyro.v[1]) cm flts(icm_gyro.gyro.v[2]) cm flts(icm_gyro.gyro.heading) cm
-                     flts(icm_gyro.gyro.pitch) cm flts(icm_gyro.gyro.roll) cm flts(icm_accel.acceleration.x) cm
-                     flts(icm_accel.acceleration.y) cm flts(icm_accel.acceleration.z) cm
-                     flts(icm_accel.acceleration.v[0]) cm flts(icm_accel.acceleration.v[1]) cm
-                     flts(icm_accel.acceleration.v[2]) cm flts(icm_accel.acceleration.heading) cm
-                     flts(icm_accel.acceleration.pitch) cm flts(icm_accel.acceleration.roll);
+        write_str += "," + flts(sensor_data.icm_data.temp) cm flts(sensor_data.icm_data.gyro.reading[0]) cm
+                     flts(sensor_data.icm_data.gyro.reading[1]) cm
+                     flts(sensor_data.icm_data.gyro.reading[2]) cm flts(sensor_data.icm_data.gyro.velocity[0]) cm
+                     flts(sensor_data.icm_data.gyro.velocity[1]) cm flts(sensor_data.icm_data.gyro.velocity[2]) cm flts(sensor_data.icm_data.gyro.heading) cm
+                     flts(sensor_data.icm_data.gyro.pitch) cm flts(sensor_data.icm_data.gyro.roll) cm flts(sensor_data.icm_data.accel.reading[0]) cm
+                     flts(sensor_data.icm_data.accel.reading[1]) cm flts(sensor_data.icm_data.accel.reading[2]) cm
+                     flts(sensor_data.icm_data.accel.velocity[0]) cm flts(sensor_data.icm_data.accel.velocity[1]) cm
+                     flts(sensor_data.icm_data.accel.velocity[2]) cm flts(sensor_data.icm_data.accel.heading) cm
+                     flts(sensor_data.icm_data.accel.pitch) cm flts(sensor_data.icm_data.accel.roll);
     }
     if (bmp_enabled) {
-        write_str += "," + flts(bmp_temp) cm flts(bmp_pressure) cm flts(bmp_altitude);
+        write_str += "," + flts(sensor_data.bmp_data.temp) cm flts(sensor_data.bmp_data.pres) cm flts(sensor_data.bmp_data.alt);
     }
     write_str.append(flight_computer_msg->c_str());
     write_str.append("\n");
     //Writes data to storage medium
     if (flash_enabled) {
         File flash_file = flash.open(flash_string.c_str(), FILE_WRITE);
+        //flash_file.write(&sensor_data, sizeof(sensor_data_t));
         flash_file.print(write_str);
-        flash_file.close();
     }
     //SD card altitude lockout- Updates altitude from either GPS or altimeter
     if (teensy_sd_enabled) {
-        if(bmp_altitude > alt_lockout) {
+        if(sensor_data.bmp_data.alt > alt_lockout) {
             in_air = true;
             end_time = millis() + 120000;
         }
-        else if (bmp_altitude < alt_lockout && flash_enabled && !alt_copy && in_air && end_time < millis()) {
+        else if (sensor_data.bmp_data.alt < alt_lockout && flash_enabled && !alt_copy && in_air && end_time < millis()) {
             File teensy_file = teensy_sd.open(sd_string.c_str(), FILE_WRITE);
             File flash_file = flash.open(flash_string.c_str(), FILE_READ);
             file_copy(&flash_file, &teensy_file, false);
@@ -266,6 +363,8 @@ void loop() {
         }
         if(alt_copy || !flash_enabled) {
             File teensy_file = flash.open(sd_string.c_str(), FILE_WRITE);
+//            const char * fwr_dat = (char*)(&sensor_data);
+//            teensy_file.write(fwr_dat);
             teensy_file.print(write_str);
             teensy_file.close();
         }
@@ -273,6 +372,15 @@ void loop() {
 
     if (Serial) {
         Serial.print(write_str);
+    }
+    counter++;
+    if(counter > 4096 && teensy_sd_enabled) {
+        Serial.print("Data dump");
+        counter = 0;
+        File flash_file = flash.open(flash_string.c_str());
+        File teensy_file = teensy_sd.open(sd_string.c_str());
+        file_copy(&flash_file, &teensy_file, true);
+        flash.remove(flash_string.c_str());
     }
     // delay(1000);
 }

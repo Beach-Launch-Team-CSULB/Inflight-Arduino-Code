@@ -39,6 +39,7 @@ float bno_accel[3], bno_mag[3], bno_gyro[3];
 float bmp_temp, bmp_pressure, bmp_altitude;
 //Sets if the rocket has launched
 bool in_air = false, alt_copy = false;
+uint_fast16_t counter = 0;
 //Device objects
 //QSPI flash memory on bottom of Teensy
 LittleFS_QSPIFlash flash;
@@ -482,5 +483,14 @@ void loop() {
     if (Serial) {
             Serial.print(write_str);
         }
+    counter++;
+    if(counter > 4096 && teensy_sd_enabled) {
+        Serial.print("Data dump");
+        counter = 0;
+        File flash_file = flash.open(flash_string.c_str());
+        File teensy_file = teensy_sd.open(sd_string.c_str());
+        file_copy(&flash_file, &teensy_file, true);
+        flash.remove(flash_string.c_str());
+    }
     // delay(1000);
 }

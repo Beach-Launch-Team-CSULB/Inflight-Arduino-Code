@@ -10,7 +10,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="55dd36ac-b27b-488c-aadb-a36732913650" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../Teensy-Code/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Teensy-Code/src/main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Teensy-Inflight-Mini-Code/src/main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
@@ -47,6 +46,13 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
   </component>
+  <component name="RunManager">
+    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -58,6 +64,7 @@
       <workItem from="1635576528350" duration="847000" />
       <workItem from="1635812039864" duration="376000" />
       <workItem from="1637005392252" duration="9000" />
+      <workItem from="1638396631234" duration="14000" />
     </task>
     <servers />
   </component>
