@@ -20,7 +20,8 @@ bool bmp_enabled, icm_enabled, teensy_sd_enabled, flash_enabled;
 //SD card lockout variables
 //For ground testing, set alt_copy to true
 float alt_lockout = 750;
-bool in_air = false, alt_copy = false;
+bool in_air = false;
+bool alt_copy = false;
 uint_fast32_t end_time = 0;
 String * flight_computer_msg;
 
@@ -59,7 +60,9 @@ struct icm_sensor_data_t {
     icm_sensor_data_t() = default;
 };
 struct bmp_data_t {
-    float temp, pres, alt;
+    double temp = 0;
+    double pres = 0;
+    double alt = 0;
 };
 struct icm_data_t {
     icm_sensor_data_t accel, gyro;
@@ -76,6 +79,9 @@ struct sensor_data_t {
 
 
 //FLTS function- returns float as string with full precision
+String flts(double s) {
+    return {s, float_depth};
+}
 String flts(float s) {
     return {s, float_depth};
 }
@@ -203,8 +209,8 @@ void setup() {
             Serial.println("Starting Data Dump from Flash chip");
             uint_fast16_t count = 0;
             String file_name = "/flash/flash_dump0/";
-            Serial.print("File name:\n");
-            Serial.print(file_name);
+            Serial.println("File name:");
+            Serial.println(file_name);
             while (teensy_sd.exists(file_name.c_str())) {
                 count++;
                 file_name = "/flash/flash_dump" + String(count) + "/";
@@ -292,13 +298,11 @@ void loop() {
     flight_computer_msg->replace('\n', ' ');
     //BMP Temperature, Pressure, and Altitude values
     if (bmp_enabled) {
-        //Does reading using BMP driver
-        bmp.performReading();
-        //Stores data into variables for reference
-        sensor_data.bmp_data.temp = bmp.readTemperature();
-        sensor_data.bmp_data.pres = bmp.readPressure();
-        //Calculates altitude using sea level pressure above
+        //Calculates altitude using sea level pressure
         sensor_data.bmp_data.alt = bmp.readAltitude(sea_level_pressure_hpa);
+        //Stores data into variables for reference
+        sensor_data.bmp_data.temp = bmp.temperature;
+        sensor_data.bmp_data.pres = bmp.pressure;
     }
     //Stores data from ICM into variables
     if (icm_enabled) {
@@ -348,20 +352,27 @@ void loop() {
     }
     //SD card altitude lockout- Updates altitude from either GPS or altimeter
     if (teensy_sd_enabled) {
-        if(sensor_data.bmp_data.alt > alt_lockout) {
+        if(sensor_data.bmp_data.alt > alt_lockout && millis() > 2000) {
+            double alc = sensor_data.bmp_data.alt;
+            delay(100);
+            Serial.println("In Air! " + String(alc));
+            delay(100);
             in_air = true;
             end_time = millis() + 120000;
         }
         else if (sensor_data.bmp_data.alt < alt_lockout && flash_enabled && !alt_copy && in_air && end_time < millis()) {
+            Serial.println("Sensor dump triggered!");
             File teensy_file = teensy_sd.open(sd_string.c_str(), FILE_WRITE);
             File flash_file = flash.open(flash_string.c_str(), FILE_READ);
             file_copy(&flash_file, &teensy_file, false);
             teensy_file.close();
             flash_file.close();
             flash.remove(flash_string.c_str());
+            Serial.println("Sensor dump completed");
             alt_copy = true;
         }
         if(alt_copy || !flash_enabled) {
+            Serial.println("Direct SD Writing enabled!");
             File teensy_file = flash.open(sd_string.c_str(), FILE_WRITE);
 //            const char * fwr_dat = (char*)(&sensor_data);
 //            teensy_file.write(fwr_dat);
@@ -375,7 +386,7 @@ void loop() {
     }
     counter++;
     if(counter > 4096 && teensy_sd_enabled) {
-        Serial.print("Data dump");
+        Serial.println("Flash Data dump");
         counter = 0;
         File flash_file = flash.open(flash_string.c_str());
         File teensy_file = teensy_sd.open(sd_string.c_str());
