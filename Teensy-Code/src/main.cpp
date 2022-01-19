@@ -181,6 +181,7 @@ void setup() {
                 teensy_sd.mkdir("/xtsd/");
             }
             Serial.println("Starting Data Dump from XTSD Module");
+            //TODO: Read binary data back as .bin dump and .csv excel sheet to SD card
             //When dumping data, will create separate directories for each dump taken
             //Counts upward through taken directories to find first free one, sets as directory to dump to
             uint_fast32_t count = 0;
@@ -228,6 +229,7 @@ void setup() {
                 teensy_sd.mkdir("/flash/");
             }
             Serial.println("Starting Data Dump from Flash chip");
+            //TODO: Read binary data back as .bin and .csv to SD card
             uint_fast16_t count = 0;
             String file_name = "/flash/flash_dump0/";
             Serial.print("File name:\n");
@@ -428,6 +430,7 @@ void loop() {
                      flts(icm_accel.acceleration.v[2]) cm flts(icm_accel.acceleration.heading) cm
                      flts(icm_accel.acceleration.pitch) cm flts(icm_accel.acceleration.roll);
     }
+
     if (bmp_enabled) {
         write_str += "," + flts(bmp_temp) cm flts(bmp_pressure) cm flts(bmp_altitude);
     }
@@ -443,6 +446,9 @@ void loop() {
     }
     write_str.append("\n");
     //Writes data to storage medium
+    //TODO: Write binary data here instead of a string
+    //TODO: Write with specific set frequency until launch, implement roughly here
+    //TODO: Add radio send code approximately here
     if (xtsd_enabled) {
         File xtsd_file = xtsd.open(xtsd_string.c_str(), FILE_WRITE);
         xtsd_file.print(write_str);
@@ -454,6 +460,7 @@ void loop() {
         flash_file.close();
     }
     //SD card altitude lockout- Updates altitude from either GPS or altimeter
+    //TODO: Apogee, launch, and land detection go here
     if (teensy_sd_enabled) {
         if(bmp_enabled) {
             altitude = bmp_altitude;
