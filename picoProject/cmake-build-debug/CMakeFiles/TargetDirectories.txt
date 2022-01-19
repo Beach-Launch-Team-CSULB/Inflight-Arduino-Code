@@ -1,3 +1,0 @@
-/Users/shawn/Documents/GitHub/Inflight-Arduino-Code/picoProject/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/Users/shawn/Documents/GitHub/Inflight-Arduino-Code/picoProject/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/shawn/Documents/GitHub/Inflight-Arduino-Code/picoProject/cmake-build-debug/CMakeFiles/picoProject.dir
