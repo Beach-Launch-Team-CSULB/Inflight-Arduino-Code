@@ -387,31 +387,75 @@ struct ICM_IMU //icm20649IMU is one of our IMU's
     float gyro_heading, gyro_pitch, gyro_roll;
     float accelerometer[3];
     float acc_heading, acc_pitch, acc_roll;
+    ICM_IMU() = default;
+
+    ICM_IMU(float temperature, const float *gyroData, const float *gyroVelocity, float gyroHeading, float gyroPitch, float gyroRoll,
+            float * accel, float accHeading, float accPitch, float accRoll) : temperature(temperature),
+                                                                                     gyro_heading(gyroHeading),
+                                                                                     gyro_pitch(gyroPitch),
+                                                                                     gyro_roll(gyroRoll),
+                                                                                     acc_heading(accHeading),
+                                                                                     acc_pitch(accPitch),
+                                                                                     acc_roll(accRoll) {
+        for(int i = 0; i < 3; i++) {
+            gyro_data[i] = gyroData[i];
+            gyro_velocity[i] = gyroVelocity[i];
+            accelerometer[i] = accel[i];
+        }
+    }
+
 };
 
-struct BNO_IMU
-{
-    float acceleration[3];
-    float gyro[3];
-    float magnetometer[3];
+struct BNO_IMU {
+    float acceleration[3]{};
+    float gyro[3]{};
+    float magnetometer[3]{};
+    BNO_IMU(const float *c_acceleration, const float *c_gyro, const float *c_magnetometer) {
+        for (int i = 0; i < 3; i++) {
+            acceleration[i] = c_acceleration[i];
+            gyro[i] = c_gyro[i];
+            magnetometer[i] = c_magnetometer[i];
+        }
+    }
+    BNO_IMU() = default;
 };
+
 
 struct gps_struct
 {
-    double gps_altitude;
-    int year, month, day, hour, second;
-    double latitude, longitude;
-    int speed;
-    double hdop;
-    double course_deg;
-    double reading_age;
+
+    gps_struct(double gpsAltitude, int year, int month, int day, int hour, int second, double latitude,
+               double longitude, int speed, double hdop, double courseDeg, double readingAge) : gps_altitude(
+            gpsAltitude), year(year), month(month), day(day), hour(hour), second(second), latitude(latitude),
+                                                                                                longitude(longitude),
+                                                                                                speed(speed),
+                                                                                                hdop(hdop),
+                                                                                                course_deg(courseDeg),
+                                                                                                reading_age(
+                                                                                                        readingAge) {}
+
+    gps_struct() = default;
+
+    double gps_altitude{};
+    int year{}, month{}, day{}, hour{}, second{};
+    double latitude{}, longitude{};
+    int speed{};
+    double hdop{};
+    double course_deg{};
+    double reading_age{};
+
 };
 struct All_the_data
 {
+
+
     BNO_IMU bno_data;
     ICM_IMU icm_data;
     altimeter altimeter_data;
     gps_struct gps_data;
+    All_the_data() {
+
+    }
 };
 void loop()
 {
