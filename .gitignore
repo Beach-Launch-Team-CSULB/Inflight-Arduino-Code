@@ -50,3 +50,7 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+Teensy-Inflight-Mini-Code/.vscode/c_cpp_properties.json
+Teensy-Inflight-Mini-Code/.vscode/extensions.json
+.gitignore
+Teensy-Inflight-Mini-Code/.vscode/launch.json
