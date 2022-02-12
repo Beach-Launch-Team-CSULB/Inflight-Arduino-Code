@@ -6,76 +6,78 @@
 #include <TimeLib.h>
 #include <TinyGPS++.h>
 #include <LittleFS.h>
+#include <Streaming.h>//allows for printing with << operator
+
 #define cm +"," +
-//Macro to make appending strings easier- cm stands for comma
-//Using UART serial port 8
+// Macro to make appending strings easier- cm stands for comma
+// Using UART serial port 8
 #define GPSSerial Serial8
 
-//Pin numbers used by devices
+// Pin numbers used by devices
 const uint_fast8_t BMP_CS = 15, ICM_CS = 16, XTSD_CS = 36, BNO_INT = 21, BNO_CS = 37, BNO_RESET = 19;
-//GPS baud rate
+// GPS baud rate
 const uint_fast16_t GPS_BAUD = 9600;
-//Approximate air pressure in Randsburg, CA
+// Approximate air pressure in Randsburg, CA
 const float sea_level_pressure_hpa = 1015.578;
-//Precision values to use when converting from float to decimal
+// Precision values to use when converting from float to decimal
 const u_char float_depth = 18, double_depth = 18;
-//Buffer size for copying files
+// Buffer size for copying files
 const uint_fast16_t buffer_size = 128;
-//Device enable values- checks if device is enabled, skips trying to talk to it if it is not true
+// Device enable values- checks if device is enabled, skips trying to talk to it if it is not true
 bool bmp_enabled, bno_enabled, icm_enabled, xtsd_enabled, teensy_sd_enabled, gps_enabled, flash_enabled;
-//GPS Time Synchronization value- Checks if GPS time is set, sets it once if it is not
-//Avoids internal clock going out of sync by updating from GPS too often
+// GPS Time Synchronization value- Checks if GPS time is set, sets it once if it is not
+// Avoids internal clock going out of sync by updating from GPS too often
 bool time_set = false;
-//Recorded values from GPS time
+// Recorded values from GPS time
 int_fast32_t gps_time, gps_speed, gps_date, gps_year, gps_month, gps_day, gps_hour,
     gps_minute, gps_second;
-//Recorded not time GPS values
+// Recorded not time GPS values
 double gps_altitude, gps_latitude, gps_longitude, gps_hdop, gps_course_deg, gps_reading_age;
-//Altitude to figure out if we should write to the SD card or not
+// Altitude to figure out if we should write to the SD card or not
 double altitude = 0;
-//Recorded data from BNO08X
+// Recorded data from BNO08X
 float bno_accel[3], bno_mag[3], bno_gyro[3];
-//Recorded data from BMP390L
+// Recorded data from BMP390L
 float bmp_temp, bmp_pressure, bmp_altitude;
-//Sets if the rocket has launched
+// Sets if the rocket has launched
 bool in_air = false, alt_copy = false;
 uint_fast16_t counter = 0;
-//Device objects
-//QSPI flash memory on bottom of Teensy
+// Device objects
+// QSPI flash memory on bottom of Teensy
 LittleFS_QSPIFlash flash;
-//High G accel/high dps gyro IMU
+// High G accel/high dps gyro IMU
 Adafruit_ICM20649 icm;
-//Altimeter
+// Altimeter
 Adafruit_BMP3XX bmp;
-//Regular IMU, this one has a magnetometer
-//Is fussy to set up so it needs a direct wired reset pin
+// Regular IMU, this one has a magnetometer
+// Is fussy to set up so it needs a direct wired reset pin
 Adafruit_BNO08x bno(BNO_RESET);
-//GPS class- feed UART GPS output into this, and it will give you intelligible data
-//The GPS data itself is serial data from GPSSerial
+// GPS class- feed UART GPS output into this, and it will give you intelligible data
+// The GPS data itself is serial data from GPSSerial
 TinyGPSPlus gps;
-//SD card device initializations
+// SD card device initializations
 SDClass teensy_sd, xtsd;
-//Sets initial value of device strings
+// Sets initial value of device strings
 String sd_string = "output0.csv", xtsd_string = sd_string, flash_string = sd_string;
 uint_fast8_t alt_counter = 0;
 uint_fast32_t end_timer = 0;
 float alt_lockout = 750;
-//Initializes records variable- records data that cannot be written to SD card in memory
-//struct altitude_nums {
-//    float alt;
-//    uint_fast32_t time;
-//    altitude_nums(float f, uint_fast32_t t) {
-//        alt = f;
-//        time = t;
-//    }
-//    altitude_nums() {
-//        alt = 0;
-//        time = 0;
-//    }
-//};
-//altitude_nums * altitude_list;
+// Initializes records variable- records data that cannot be written to SD card in memory
+// struct altitude_nums {
+//     float alt;
+//     uint_fast32_t time;
+//     altitude_nums(float f, uint_fast32_t t) {
+//         alt = f;
+//         time = t;
+//     }
+//     altitude_nums() {
+//         alt = 0;
+//         time = 0;
+//     }
+// };
+// altitude_nums * altitude_list;
 
-//FLTS function- returns float as string with full precision
+// FLTS function- returns float as string with full precision
 String flts(float s)
 {
     return {s, float_depth};
@@ -87,20 +89,20 @@ String flts(double s)
 
 void file_copy(File *copy, File *paste, bool close)
 {
-    //Reads data from XTSD to buffer, writes data from buffer to SD card
-    //Stores size of buffer
+    // Reads data from XTSD to buffer, writes data from buffer to SD card
+    // Stores size of buffer
     size_t n;
-    //Stores data being copied
+    // Stores data being copied
     auto *buf = new uint8_t[buffer_size];
-    //Continuously copies data from file to buffer, writes data from buffer to file
+    // Continuously copies data from file to buffer, writes data from buffer to file
     while ((n = copy->read(buf, sizeof(buf))) > 0)
     {
         paste->write(buf, n);
     }
-    //Frees buffer from memory
+    // Frees buffer from memory
     delete[] buf;
     Serial.print("Dumping " + String(copy->name()) + " Finished");
-    //Closes both files, deletes original file
+    // Closes both files, deletes original file
     if (close)
     {
         copy->close();
@@ -109,12 +111,12 @@ void file_copy(File *copy, File *paste, bool close)
 }
 void setup()
 {
-    //Uncomment for testing
-    //alt_copy = true;
-    //Starts GPS UART device
+    // Uncomment for testing
+    // alt_copy = true;
+    // Starts GPS UART device
     GPSSerial.begin(GPS_BAUD);
     Serial.print("Start logging\n");
-    //Starts BMP390L communication over SPI
+    // Starts BMP390L communication over SPI
     bmp_enabled = bmp.begin_SPI(BMP_CS);
     if (!bmp_enabled)
     {
@@ -123,16 +125,16 @@ void setup()
     else
     {
         Serial.print("BMP Initialized!\n");
-        //Sets output data rate to 200 hz
+        // Sets output data rate to 200 hz
         bmp.setOutputDataRate(BMP3_ODR_200_HZ);
-        //Sets oversampling rates to 32x- will return results more quickly/more results
+        // Sets oversampling rates to 32x- will return results more quickly/more results
         bmp.setPressureOversampling(BMP3_OVERSAMPLING_32X);
         bmp.setTemperatureOversampling(BMP3_OVERSAMPLING_32X);
-        //Sets filter coefficient
-        //idk what this is, should update later
+        // Sets filter coefficient
+        // idk what this is, should update later
         bmp.setIIRFilterCoeff(BMP3_IIR_FILTER_COEFF_7);
     }
-    //Initializes ICM20649 device
+    // Initializes ICM20649 device
     icm_enabled = icm.begin_SPI(ICM_CS);
     if (!icm_enabled)
     {
@@ -141,14 +143,14 @@ void setup()
     else
     {
         Serial.print("ICM Initialized!\n");
-        //Enables High G and High DPS mode
+        // Enables High G and High DPS mode
         icm.setAccelRange(ICM20649_ACCEL_RANGE_30_G);
         icm.setGyroRange(ICM20649_GYRO_RANGE_4000_DPS);
-        //Sets output data rate to max supported by sensor
+        // Sets output data rate to max supported by sensor
         icm.setAccelRateDivisor(1);
         icm.setGyroRateDivisor(1);
     }
-    //Initialized BNO085
+    // Initialized BNO085
     bno_enabled = bno.begin_SPI(BNO_CS, BNO_INT);
     if (!bno_enabled)
     {
@@ -157,14 +159,14 @@ void setup()
     else
     {
         Serial.print("BNO Initialized!\n");
-        //Enable reports for accelerometer, gyroscope, and magnetometer
-        //There are other optional reports like raw data and uncalibrated data from each sensor that may potentially
-        // be able to be added
+        // Enable reports for accelerometer, gyroscope, and magnetometer
+        // There are other optional reports like raw data and uncalibrated data from each sensor that may potentially
+        //  be able to be added
         bno.enableReport(SH2_ACCELEROMETER);
         bno.enableReport(SH2_GYROSCOPE_CALIBRATED);
         bno.enableReport(SH2_MAGNETIC_FIELD_CALIBRATED);
     }
-    //Initializes SD card- uses BUILTIN_SDCARD to use SDIO with the Teensy's internal SD card slot
+    // Initializes SD card- uses BUILTIN_SDCARD to use SDIO with the Teensy's internal SD card slot
     teensy_sd_enabled = teensy_sd.begin(BUILTIN_SDCARD);
     if (!teensy_sd_enabled)
     {
@@ -174,7 +176,7 @@ void setup()
     {
         Serial.print("Teensy SD Initialized!\n");
     }
-    //Initializes XTSD device over SPI
+    // Initializes XTSD device over SPI
     xtsd_enabled = xtsd.begin(XTSD_CS);
     if (bmp_enabled)
     {
@@ -191,22 +193,22 @@ void setup()
     else
     {
         Serial.print("XTSD Initialized!\n");
-        //Data copy program
-        //If the SD card is installed upon system startup, the system will run this program to dump existing data from
-        //the XTSD module to the SD card, and delete the according data.
+        // Data copy program
+        // If the SD card is installed upon system startup, the system will run this program to dump existing data from
+        // the XTSD module to the SD card, and delete the according data.
         if (teensy_sd_enabled && altitude < alt_lockout)
         {
-            //Data dumped from the XTSD module is stored in the /XTSD/ folder on the SD card's root,
-            //While SD card data is stored on the SD card root directly.
-            //If this directory does not exist, create it
+            // Data dumped from the XTSD module is stored in the /XTSD/ folder on the SD card's root,
+            // While SD card data is stored on the SD card root directly.
+            // If this directory does not exist, create it
             if (!teensy_sd.exists("/xtsd/"))
             {
                 teensy_sd.mkdir("/xtsd/");
             }
             Serial.println("Starting Data Dump from XTSD Module");
-            //TODO: Read binary data back as .bin dump and .csv excel sheet to SD card
-            //When dumping data, will create separate directories for each dump taken
-            //Counts upward through taken directories to find first free one, sets as directory to dump to
+            // TODO: Read binary data back as .bin dump and .csv excel sheet to SD card
+            // When dumping data, will create separate directories for each dump taken
+            // Counts upward through taken directories to find first free one, sets as directory to dump to
             uint_fast32_t count = 0;
             String output_directory_name = "/xtsd/xtsd_dump0/";
             while (teensy_sd.exists(output_directory_name.c_str()))
@@ -214,25 +216,25 @@ void setup()
                 count++;
                 output_directory_name = "/xtsd/xtsd_dump" + String(count) + "/";
             }
-            //Creates directory at first not taken folder
+            // Creates directory at first not taken folder
             teensy_sd.mkdir(output_directory_name.c_str());
-            //Counter for how many files have been copied
+            // Counter for how many files have been copied
             uint_fast16_t dump_num = 0;
-            //Iterates between first 1024 possible output data file names
+            // Iterates between first 1024 possible output data file names
             for (uint_fast16_t i = 0; i < 1024; i++)
             {
-                //Current file name being dumped
+                // Current file name being dumped
                 String xtsd_file = "output " + String(i) + ".csv";
-                //Checks if file exists, dumps if it does
+                // Checks if file exists, dumps if it does
                 if (xtsd.exists(xtsd_file.c_str()))
                 {
                     Serial.print("Dumping ");
                     Serial.println(xtsd_file);
-                    //Increments total for number of files copied
+                    // Increments total for number of files copied
                     dump_num++;
-                    //Sets output file path
+                    // Sets output file path
                     String xtsd_path = output_directory_name + xtsd_file;
-                    //Opens file being read from and written to
+                    // Opens file being read from and written to
                     File teensy_copy = teensy_sd.open(xtsd_path.c_str(), FILE_WRITE);
                     File xtsd_copy = xtsd.open(xtsd_file.c_str(), FILE_READ);
                     file_copy(&xtsd_copy, &teensy_copy, true);
@@ -243,7 +245,7 @@ void setup()
             Serial.println(String(dump_num) + " Files copied");
         }
     }
-    //Checks if QSPI flash is available
+    // Checks if QSPI flash is available
     flash_enabled = flash.begin();
     if (!flash_enabled)
     {
@@ -254,13 +256,13 @@ void setup()
         Serial.println("Flash chip initialized!");
         if (teensy_sd_enabled && altitude < alt_lockout)
         {
-            //Teensy SD copy program
+            // Teensy SD copy program
             if (!teensy_sd.exists("/flash/"))
             {
                 teensy_sd.mkdir("/flash/");
             }
             Serial.println("Starting Data Dump from Flash chip");
-            //TODO: Read binary data back as .bin and .csv to SD card
+            // TODO: Read binary data back as .bin and .csv to SD card
             uint_fast16_t count = 0;
             String file_name = "/flash/flash_dump0/";
             Serial.print("File name:\n");
@@ -293,9 +295,9 @@ void setup()
             Serial.println(String(dump_num) + " Files copied");
         }
     }
-    //Enables GPS if the module is awake
+    // Enables GPS if the module is awake
     gps_enabled = GPSSerial.available() < 0;
-    //Counts filenames upwards until it finds a free one on flash storage devices
+    // Counts filenames upwards until it finds a free one on flash storage devices
     uint_fast32_t count = 0;
     if (teensy_sd_enabled)
     {
@@ -303,10 +305,10 @@ void setup()
         {
             count++;
             sd_string = "output" + String(count) + ".csv";
-            //Serial.print("writing data to " + sd_string);
+            // Serial.print("writing data to " + sd_string);
         }
-        //Serial.print("SD writing to: ");
-        //Serial.println(sd_string.c_str());
+        // Serial.print("SD writing to: ");
+        // Serial.println(sd_string.c_str());
     }
     if (xtsd_enabled)
     {
@@ -324,11 +326,11 @@ void setup()
             flash_string = "output" + String(count) + ".csv";
         }
     }
-    //Creates file header
+    // Creates file header
     char *file_hdr = new char[1024];
-    //Appends data into file header
+    // Appends data into file header
     sprintf(file_hdr, "Current Time, Time Since Startup, Teeny Internal Temperature");
-    //Checks if a given data point is enabled, writes data point if it is
+    // Checks if a given data point is enabled, writes data point if it is
     if (icm_enabled)
     {
         strcat(file_hdr, ", ICM Temperature, ICM Gyro X, ICM Gyro Y, "
@@ -354,7 +356,7 @@ void setup()
     }
     strcat(file_hdr, "\n");
     Serial.print(file_hdr);
-    //Writes data to file depending on if the storage medium is enabled
+    // Writes data to file depending on if the storage medium is enabled
     if (teensy_sd_enabled)
     {
         File teensy_file = teensy_sd.open(sd_string.c_str(), FILE_WRITE);
@@ -375,64 +377,100 @@ void setup()
     }
 }
 
-struct altimeter //BMP
+struct BMP_Altimeter // BMP
 {
-    float temp, pressure, altitude;
+    float temperature, pressure, altitude;
+    void init(float temp,float press, float alt)
+    {
+        temperature = temp;
+        pressure = press;
+        altitude = alt; 
+    }
 };
-struct ICM_IMU //icm20649IMU is one of our IMU's
+struct ICM_IMU // icm20649IMU is one of our IMU's
 {
     float temperature;
-    float gyro_data[3];     //x,y,z
-    float gyro_velocity[3]; //xV,yV,zV
+    float gyro_position[3]; // x,y,z
+    float gyro_velocity[3]; // xV,yV,zV
     float gyro_heading, gyro_pitch, gyro_roll;
-    float accelerometer[3];
+    float acceleration[3];
     float acc_heading, acc_pitch, acc_roll;
     ICM_IMU() = default;
 
-    ICM_IMU(float temperature, const float *gyroData, const float *gyroVelocity, float gyroHeading, float gyroPitch, float gyroRoll,
-            float * accel, float accHeading, float accPitch, float accRoll) : temperature(temperature),
-                                                                                     gyro_heading(gyroHeading),
-                                                                                     gyro_pitch(gyroPitch),
-                                                                                     gyro_roll(gyroRoll),
-                                                                                     acc_heading(accHeading),
-                                                                                     acc_pitch(accPitch),
-                                                                                     acc_roll(accRoll) {
-        for(int i = 0; i < 3; i++) {
-            gyro_data[i] = gyroData[i];
-            gyro_velocity[i] = gyroVelocity[i];
-            accelerometer[i] = accel[i];
-        }
+    void init(sensors_event_t &icm_accel, sensors_event_t &icm_gyro, sensors_event_t &icm_temp)
+    {
+        Serial <<"POINTERS " << (int)gyro_position << " " << (int) gyro_velocity << endl;
+        Serial <<"POINTERS " << (int)icm_gyro.gyro.v << " " << (int) &icm_gyro.gyro.x << endl;
+        Serial <<"POINTERS " << (int) &icm_gyro.gyro.v[1] << ", " << (int) &icm_accel.acceleration.pitch <<endl;
+
+        gyro_position[0] = icm_gyro.gyro.x;//ERROR, gyroscope position is not working. Displays same values as gyro velocity
+        gyro_position[1] = icm_gyro.gyro.y;
+        gyro_position[2] = icm_gyro.gyro.z;
+
+        gyro_velocity[0] = icm_gyro.gyro.v[0];//this is working
+        gyro_velocity[1] = icm_gyro.gyro.v[1];
+        gyro_velocity[2] = icm_gyro.gyro.v[2];
+
+        gyro_heading = icm_gyro.gyro.heading;
+        gyro_pitch = icm_gyro.gyro.pitch;
+        gyro_roll = icm_gyro.gyro.roll;
+
+        acceleration[0] = icm_accel.acceleration.x;
+        acceleration[1] = icm_accel.acceleration.y;
+        acceleration[2] = icm_accel.acceleration.z;
+
+        acc_heading = icm_accel.acceleration.heading;
+        acc_pitch = icm_accel.acceleration.pitch;
+        acc_roll = icm_accel.acceleration.roll;
+
+        temperature = icm_temp.temperature;
     }
-
+    void print()
+    {
+        Serial << "temperature: " << temperature << endl;
+        Serial << "acceleration: " << flts(acceleration[0]) << ", " << flts(acceleration[1]) << ", " << flts(acceleration[2]) << endl;
+        Serial << "gyro_position:" << flts(gyro_position[0]) << ", "<< flts(gyro_position[1]) << ", "<< flts(gyro_position[2]) << endl;
+        Serial << "gyro_velocity:" << flts(gyro_velocity[0]) << ", "<< flts(gyro_velocity[1]) << ", "<< flts(gyro_velocity[2]) << endl;
+        Serial << "heading: " << flts(gyro_heading) << ", pitch: " << flts(gyro_pitch)<< ", roll: " << flts(gyro_roll) << endl;
+        Serial << "acc_heading: " << flts(acc_heading) << ", acc_pitch: " << flts(acc_pitch)<< ", acc_roll: " << flts(acc_roll) << endl;
+        
+    }
 };
-
-struct BNO_IMU {
+struct BNO_IMU
+{
     float acceleration[3]{};
-    float gyro[3]{};
+    float gyro_position[3]{};
     float magnetometer[3]{};
-    BNO_IMU(const float *c_acceleration, const float *c_gyro, const float *c_magnetometer) {
-        for (int i = 0; i < 3; i++) {
+    void init(const float *c_acceleration, const float *c_gyro, const float *c_magnetometer)
+    {
+        for (int i = 0; i < 3; i++)
+        {
             acceleration[i] = c_acceleration[i];
-            gyro[i] = c_gyro[i];
+            gyro_position[i] = c_gyro[i];
             magnetometer[i] = c_magnetometer[i];
         }
     }
     BNO_IMU() = default;
+    void print()
+    {
+        Serial << "acceleration: " << acceleration[0] << ", " << acceleration[1] << ", " << acceleration[2] << endl;
+        Serial << "gyro_position:" << gyro_position[0] << ", "<< gyro_position[1] << ", "<< gyro_position[2] << endl;
+        Serial << "magnetometer :" << magnetometer[0] << ", "<< magnetometer[1] << ", "<< magnetometer[2] << endl;
+        
+    }
 };
-
 
 struct gps_struct
 {
 
     gps_struct(double gpsAltitude, int year, int month, int day, int hour, int second, double latitude,
-               double longitude, int speed, double hdop, double courseDeg, double readingAge) : gps_altitude(
-            gpsAltitude), year(year), month(month), day(day), hour(hour), second(second), latitude(latitude),
+               double longitude, int speed, double hdop, double courseDeg, double readingAge) : gps_altitude(gpsAltitude), year(year), month(month), day(day), hour(hour), second(second), latitude(latitude),
                                                                                                 longitude(longitude),
                                                                                                 speed(speed),
                                                                                                 hdop(hdop),
                                                                                                 course_deg(courseDeg),
                                                                                                 reading_age(
-                                                                                                        readingAge) {}
+                                                                                                    readingAge) {}
 
     gps_struct() = default;
 
@@ -443,95 +481,93 @@ struct gps_struct
     double hdop{};
     double course_deg{};
     double reading_age{};
-
 };
 struct All_the_data
 {
-
-
     BNO_IMU bno_data;
     ICM_IMU icm_data;
-    altimeter altimeter_data;
+    BMP_Altimeter altimeter_data;
     gps_struct gps_data;
-    All_the_data() {
-
+    All_the_data()
+    {
     }
 };
 void loop()
 {
-    //Read data from internal temperature sensor
+    // Read data from internal temperature sensor
     float teensy_temp = InternalTemperatureClass::readTemperatureC();
-    //BMP Temperature, Pressure, and Altitude values
+    // BMP Temperature, Pressure, and Altitude values
     if (bmp_enabled)
     {
-        //Does reading using BMP driver
+        // Does reading using BMP driver
         bmp.performReading();
-        //Stores data into variables for reference
+        // Stores data into variables for reference
         bmp_temp = bmp.readTemperature();
         bmp_pressure = bmp.readPressure();
-        //Calculates altitude using sea level pressure above
+        // Calculates altitude using sea level pressure above
         bmp_altitude = bmp.readAltitude(sea_level_pressure_hpa);
     }
-    //Stores data from ICM into variables
+    // Stores data from ICM into variables
     sensors_event_t icm_accel, icm_gyro, icm_temp;
+
     if (icm_enabled)
     {
         icm.getEvent(&icm_accel, &icm_gyro, &icm_temp);
     }
     if (bno_enabled)
     {
-        //Stores sensor data
+        // Stores sensor data
         sh2_SensorValue sensor{};
-        //Records finding state of variables
+        // Records finding state of variables
         bool found_accel = false, found_gyro = false, found_mag = false;
-        //Serial.print("Sensor value retrieved:");
-        //Serial.print(sensor.sensorId);
-        //Reads sensor data until one of each sensor data point is collected
+        // Serial.print("Sensor value retrieved:");
+        // Serial.print(sensor.sensorId);
+        // Reads sensor data until one of each sensor data point is collected
         while (!found_accel || !found_mag || !found_gyro)
         {
-            //Gets sensor event from driver, stores in sensor
+            // Gets sensor event from driver, stores in sensor
             bno.getSensorEvent(&sensor);
-            //Stores data point in variable, updates flag
+            // Stores data point in variable, updates flag
             switch (sensor.sensorId)
             {
             case SENSOR_TYPE_ACCELEROMETER:
                 found_accel = true;
-                //Serial.print("Reading from accel:");
+                // Serial.print("Reading from accel:");
                 bno_accel[0] = sensor.un.accelerometer.x;
                 bno_accel[1] = sensor.un.accelerometer.y;
                 bno_accel[2] = sensor.un.accelerometer.z;
                 break;
             case SENSOR_TYPE_MAGNETIC_FIELD:
                 found_mag = true;
-                //Serial.print("Reading from mag");
+                // Serial.print("Reading from mag");
                 bno_mag[0] = sensor.un.magneticField.x;
                 bno_mag[1] = sensor.un.magneticField.y;
                 bno_mag[2] = sensor.un.magneticField.z;
                 break;
             case SENSOR_TYPE_ORIENTATION:
                 found_gyro = true;
-                //Serial.print("Reading from gyro");
+                // Serial.print("Reading from gyro");
                 bno_gyro[0] = sensor.un.gyroscope.x;
                 bno_gyro[1] = sensor.un.gyroscope.y;
                 bno_gyro[2] = sensor.un.gyroscope.z;
                 break;
-            //Catch all option
+            // Catch all option
             default:
                 Serial.print("Sensor type " + String(sensor.sensorId) + " Not being used");
                 break;
             }
         }
-        //Serial.println("Number of repetitions necessary:" + String(num_repetitions));
+        // Serial.println("Number of repetitions necessary:" + String(num_repetitions));
     }
     while (GPSSerial.available())
     {
-        //Continuously dumps UART data from GPS into driver
+        // Continuously dumps UART data from GPS into driver
         gps_enabled = true;
         gps.encode(GPSSerial.read());
     }
     if (gps_enabled)
     {
-        //Updates GPS data points
+        // Updates GPS data points
         gps_altitude = gps.altitude.meters();
         gps_year = gps.date.year();
         gps_month = gps.date.month();
@@ -545,8 +581,8 @@ void loop()
         gps_hdop = gps.hdop.hdop();
         gps_course_deg = gps.course.deg();
         gps_reading_age = gps.time.age();
-        //Timeset function
-        //Checks if timestamp is out of date, sync system clock with GPS time if it is
+        // Timeset function
+        // Checks if timestamp is out of date, sync system clock with GPS time if it is
         if (gps.time.age() < 50 && !time_set)
         {
             setTime(gps_hour, gps_minute, gps_second, gps_day, gps_month, gps_year);
@@ -556,10 +592,11 @@ void loop()
     }
     String write_str = String(now()) cm millis() cm flts(teensy_temp);
     write_str.reserve(4096);
-    //Iterates through sensors, adds values to output string if enabled
+    // Iterates through sensors, adds values to output string if enabled
     All_the_data toWrite;
     if (icm_enabled)
     {
+        Serial << "BEGIN " << write_str << endl;
         write_str += "," + flts(icm_temp.temperature) cm flts(icm_gyro.gyro.x) cm
                                flts(icm_gyro.gyro.y) cm
                                    flts(icm_gyro.gyro.z) cm flts(icm_gyro.gyro.v[0]) cm
@@ -569,30 +606,45 @@ void loop()
                                                    flts(icm_accel.acceleration.v[0]) cm flts(icm_accel.acceleration.v[1]) cm
                                                        flts(icm_accel.acceleration.v[2]) cm flts(icm_accel.acceleration.heading) cm
                                                            flts(icm_accel.acceleration.pitch) cm flts(icm_accel.acceleration.roll);
-    //write to icm_data struct in All_the_data
+        // write to icm_data struct in All_the_data
+        // icm_temp, icm_gyro, icm_accel
+        toWrite.icm_data.init(icm_accel, icm_gyro, icm_temp);
+        Serial << "\nHERE" << endl;
+        Serial << endl << write_str << endl;
+        toWrite.icm_data.print();
+        Serial << endl;
+        delay(3000);
     }
 
     if (bmp_enabled)
     {
-        write_str += "," + flts(bmp_temp) cm flts(bmp_pressure) cm flts(bmp_altitude);
+        write_str += "," + flts(bmp_temp) cm flts(bmp_pressure)
+        cm flts(bmp_altitude);
+        toWrite.altimeter_data.init(bmp_temp, bmp_pressure,bmp_altitude);
+        
     }
     if (bno_enabled)
     {
         write_str += "," + flts(bno_accel[0]) cm flts(bno_accel[1]) cm flts(bno_accel[2]) cm
                                flts(bno_gyro[0]) cm flts(bno_gyro[1]) cm flts(bno_gyro[2]) cm flts(bno_mag[0]) cm
                                    flts(bno_mag[1]) cm flts(bno_mag[2]);
+        toWrite.bno_data.init(bno_accel,bno_gyro,bno_mag);
     }
     if (gps_enabled)
     {
         write_str += "," + flts(gps_altitude) cm gps_year cm gps_month cm gps_day cm gps_hour cm gps_minute
-                               cm gps_second cm flts(gps_latitude) cm flts(gps_longitude) cm gps_speed cm flts(gps_hdop)
-                                   cm flts(gps_course_deg) cm flts(gps_reading_age);
+                               cm gps_second cm
+                               flts(gps_latitude)
+        cm flts(gps_longitude)
+        cm gps_speed cm flts(gps_hdop)
+        cm flts(gps_course_deg)
+        cm flts(gps_reading_age);
     }
     write_str.append("\n");
-    //Writes data to storage medium
-    //TODO: Write binary data here instead of a string
-    //TODO: Write with specific set frequency until launch, implement roughly here
-    //TODO: Add radio send code approximately here
+    // Writes data to storage medium
+    // TODO: Write binary data here instead of a string
+    // TODO: Write with specific set frequency until launch, implement roughly here
+    // TODO: Add radio send code approximately here
     if (xtsd_enabled)
     {
         File xtsd_file = xtsd.open(xtsd_string.c_str(), FILE_WRITE);
@@ -605,8 +657,8 @@ void loop()
         flash_file.print(write_str);
         flash_file.close();
     }
-    //SD card altitude lockout- Updates altitude from either GPS or altimeter
-    //TODO: Apogee, launch, and land detection go here
+    // SD card altitude lockout- Updates altitude from either GPS or altimeter
+    // TODO: Apogee, launch, and land detection go here
     if (teensy_sd_enabled)
     {
         if (bmp_enabled)
