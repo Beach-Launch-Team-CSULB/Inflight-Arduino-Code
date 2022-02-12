@@ -407,7 +407,7 @@ struct ICM_IMU // icm20649IMU is one of our IMU's
         gyro_position[1] = icm_gyro.gyro.y;
         gyro_position[2] = icm_gyro.gyro.z;
 
-        gyro_velocity[0] = icm_gyro.gyro.v[0];//this is working
+        gyro_velocity[0] = icm_gyro.gyro.v[0];//this is working ERROR, rip this out
         gyro_velocity[1] = icm_gyro.gyro.v[1];
         gyro_velocity[2] = icm_gyro.gyro.v[2];
 
@@ -594,7 +594,18 @@ void loop()
     write_str.reserve(4096);
     // Iterates through sensors, adds values to output string if enabled
     All_the_data toWrite;
-    if (icm_enabled)
+    /*
+    TODO, NEEDS TO WORK: 
+    temp needs to be preserved
+    gyro measurements
+    acceleration x y z 
+
+    NICE TO HAVE
+    heading pitch roll for both accel and gyro - NOT WORKING
+
+
+    */
+    if (icm_enabled)     //ERROR remove icm_gyro.gyro.v, icm_gyro.gyro.pitch;roll;heading, 
     {
         Serial << "BEGIN " << write_str << endl;
         write_str += "," + flts(icm_temp.temperature) cm flts(icm_gyro.gyro.x) cm
