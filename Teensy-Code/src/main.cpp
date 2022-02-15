@@ -415,7 +415,7 @@ struct ICM_IMU // icm20649IMU is one of our IMU's
         gyro_pitch = icm_gyro.gyro.pitch;
         gyro_roll = icm_gyro.gyro.roll;
 
-        acceleration[0] = icm_accel.acceleration.x;
+        acceleration[0] = icm_accel.acceleration.x;//leave this in
         acceleration[1] = icm_accel.acceleration.y;
         acceleration[2] = icm_accel.acceleration.z;
 
@@ -423,16 +423,17 @@ struct ICM_IMU // icm20649IMU is one of our IMU's
         acc_pitch = icm_accel.acceleration.pitch;
         acc_roll = icm_accel.acceleration.roll;
 
-        temperature = icm_temp.temperature;
+        temperature = icm_temp.temperature;//leave this in
     }
     void print()
     {
         Serial << "temperature: " << temperature << endl;
-        Serial << "acceleration: " << flts(acceleration[0]) << ", " << flts(acceleration[1]) << ", " << flts(acceleration[2]) << endl;
+        Serial << "acceleration: " << flts(acceleration[0]) << ", " << flts(acceleration[1]) << ", " << flts(acceleration[2]) << endl;        
+        Serial << "acc_heading: " << flts(acc_heading) << ", acc_pitch: " << flts(acc_pitch)<< ", acc_roll: " << flts(acc_roll) << endl;
+
         Serial << "gyro_position:" << flts(gyro_position[0]) << ", "<< flts(gyro_position[1]) << ", "<< flts(gyro_position[2]) << endl;
         Serial << "gyro_velocity:" << flts(gyro_velocity[0]) << ", "<< flts(gyro_velocity[1]) << ", "<< flts(gyro_velocity[2]) << endl;
         Serial << "heading: " << flts(gyro_heading) << ", pitch: " << flts(gyro_pitch)<< ", roll: " << flts(gyro_roll) << endl;
-        Serial << "acc_heading: " << flts(acc_heading) << ", acc_pitch: " << flts(acc_pitch)<< ", acc_roll: " << flts(acc_roll) << endl;
         
     }
 };
@@ -624,7 +625,7 @@ void loop()
         Serial << endl << write_str << endl;
         toWrite.icm_data.print();
         Serial << endl;
-        delay(3000);
+        //delay(3000);
     }
 
     if (bmp_enabled)
