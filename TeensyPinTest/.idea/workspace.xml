@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated>
+      <config projectName="TeensyPinTest" targetName="Z_DUMMY_TARGET" />
+      <config projectName="TeensyPinTest" targetName="Production" />
+      <config projectName="TeensyPinTest" targetName="Debug" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="teensy36" ENABLED="true" CONFIG_NAME="teensy36" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c737b57e-a5aa-4022-9ec0-cb1e52146001" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../LoRaRadioSend/.idea/LoRaRadioSend.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LoRaRadioSend/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LoRaRadioSend/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LoRaRadioSend/.idea/serialmonitor_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LoRaRadioSend/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LoRaRadioSend/src/main.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LoRaRadioTest/.idea/LoRaRadioTest.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LoRaRadioTest/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LoRaRadioTest/.idea/serialmonitor_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LoRaRadioTest/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LoRaRadioTest/CMakeLists.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LoRaRadioTest/include/README" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LoRaRadioTest/lib/README" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LoRaRadioTest/platformio.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LoRaRadioTest/src/main.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LoRaRadioTest/test/README" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/TeensyPinTest.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/serialmonitor_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/include/README" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/README" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platformio.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/README" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Teensy-Code/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Teensy-Code/.idea/vcs.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:teensy36" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="qwvly09j" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectApplicationVersion">
+    <option name="ide" value="CLion" />
+    <option name="majorVersion" value="2021" />
+    <option name="minorVersion" value="3.3" />
+  </component>
+  <component name="ProjectId" id="252dWHP4ucxZ3Ait1pFm96kwpht" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="cf.first.check.clang-format" value="false" />
+    <property name="cidr.known.project.marker" value="true" />
+    <property name="cmake.loaded.for.project" value="true" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RunManager" selected="PlatformIO.PlatformIO Upload">
+    <configuration name="Z_DUMMY_TARGET" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="TeensyPinTest" TARGET_NAME="Z_DUMMY_TARGET" CONFIG_NAME="teensy36" RUN_TARGET_PROJECT_NAME="TeensyPinTest" RUN_TARGET_NAME="Z_DUMMY_TARGET">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PlatformIO Debug" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="TeensyPinTest" TARGET_NAME="Debug" CONFIG_NAME="teensy36" RUN_TARGET_PROJECT_NAME="TeensyPinTest" RUN_TARGET_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PlatformIO Upload" type="platformio" factoryName="PlatformIO Upload" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="TeensyPinTest" TARGET_NAME="Production" CONFIG_NAME="teensy36" RUN_TARGET_PROJECT_NAME="TeensyPinTest" RUN_TARGET_NAME="Production">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="CMake Application.Z_DUMMY_TARGET" />
+      <item itemvalue="PlatformIO.PlatformIO Debug" />
+      <item itemvalue="PlatformIO.PlatformIO Upload" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c737b57e-a5aa-4022-9ec0-cb1e52146001" name="Changes" comment="" />
+      <created>1644729146824</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1644729146824</updated>
+      <workItem from="1644729149036" duration="1657000" />
+      <workItem from="1644814647608" duration="568000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
