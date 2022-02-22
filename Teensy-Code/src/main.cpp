@@ -7,7 +7,6 @@
 #include <TinyGPS++.h>
 #include <LittleFS.h>
 #include <Streaming.h>//allows for printing with << operator
-//this is a test
 #define cm +"," +
 // Macro to make appending strings easier- cm stands for comma
 // Using UART serial port 8
@@ -390,49 +389,33 @@ struct BMP_Altimeter // BMP
 struct ICM_IMU // icm20649IMU is one of our IMU's
 {
     float temperature;
-    float gyro_position[3]; // x,y,z
-    float gyro_velocity[3]; // xV,yV,zV
+    //float gyro_velocity[3]; // xV,yV,zV
     float gyro_heading, gyro_pitch, gyro_roll;
-    float acceleration[3];
-    float acc_heading, acc_pitch, acc_roll;
+    float acceleration[3];//verified works
+    //float acc_heading, acc_pitch, acc_roll;
     ICM_IMU() = default;
 
     void init(sensors_event_t &icm_accel, sensors_event_t &icm_gyro, sensors_event_t &icm_temp)
     {
-        Serial <<"POINTERS " << (int)gyro_position << " " << (int) gyro_velocity << endl;
-        Serial <<"POINTERS " << (int)icm_gyro.gyro.v << " " << (int) &icm_gyro.gyro.x << endl;
-        Serial <<"POINTERS " << (int) &icm_gyro.gyro.v[1] << ", " << (int) &icm_accel.acceleration.pitch <<endl;
 
-        gyro_position[0] = icm_gyro.gyro.x;//ERROR, gyroscope position is not working. Displays same values as gyro velocity
-        gyro_position[1] = icm_gyro.gyro.y;
-        gyro_position[2] = icm_gyro.gyro.z;
-
-        gyro_velocity[0] = icm_gyro.gyro.v[0];//this is working ERROR, rip this out
-        gyro_velocity[1] = icm_gyro.gyro.v[1];
-        gyro_velocity[2] = icm_gyro.gyro.v[2];
-
-        gyro_heading = icm_gyro.gyro.heading;
+        gyro_heading = icm_gyro.gyro.heading;//verified working
         gyro_pitch = icm_gyro.gyro.pitch;
         gyro_roll = icm_gyro.gyro.roll;
 
-        acceleration[0] = icm_accel.acceleration.x;//leave this in
+        acceleration[0] = icm_accel.acceleration.x;//verified working
         acceleration[1] = icm_accel.acceleration.y;
         acceleration[2] = icm_accel.acceleration.z;
 
-        acc_heading = icm_accel.acceleration.heading;
-        acc_pitch = icm_accel.acceleration.pitch;
-        acc_roll = icm_accel.acceleration.roll;
-
-        temperature = icm_temp.temperature;//leave this in
+        temperature = icm_temp.temperature;//not fully verified
     }
     void print()
     {
         Serial << "temperature: " << temperature << endl;
         Serial << "acceleration: " << flts(acceleration[0]) << ", " << flts(acceleration[1]) << ", " << flts(acceleration[2]) << endl;        
-        Serial << "acc_heading: " << flts(acc_heading) << ", acc_pitch: " << flts(acc_pitch)<< ", acc_roll: " << flts(acc_roll) << endl;
+        //Serial << "acc_heading: " << flts(acc_heading) << ", acc_pitch: " << flts(acc_pitch)<< ", acc_roll: " << flts(acc_roll) << endl;
 
-        Serial << "gyro_position:" << flts(gyro_position[0]) << ", "<< flts(gyro_position[1]) << ", "<< flts(gyro_position[2]) << endl;
-        Serial << "gyro_velocity:" << flts(gyro_velocity[0]) << ", "<< flts(gyro_velocity[1]) << ", "<< flts(gyro_velocity[2]) << endl;
+        //Serial << "gyro_position:" << flts(gyro_position[0]) << ", "<< flts(gyro_position[1]) << ", "<< flts(gyro_position[2]) << endl;
+        //Serial << "gyro_velocity:" << flts(gyro_velocity[0]) << ", "<< flts(gyro_velocity[1]) << ", "<< flts(gyro_velocity[2]) << endl;
         Serial << "heading: " << flts(gyro_heading) << ", pitch: " << flts(gyro_pitch)<< ", roll: " << flts(gyro_roll) << endl;
         
     }
@@ -625,7 +608,7 @@ void loop()
         Serial << endl << write_str << endl;
         toWrite.icm_data.print();
         Serial << endl;
-        //delay(3000);
+        delay(3000);
     }
 
     if (bmp_enabled)
