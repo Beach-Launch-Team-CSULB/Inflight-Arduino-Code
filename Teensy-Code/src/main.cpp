@@ -6,7 +6,7 @@
 #include <TimeLib.h>
 #include <TinyGPS++.h>
 #include <LittleFS.h>
-#include <Streaming.h>//allows for printing with << operator
+#include <Streaming.h> //allows for printing with << operator
 #define cm +"," +
 // Macro to make appending strings easier- cm stands for comma
 // Using UART serial port 8
@@ -379,45 +379,44 @@ void setup()
 struct BMP_Altimeter // BMP
 {
     float temperature, pressure, altitude;
-    void init(float temp,float press, float alt)
+    void init(float temp, float press, float alt)
     {
         temperature = temp;
         pressure = press;
-        altitude = alt; 
+        altitude = alt;
     }
 };
-struct ICM_IMU // icm20649IMU is one of our IMU's
+struct ICM_IMU // icm20649IMU is one of our IMU's WORKING
 {
     float temperature;
-    //float gyro_velocity[3]; // xV,yV,zV
+    // float gyro_velocity[3]; // xV,yV,zV
     float gyro_heading, gyro_pitch, gyro_roll;
-    float acceleration[3];//verified works
-    //float acc_heading, acc_pitch, acc_roll;
+    float acceleration[3]; // verified works
+    // float acc_heading, acc_pitch, acc_roll;
     ICM_IMU() = default;
 
     void init(sensors_event_t &icm_accel, sensors_event_t &icm_gyro, sensors_event_t &icm_temp)
     {
 
-        gyro_heading = icm_gyro.gyro.heading;//verified working
+        gyro_heading = icm_gyro.gyro.heading; // verified working
         gyro_pitch = icm_gyro.gyro.pitch;
         gyro_roll = icm_gyro.gyro.roll;
 
-        acceleration[0] = icm_accel.acceleration.x;//verified working
+        acceleration[0] = icm_accel.acceleration.x; // verified working
         acceleration[1] = icm_accel.acceleration.y;
         acceleration[2] = icm_accel.acceleration.z;
 
-        temperature = icm_temp.temperature;//not fully verified
+        temperature = icm_temp.temperature; // not fully verified
     }
     void print()
     {
         Serial << "temperature: " << temperature << endl;
-        Serial << "acceleration: " << flts(acceleration[0]) << ", " << flts(acceleration[1]) << ", " << flts(acceleration[2]) << endl;        
-        //Serial << "acc_heading: " << flts(acc_heading) << ", acc_pitch: " << flts(acc_pitch)<< ", acc_roll: " << flts(acc_roll) << endl;
+        Serial << "acceleration: " << flts(acceleration[0]) << ", " << flts(acceleration[1]) << ", " << flts(acceleration[2]) << endl;
+        // Serial << "acc_heading: " << flts(acc_heading) << ", acc_pitch: " << flts(acc_pitch)<< ", acc_roll: " << flts(acc_roll) << endl;
 
-        //Serial << "gyro_position:" << flts(gyro_position[0]) << ", "<< flts(gyro_position[1]) << ", "<< flts(gyro_position[2]) << endl;
-        //Serial << "gyro_velocity:" << flts(gyro_velocity[0]) << ", "<< flts(gyro_velocity[1]) << ", "<< flts(gyro_velocity[2]) << endl;
-        Serial << "heading: " << flts(gyro_heading) << ", pitch: " << flts(gyro_pitch)<< ", roll: " << flts(gyro_roll) << endl;
-        
+        // Serial << "gyro_position:" << flts(gyro_position[0]) << ", "<< flts(gyro_position[1]) << ", "<< flts(gyro_position[2]) << endl;
+        // Serial << "gyro_velocity:" << flts(gyro_velocity[0]) << ", "<< flts(gyro_velocity[1]) << ", "<< flts(gyro_velocity[2]) << endl;
+        Serial << "heading: " << flts(gyro_heading) << ", pitch: " << flts(gyro_pitch) << ", roll: " << flts(gyro_roll) << endl;
     }
 };
 struct BNO_IMU
@@ -438,33 +437,89 @@ struct BNO_IMU
     void print()
     {
         Serial << "acceleration: " << acceleration[0] << ", " << acceleration[1] << ", " << acceleration[2] << endl;
-        Serial << "gyro_position:" << gyro_position[0] << ", "<< gyro_position[1] << ", "<< gyro_position[2] << endl;
-        Serial << "magnetometer :" << magnetometer[0] << ", "<< magnetometer[1] << ", "<< magnetometer[2] << endl;
-        
+        Serial << "gyro_position:" << gyro_position[0] << ", " << gyro_position[1] << ", " << gyro_position[2] << endl;
+        Serial << "magnetometer :" << magnetometer[0] << ", " << magnetometer[1] << ", " << magnetometer[2] << endl;
     }
 };
 
 struct gps_struct
 {
+    void init(TinyGPSPlus gps)
+    {
+        // Updates GPS data points
+        gps_altitude = gps.altitude.meters();
+        gps_year = gps.date.year();
+        gps_month = gps.date.month();
+        gps_day = gps.date.day();
+        gps_hour = gps.time.hour();
+        gps_minute = gps.time.minute();
+        gps_second = gps.time.second();
+        gps_latitude = gps.location.lat();
+        gps_longitude = gps.location.lng();
+        gps_speed = gps.speed.value();
+        gps_hdop = gps.hdop.hdop();
+        gps_course_deg = gps.course.deg();
+        gps_reading_age = gps.time.age();
+    }
+    //TESTING - KNOWN BUG - GPS MODULE HAS NOT GOTTEN A LOCATION SYNC
+    void print()
+    {
+        // Updates GPS data points
+        Serial << "gps_altitude " << gps_altitude << endl;
+        Serial << "gps_year " << gps_year << endl;
+        Serial << "gps_month " << gps_month << endl;
+        Serial << "gps_day " << gps_day << endl;
+        Serial << "gps_hour " << gps_hour << endl;
+        Serial << "gps_minute " << gps_minute << endl;
+        Serial << "gps_second " << gps_second << endl;
+        Serial << "gps_latitude " << gps_latitude << endl;
+        Serial << "gps_longitude " << gps_longitude << endl;
+        Serial << "gps_speed " << gps_speed << endl;
+        Serial << "gps_hdop " << gps_hdop << endl;
+        Serial << "gps_course_deg " << gps_course_deg << endl;
+        Serial << "gps_reading_age " << gps_reading_age << endl;
+    }
 
-    gps_struct(double gpsAltitude, int year, int month, int day, int hour, int second, double latitude,
-               double longitude, int speed, double hdop, double courseDeg, double readingAge) : gps_altitude(gpsAltitude), year(year), month(month), day(day), hour(hour), second(second), latitude(latitude),
-                                                                                                longitude(longitude),
-                                                                                                speed(speed),
-                                                                                                hdop(hdop),
-                                                                                                course_deg(courseDeg),
-                                                                                                reading_age(
-                                                                                                    readingAge) {}
+    // void init(double gpsAltitude, int year, int month, int day, int hour, int second, double latitude,
+    //           double longitude, int speed, double hdop, double courseDeg, double readingAge)
+    // {
+    //     gps_altitude = gpsAltitude;
+    //     gps_struct::year = year;
+    //     gps_struct::month = month;
+    //     gps_struct::day = day;
+    //     gps_struct::hour = hour;
+    //     gps_struct::second = second;
+    //     gps_struct::latitude = latitude;
+    //     gps_struct::longitude = longitude;
+    //     gps_struct::speed = speed;
+    //     gps_struct::hdop = hdop;
+    //     course_deg = courseDeg;
+    //     reading_age = readingAge;
+    // }
 
     gps_struct() = default;
 
-    double gps_altitude{};
-    int year{}, month{}, day{}, hour{}, second{};
-    double latitude{}, longitude{};
-    int speed{};
-    double hdop{};
-    double course_deg{};
-    double reading_age{};
+    // Updates GPS data points
+    double gps_altitude;
+    uint16_t gps_year;
+    uint8_t gps_month;
+    uint8_t gps_day;
+    uint8_t gps_hour;
+    uint8_t gps_minute;
+    uint8_t gps_second;
+    double gps_latitude;
+    double gps_longitude;
+    int32_t gps_speed;
+    double gps_hdop;
+    double gps_course_deg;
+    uint32_t gps_reading_age;
+    // double gps_altitude{};
+    // int year{}, month{}, day{}, hour{}, second{};
+    // double latitude{}, longitude{};
+    // int speed{};
+    // double hdop{};
+    // double course_deg{};
+    // double reading_age{};
 };
 struct All_the_data
 {
@@ -472,9 +527,6 @@ struct All_the_data
     ICM_IMU icm_data;
     BMP_Altimeter altimeter_data;
     gps_struct gps_data;
-    All_the_data()
-    {
-    }
 };
 void loop()
 {
@@ -579,17 +631,17 @@ void loop()
     // Iterates through sensors, adds values to output string if enabled
     All_the_data toWrite;
     /*
-    TODO, NEEDS TO WORK: 
+    TODO, NEEDS TO WORK:
     temp needs to be preserved
     gyro measurements
-    acceleration x y z 
+    acceleration x y z
 
     NICE TO HAVE
     heading pitch roll for both accel and gyro - NOT WORKING
 
 
     */
-    if (icm_enabled)     //ERROR remove icm_gyro.gyro.v, icm_gyro.gyro.pitch;roll;heading, 
+    if (icm_enabled) // ERROR remove icm_gyro.gyro.v, icm_gyro.gyro.pitch;roll;heading,
     {
         Serial << "BEGIN " << write_str << endl;
         write_str += "," + flts(icm_temp.temperature) cm flts(icm_gyro.gyro.x) cm
@@ -605,25 +657,28 @@ void loop()
         // icm_temp, icm_gyro, icm_accel
         toWrite.icm_data.init(icm_accel, icm_gyro, icm_temp);
         Serial << "\nHERE" << endl;
-        Serial << endl << write_str << endl;
+        Serial << endl
+               << write_str << endl;
         toWrite.icm_data.print();
         Serial << endl;
-        delay(3000);
     }
 
     if (bmp_enabled)
     {
         write_str += "," + flts(bmp_temp) cm flts(bmp_pressure)
         cm flts(bmp_altitude);
-        toWrite.altimeter_data.init(bmp_temp, bmp_pressure,bmp_altitude);
-        
+        toWrite.altimeter_data.init(bmp_temp, bmp_pressure, bmp_altitude);
     }
     if (bno_enabled)
     {
         write_str += "," + flts(bno_accel[0]) cm flts(bno_accel[1]) cm flts(bno_accel[2]) cm
                                flts(bno_gyro[0]) cm flts(bno_gyro[1]) cm flts(bno_gyro[2]) cm flts(bno_mag[0]) cm
                                    flts(bno_mag[1]) cm flts(bno_mag[2]);
-        toWrite.bno_data.init(bno_accel,bno_gyro,bno_mag);
+        toWrite.bno_data.init(bno_accel, bno_gyro, bno_mag);
+        Serial << "\n\nbno_data: ";
+        toWrite.bno_data.print();
+        Serial << endl
+               << endl;
     }
     if (gps_enabled)
     {
@@ -634,6 +689,11 @@ void loop()
         cm gps_speed cm flts(gps_hdop)
         cm flts(gps_course_deg)
         cm flts(gps_reading_age);
+
+        toWrite.gps_data.init(gps);
+        Serial << "GPS DATA: " << endl;
+        toWrite.gps_data.print();
+        delay(3000);
     }
     write_str.append("\n");
     // Writes data to storage medium
