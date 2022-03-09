@@ -384,12 +384,19 @@ struct BMP_Altimeter // BMP
         pressure = press;
         altitude = alt;
     }
-
+    // Temp,pressure, altitude, icm_temperature ..., last sensor field \n
+    // temp value, pressure value, icm temp value..., last sensor value\n
     void print()
     {
         Serial << "Temperature: " << temperature << endl;
         Serial << "pressure: " << pressure << endl;
         Serial << "altitude: " << altitude << endl;
+    }
+
+    String toString()
+    {
+        return flts(temperature) cm flts(pressure)
+        cm flts(altitude);
     }
 };
 struct ICM_IMU // icm20649IMU is one of our IMU's WORKING
@@ -560,9 +567,9 @@ struct All_the_data
 // does not handle opening/closing the file for portability
 void dump_to_serial(File stored_data)
 {
-    Serial << "File Size: " << stored_data.size() << endl;
+    // Serial << "File Size: " << stored_data.size() << endl;
 
-        int bytesRead;
+    int bytesRead;
     All_the_data fromFile;
     int counter = 0;
     bytesRead = stored_data.read(&fromFile, sizeof(All_the_data));
@@ -574,7 +581,6 @@ void dump_to_serial(File stored_data)
     }
 
     Serial << "Structs Read: " << counter << endl;
-
 }
 
 void loop()
@@ -761,7 +767,7 @@ void loop()
         File flash_file = flash.open(flash_string.c_str(), FILE_WRITE);
         flash_file.write(&toWrite, sizeof(toWrite));
         flash_file.close();
-        //flash_file.flush();
+        // flash_file.flush();
 
         Serial << "toWrite size: " << sizeof(toWrite) << endl;
         toWrite.print();
@@ -774,7 +780,6 @@ void loop()
         Serial << file_to_dump.name() << endl;
         dump_to_serial(file_to_dump);
         file_to_dump.close();
-        Serial << "MOOOOO";
 
         delay(3000);
 
