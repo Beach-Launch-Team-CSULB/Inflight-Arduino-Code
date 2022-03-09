@@ -85,7 +85,6 @@ String flts(double s)
 {
     return {s, double_depth};
 }
-
 void file_copy(File *copy, File *paste, bool close)
 {
     // Reads data from XTSD to buffer, writes data from buffer to SD card
@@ -358,9 +357,9 @@ void setup()
     // Writes data to file depending on if the storage medium is enabled
     if (teensy_sd_enabled)
     {
-        File teensy_file = teensy_sd.open(sd_string.c_str(), FILE_WRITE);
-        teensy_file.print(file_hdr);
-        teensy_file.close();
+        // File teensy_file = teensy_sd.open(sd_string.c_str(), FILE_WRITE);
+        // teensy_file.print(file_hdr);//TESTING, ERROR HERE
+        // teensy_file.close();
     }
     if (xtsd_enabled)
     {
@@ -384,6 +383,13 @@ struct BMP_Altimeter // BMP
         temperature = temp;
         pressure = press;
         altitude = alt;
+    }
+
+    void print()
+    {
+        Serial << "Temperature: " << temperature << endl;
+        Serial << "pressure: " << pressure << endl;
+        Serial << "altitude: " << altitude << endl;
     }
 };
 struct ICM_IMU // icm20649IMU is one of our IMU's WORKING
@@ -461,7 +467,7 @@ struct gps_struct
         gps_course_deg = gps.course.deg();
         gps_reading_age = gps.time.age();
     }
-    //TESTING - KNOWN BUG - GPS MODULE HAS NOT GOTTEN A LOCATION SYNC
+    // TESTING - KNOWN BUG - GPS MODULE HAS NOT GOTTEN A LOCATION SYNC
     void print()
     {
         // Updates GPS data points
@@ -523,11 +529,46 @@ struct gps_struct
 };
 struct All_the_data
 {
+    uint32_t microseconds = micros();
     BNO_IMU bno_data;
     ICM_IMU icm_data;
     BMP_Altimeter altimeter_data;
     gps_struct gps_data;
+    void print()
+    {
+        Serial << "\nMICROS: " << microseconds << endl;
+
+        Serial << "\nBNO_IMU:" << endl;
+        bno_data.print();
+
+        Serial << "\nICM_IMU:" << endl;
+        icm_data.print();
+
+        Serial << "\nBMP_ALTIMETER:" << endl;
+        altimeter_data.print();
+
+        Serial << "\nGPS_STRUCT:" << endl;
+        gps_data.print();
+
+        Serial << endl;
+    }
 };
+
+// This method dumps data from files with the All_The_Data struct stored on them to Serial.
+// does not handle opening/closing the file for portability
+void dump_to_serial(File stored_data)
+{
+    int bytesRead;
+    All_the_data fromFile;
+
+    bytesRead = stored_data.read(&fromFile, sizeof(All_the_data));
+    while (bytesRead == sizeof(All_the_data))
+    {
+        fromFile.print();
+        bytesRead = stored_data.read(&fromFile, sizeof(All_the_data));
+    }
+}
+
 void loop()
 {
     // Read data from internal temperature sensor
@@ -643,7 +684,7 @@ void loop()
     */
     if (icm_enabled) // ERROR remove icm_gyro.gyro.v, icm_gyro.gyro.pitch;roll;heading,
     {
-        Serial << "BEGIN " << write_str << endl;
+        // Serial << "BEGIN " << write_str << endl;
         write_str += "," + flts(icm_temp.temperature) cm flts(icm_gyro.gyro.x) cm
                                flts(icm_gyro.gyro.y) cm
                                    flts(icm_gyro.gyro.z) cm flts(icm_gyro.gyro.v[0]) cm
@@ -656,11 +697,10 @@ void loop()
         // write to icm_data struct in All_the_data
         // icm_temp, icm_gyro, icm_accel
         toWrite.icm_data.init(icm_accel, icm_gyro, icm_temp);
-        Serial << "\nHERE" << endl;
-        Serial << endl
-               << write_str << endl;
-        toWrite.icm_data.print();
-        Serial << endl;
+        // Serial << "\nHERE" << endl;
+        // Serial << endl << write_str << endl;
+        // toWrite.icm_data.print();
+        // Serial << endl;
     }
 
     if (bmp_enabled)
@@ -675,10 +715,10 @@ void loop()
                                flts(bno_gyro[0]) cm flts(bno_gyro[1]) cm flts(bno_gyro[2]) cm flts(bno_mag[0]) cm
                                    flts(bno_mag[1]) cm flts(bno_mag[2]);
         toWrite.bno_data.init(bno_accel, bno_gyro, bno_mag);
-        Serial << "\n\nbno_data: ";
-        toWrite.bno_data.print();
-        Serial << endl
-               << endl;
+        // Serial << "\n\nbno_data: ";
+        // toWrite.bno_data.print();
+        // Serial << endl
+        //        << endl;
     }
     if (gps_enabled)
     {
@@ -691,9 +731,8 @@ void loop()
         cm flts(gps_reading_age);
 
         toWrite.gps_data.init(gps);
-        Serial << "GPS DATA: " << endl;
-        toWrite.gps_data.print();
-        delay(3000);
+        // Serial << "GPS DATA: " << endl;
+        // toWrite.gps_data.print();
     }
     write_str.append("\n");
     // Writes data to storage medium
@@ -702,15 +741,35 @@ void loop()
     // TODO: Add radio send code approximately here
     if (xtsd_enabled)
     {
+        // ERROR FREQUENTLY FAILS TO INITIALIZE
+
         File xtsd_file = xtsd.open(xtsd_string.c_str(), FILE_WRITE);
-        xtsd_file.print(write_str);
+        xtsd_file.write(&toWrite, sizeof(toWrite));
+        // xtsd_file.print(write_str);
         xtsd_file.close();
     }
     if (flash_enabled)
     {
         File flash_file = flash.open(flash_string.c_str(), FILE_WRITE);
-        flash_file.print(write_str);
+        flash_file.write(&toWrite, sizeof(toWrite));
         flash_file.close();
+        flash_file.flush();
+
+        toWrite.print();
+        Serial << "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE";
+
+        // testing
+        File file_to_dump = flash.open(flash_string.c_str(), FILE_READ);
+
+        Serial << "DUMPING FROM FILE: ";
+        Serial << file_to_dump.name() << endl;
+        dump_to_serial(file_to_dump);
+        file_to_dump.close();
+        Serial << "MOOOOO";
+
+        delay(3000);
+
+        // testing
     }
     // SD card altitude lockout- Updates altitude from either GPS or altimeter
     // TODO: Apogee, launch, and land detection go here
@@ -740,15 +799,16 @@ void loop()
         if (alt_copy || !flash_enabled)
         {
             File teensy_file = flash.open(sd_string.c_str(), FILE_WRITE);
-            teensy_file.print(write_str);
+            // teensy_file.print(write_str);
+            teensy_file.write(&toWrite, sizeof(toWrite));
             teensy_file.close();
         }
     }
 
-    if (Serial)
-    {
-        Serial.print(write_str);
-    }
+    // if (Serial)
+    // {
+    //     Serial.print(write_str);
+    // }
     counter++;
     if (counter > 4096 && teensy_sd_enabled)
     {
