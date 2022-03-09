@@ -363,15 +363,15 @@ void setup()
     }
     if (xtsd_enabled)
     {
-        File xtsd_file = xtsd.open(xtsd_string.c_str(), FILE_WRITE);
-        xtsd_file.print(file_hdr);
-        xtsd_file.close();
+        // File xtsd_file = xtsd.open(xtsd_string.c_str(), FILE_WRITE);
+        // xtsd_file.print(file_hdr);
+        // xtsd_file.close();
     }
     if (flash_enabled)
     {
-        File flash_file = flash.open(flash_string.c_str(), FILE_WRITE);
-        flash_file.print(file_hdr);
-        flash_file.close();
+        // File flash_file = flash.open(flash_string.c_str(), FILE_WRITE);
+        // flash_file.print(file_hdr);
+        // flash_file.close();
     }
 }
 
@@ -529,6 +529,7 @@ struct gps_struct
 };
 struct All_the_data
 {
+    uint32_t milliseconds = millis();
     uint32_t microseconds = micros();
     BNO_IMU bno_data;
     ICM_IMU icm_data;
@@ -536,7 +537,8 @@ struct All_the_data
     gps_struct gps_data;
     void print()
     {
-        Serial << "\nMICROS: " << microseconds << endl;
+        Serial << "\nMILLIS: " << milliseconds << endl;
+        Serial << "MICROS: " << microseconds << endl;
 
         Serial << "\nBNO_IMU:" << endl;
         bno_data.print();
@@ -558,15 +560,21 @@ struct All_the_data
 // does not handle opening/closing the file for portability
 void dump_to_serial(File stored_data)
 {
-    int bytesRead;
-    All_the_data fromFile;
+    Serial << "File Size: " << stored_data.size() << endl;
 
+        int bytesRead;
+    All_the_data fromFile;
+    int counter = 0;
     bytesRead = stored_data.read(&fromFile, sizeof(All_the_data));
     while (bytesRead == sizeof(All_the_data))
     {
         fromFile.print();
         bytesRead = stored_data.read(&fromFile, sizeof(All_the_data));
+        counter++;
     }
+
+    Serial << "Structs Read: " << counter << endl;
+
 }
 
 void loop()
@@ -753,8 +761,9 @@ void loop()
         File flash_file = flash.open(flash_string.c_str(), FILE_WRITE);
         flash_file.write(&toWrite, sizeof(toWrite));
         flash_file.close();
-        flash_file.flush();
+        //flash_file.flush();
 
+        Serial << "toWrite size: " << sizeof(toWrite) << endl;
         toWrite.print();
         Serial << "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE";
 
