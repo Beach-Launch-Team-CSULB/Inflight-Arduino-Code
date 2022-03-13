@@ -7,21 +7,10 @@
 #include <TinyGPS++.h>
 #include <LittleFS.h>
 #include <Streaming.h> //allows for printing with << operator
-#define cm +"," +
-// Macro to make appending strings easier- cm stands for comma
-// Using UART serial port 8
-#define GPSSerial Serial8
+#include <IntervalTimer.h>
+#include "Utilities.h"
 
-// Pin numbers used by devices
-const uint_fast8_t BMP_CS = 15, ICM_CS = 16, XTSD_CS = 36, BNO_INT = 21, BNO_CS = 37, BNO_RESET = 19;
-// GPS baud rate
-const uint_fast16_t GPS_BAUD = 9600;
-// Approximate air pressure in Randsburg, CA
-const float sea_level_pressure_hpa = 1015.578;
-// Precision values to use when converting from float to decimal
-const u_char float_depth = 18, double_depth = 18;
 // Buffer size for copying files
-const uint_fast16_t buffer_size = 128;
 // Device enable values- checks if device is enabled, skips trying to talk to it if it is not true
 bool bmp_enabled, bno_enabled, icm_enabled, xtsd_enabled, teensy_sd_enabled, gps_enabled, flash_enabled;
 // GPS Time Synchronization value- Checks if GPS time is set, sets it once if it is not
@@ -37,10 +26,13 @@ double altitude = 0;
 // Recorded data from BNO08X
 float bno_accel[3], bno_mag[3], bno_gyro[3];
 // Recorded data from BMP390L
-float bmp_temp, bmp_pressure, bmp_altitude;
+double bmp_temp, bmp_pressure, bmp_altitude;
 // Sets if the rocket has launched
 bool in_air = false, alt_copy = false;
 uint_fast16_t counter = 0;
+
+sensors_event_t icm_accel, icm_gyro, icm_temp;
+
 // Device objects
 // QSPI flash memory on bottom of Teensy
 LittleFS_QSPIFlash flash;
@@ -61,6 +53,8 @@ String sd_string = "output0.csv", xtsd_string = sd_string, flash_string = sd_str
 uint_fast8_t alt_counter = 0;
 uint_fast32_t end_timer = 0;
 float alt_lockout = 750;
+
+IntervalTimer bmp_timer;
 // Initializes records variable- records data that cannot be written to SD card in memory
 // struct altitude_nums {
 //     float alt;
@@ -76,37 +70,70 @@ float alt_lockout = 750;
 // };
 // altitude_nums * altitude_list;
 
-// FLTS function- returns float as string with full precision
-String flts(float s)
-{
-    return {s, float_depth};
+void bmp_interrupt() {
+    Serial << "1: " << micros() << endl;
+    // Stores data into variables for reference
+    bmp_altitude = bmp.readAltitude(sea_level_pressure_hpa);
+    bmp_temp = bmp.temperature;
+    bmp_pressure = bmp.pressure;
+    Serial << "2: " << micros() << endl;
 }
-String flts(double s)
-{
-    return {s, double_depth};
-}
-void file_copy(File *copy, File *paste, bool close)
-{
-    // Reads data from XTSD to buffer, writes data from buffer to SD card
-    // Stores size of buffer
-    size_t n;
-    // Stores data being copied
-    auto *buf = new uint8_t[buffer_size];
-    // Continuously copies data from file to buffer, writes data from buffer to file
-    while ((n = copy->read(buf, sizeof(buf))) > 0)
+
+void bno_interrupt() {
+    delay(1);
+    Serial.print("BNO interrupt called!");
+    delay(1);
+    Serial.print(digitalReadFast(BNO_INT));
+
+    // Stores sensor data
+    sh2_SensorValue sensor{};
+    // Records finding state of variables
+    bool found_accel = false, found_gyro = false, found_mag = false;
+    // Serial.print("Sensor value retrieved:");
+    // Serial.print(sensor.sensorId);
+    // Reads sensor data until one of each sensor data point is collected
+    while (!found_accel || !found_mag || !found_gyro)
     {
-        paste->write(buf, n);
+        // Gets sensor event from driver, stores in sensor
+        bno.getSensorEvent(&sensor);
+        // Stores data point in variable, updates flag
+        switch (sensor.sensorId)
+        {
+            case SENSOR_TYPE_ACCELEROMETER:
+                found_accel = true;
+                // Serial.print("Reading from accel:");
+                bno_accel[0] = sensor.un.accelerometer.x;
+                bno_accel[1] = sensor.un.accelerometer.y;
+                bno_accel[2] = sensor.un.accelerometer.z;
+                break;
+            case SENSOR_TYPE_MAGNETIC_FIELD:
+                found_mag = true;
+                // Serial.print("Reading from mag");
+                bno_mag[0] = sensor.un.magneticField.x;
+                bno_mag[1] = sensor.un.magneticField.y;
+                bno_mag[2] = sensor.un.magneticField.z;
+                break;
+            case SENSOR_TYPE_ORIENTATION:
+                found_gyro = true;
+                // Serial.print("Reading from gyro");
+                bno_gyro[0] = sensor.un.gyroscope.x;
+                bno_gyro[1] = sensor.un.gyroscope.y;
+                bno_gyro[2] = sensor.un.gyroscope.z;
+                break;
+                // Catch all option
+            default:
+                Serial.print("Sensor type " + String(sensor.sensorId) + " Not being used");
+                break;
+        }
     }
-    // Frees buffer from memory
-    delete[] buf;
-    Serial.print("Dumping " + String(copy->name()) + " Finished");
-    // Closes both files, deletes original file
-    if (close)
-    {
-        copy->close();
-        paste->close();
-    }
+    // Serial.println("Number of repetitions necessary:" + String(num_repetitions));
 }
+
+void icm_interrupt() {
+    icm.getEvent(&icm_accel, &icm_gyro, &icm_temp);
+}
+
+
 void setup()
 {
     // Uncomment for testing
@@ -145,8 +172,8 @@ void setup()
         icm.setAccelRange(ICM20649_ACCEL_RANGE_30_G);
         icm.setGyroRange(ICM20649_GYRO_RANGE_4000_DPS);
         // Sets output data rate to max supported by sensor
-        icm.setAccelRateDivisor(1);
-        icm.setGyroRateDivisor(1);
+        icm.setAccelRateDivisor(0);
+        icm.setGyroRateDivisor(0);
     }
     // Initialized BNO085
     bno_enabled = bno.begin_SPI(BNO_CS, BNO_INT);
@@ -272,6 +299,7 @@ void setup()
             }
             teensy_sd.mkdir(file_name.c_str());
             String flash_file = "output0.csv";
+            String bin_file = "output0.bin";
             uint_fast16_t flash_count = 0;
             uint_fast16_t dump_num = 0;
             for (uint_fast16_t i = 0; i < 1024; i++)
@@ -281,13 +309,17 @@ void setup()
                     dump_num++;
                     Serial.print("Dumping " + String(flash_file.c_str()));
                     String flash_path = file_name + flash_file;
+                    String bin_path = file_name + bin_file;
                     File teensy_copy = teensy_sd.open(flash_path.c_str(), FILE_WRITE);
+                    File teensy_copy_bin = teensy_sd.open(bin_path.c_str(), FILE_WRITE);
                     File flash_copy = flash.open(flash_file.c_str(), FILE_READ);
-                    file_copy(&flash_copy, &teensy_copy, true);
+                    file_copy(&flash_copy, &teensy_copy_bin, false);
+                    csv_parse_dump(&flash_copy, &teensy_copy, true);
                     flash.remove(flash_file.c_str());
                 }
                 flash_count++;
                 flash_file = "output" + String(flash_count) + ".csv";
+                bin_file = "output" + String(flash_count) + ".bin";
             }
             Serial.println("Copy from flash finished");
             Serial.println(String(dump_num) + " Files copied");
@@ -373,215 +405,11 @@ void setup()
         // flash_file.print(file_hdr);
         // flash_file.close();
     }
+    //bmp_timer.begin(bmp_interrupt, 100000);
 }
 
-struct BMP_Altimeter // BMP
-{
-    float temperature, pressure, altitude;
-    void init(float temp, float press, float alt)
-    {
-        temperature = temp;
-        pressure = press;
-        altitude = alt;
-    }
-    // Temp,pressure, altitude, icm_temperature ..., last sensor field \n
-    // temp value, pressure value, icm temp value..., last sensor value\n
-    void print()
-    {
-        Serial << "Temperature: " << temperature << endl;
-        Serial << "pressure: " << pressure << endl;
-        Serial << "altitude: " << altitude << endl;
-    }
 
-    String toString()
-    {
-        return flts(temperature) cm flts(pressure)
-        cm flts(altitude);
-    }
-};
-struct ICM_IMU // icm20649IMU is one of our IMU's WORKING
-{
-    float temperature;
-    // float gyro_velocity[3]; // xV,yV,zV
-    float gyro_heading, gyro_pitch, gyro_roll;
-    float acceleration[3]; // verified works
-    // float acc_heading, acc_pitch, acc_roll;
-    ICM_IMU() = default;
 
-    void init(sensors_event_t &icm_accel, sensors_event_t &icm_gyro, sensors_event_t &icm_temp)
-    {
-
-        gyro_heading = icm_gyro.gyro.heading; // verified working
-        gyro_pitch = icm_gyro.gyro.pitch;
-        gyro_roll = icm_gyro.gyro.roll;
-
-        acceleration[0] = icm_accel.acceleration.x; // verified working
-        acceleration[1] = icm_accel.acceleration.y;
-        acceleration[2] = icm_accel.acceleration.z;
-
-        temperature = icm_temp.temperature; // not fully verified
-    }
-    void print()
-    {
-        Serial << "temperature: " << temperature << endl;
-        Serial << "acceleration: " << flts(acceleration[0]) << ", " << flts(acceleration[1]) << ", " << flts(acceleration[2]) << endl;
-        // Serial << "acc_heading: " << flts(acc_heading) << ", acc_pitch: " << flts(acc_pitch)<< ", acc_roll: " << flts(acc_roll) << endl;
-
-        // Serial << "gyro_position:" << flts(gyro_position[0]) << ", "<< flts(gyro_position[1]) << ", "<< flts(gyro_position[2]) << endl;
-        // Serial << "gyro_velocity:" << flts(gyro_velocity[0]) << ", "<< flts(gyro_velocity[1]) << ", "<< flts(gyro_velocity[2]) << endl;
-        Serial << "heading: " << flts(gyro_heading) << ", pitch: " << flts(gyro_pitch) << ", roll: " << flts(gyro_roll) << endl;
-    }
-};
-struct BNO_IMU
-{
-    float acceleration[3]{};
-    float gyro_position[3]{};
-    float magnetometer[3]{};
-    void init(const float *c_acceleration, const float *c_gyro, const float *c_magnetometer)
-    {
-        for (int i = 0; i < 3; i++)
-        {
-            acceleration[i] = c_acceleration[i];
-            gyro_position[i] = c_gyro[i];
-            magnetometer[i] = c_magnetometer[i];
-        }
-    }
-    BNO_IMU() = default;
-    void print()
-    {
-        Serial << "acceleration: " << acceleration[0] << ", " << acceleration[1] << ", " << acceleration[2] << endl;
-        Serial << "gyro_position:" << gyro_position[0] << ", " << gyro_position[1] << ", " << gyro_position[2] << endl;
-        Serial << "magnetometer :" << magnetometer[0] << ", " << magnetometer[1] << ", " << magnetometer[2] << endl;
-    }
-};
-
-struct gps_struct
-{
-    void init(TinyGPSPlus gps)
-    {
-        // Updates GPS data points
-        gps_altitude = gps.altitude.meters();
-        gps_year = gps.date.year();
-        gps_month = gps.date.month();
-        gps_day = gps.date.day();
-        gps_hour = gps.time.hour();
-        gps_minute = gps.time.minute();
-        gps_second = gps.time.second();
-        gps_latitude = gps.location.lat();
-        gps_longitude = gps.location.lng();
-        gps_speed = gps.speed.value();
-        gps_hdop = gps.hdop.hdop();
-        gps_course_deg = gps.course.deg();
-        gps_reading_age = gps.time.age();
-    }
-    // TESTING - KNOWN BUG - GPS MODULE HAS NOT GOTTEN A LOCATION SYNC
-    void print()
-    {
-        // Updates GPS data points
-        Serial << "gps_altitude " << gps_altitude << endl;
-        Serial << "gps_year " << gps_year << endl;
-        Serial << "gps_month " << gps_month << endl;
-        Serial << "gps_day " << gps_day << endl;
-        Serial << "gps_hour " << gps_hour << endl;
-        Serial << "gps_minute " << gps_minute << endl;
-        Serial << "gps_second " << gps_second << endl;
-        Serial << "gps_latitude " << gps_latitude << endl;
-        Serial << "gps_longitude " << gps_longitude << endl;
-        Serial << "gps_speed " << gps_speed << endl;
-        Serial << "gps_hdop " << gps_hdop << endl;
-        Serial << "gps_course_deg " << gps_course_deg << endl;
-        Serial << "gps_reading_age " << gps_reading_age << endl;
-    }
-
-    // void init(double gpsAltitude, int year, int month, int day, int hour, int second, double latitude,
-    //           double longitude, int speed, double hdop, double courseDeg, double readingAge)
-    // {
-    //     gps_altitude = gpsAltitude;
-    //     gps_struct::year = year;
-    //     gps_struct::month = month;
-    //     gps_struct::day = day;
-    //     gps_struct::hour = hour;
-    //     gps_struct::second = second;
-    //     gps_struct::latitude = latitude;
-    //     gps_struct::longitude = longitude;
-    //     gps_struct::speed = speed;
-    //     gps_struct::hdop = hdop;
-    //     course_deg = courseDeg;
-    //     reading_age = readingAge;
-    // }
-
-    gps_struct() = default;
-
-    // Updates GPS data points
-    double gps_altitude;
-    uint16_t gps_year;
-    uint8_t gps_month;
-    uint8_t gps_day;
-    uint8_t gps_hour;
-    uint8_t gps_minute;
-    uint8_t gps_second;
-    double gps_latitude;
-    double gps_longitude;
-    int32_t gps_speed;
-    double gps_hdop;
-    double gps_course_deg;
-    uint32_t gps_reading_age;
-    // double gps_altitude{};
-    // int year{}, month{}, day{}, hour{}, second{};
-    // double latitude{}, longitude{};
-    // int speed{};
-    // double hdop{};
-    // double course_deg{};
-    // double reading_age{};
-};
-struct All_the_data
-{
-    uint32_t milliseconds = millis();
-    uint32_t microseconds = micros();
-    BNO_IMU bno_data;
-    ICM_IMU icm_data;
-    BMP_Altimeter altimeter_data;
-    gps_struct gps_data;
-    void print()
-    {
-        Serial << "\nMILLIS: " << milliseconds << endl;
-        Serial << "MICROS: " << microseconds << endl;
-
-        Serial << "\nBNO_IMU:" << endl;
-        bno_data.print();
-
-        Serial << "\nICM_IMU:" << endl;
-        icm_data.print();
-
-        Serial << "\nBMP_ALTIMETER:" << endl;
-        altimeter_data.print();
-
-        Serial << "\nGPS_STRUCT:" << endl;
-        gps_data.print();
-
-        Serial << endl;
-    }
-};
-
-// This method dumps data from files with the All_The_Data struct stored on them to Serial.
-// does not handle opening/closing the file for portability
-void dump_to_serial(File stored_data)
-{
-    // Serial << "File Size: " << stored_data.size() << endl;
-
-    int bytesRead;
-    All_the_data fromFile;
-    int counter = 0;
-    bytesRead = stored_data.read(&fromFile, sizeof(All_the_data));
-    while (bytesRead == sizeof(All_the_data))
-    {
-        fromFile.print();
-        bytesRead = stored_data.read(&fromFile, sizeof(All_the_data));
-        counter++;
-    }
-
-    Serial << "Structs Read: " << counter << endl;
-}
 
 void loop()
 {
@@ -591,16 +419,13 @@ void loop()
     if (bmp_enabled)
     {
         // Does reading using BMP driver
-        bmp.performReading();
-        // Stores data into variables for reference
-        bmp_temp = bmp.readTemperature();
-        bmp_pressure = bmp.readPressure();
-        // Calculates altitude using sea level pressure above
         bmp_altitude = bmp.readAltitude(sea_level_pressure_hpa);
+        // Stores data into variables for reference
+        bmp_temp = bmp.temperature;
+        bmp_pressure = bmp.pressure;
+        // Calculates altitude using sea level pressure above
     }
     // Stores data from ICM into variables
-    sensors_event_t icm_accel, icm_gyro, icm_temp;
-
     if (icm_enabled)
     {
         icm.getEvent(&icm_accel, &icm_gyro, &icm_temp);
@@ -650,11 +475,12 @@ void loop()
         }
         // Serial.println("Number of repetitions necessary:" + String(num_repetitions));
     }
-    while (GPSSerial.available())
-    {
-        // Continuously dumps UART data from GPS into driver
-        gps_enabled = true;
-        gps.encode(GPSSerial.read());
+    if(GPSSerial.available()) {
+        while (GPSSerial.available()) {
+            // Continuously dumps UART data from GPS into driver
+            gps_enabled = true;
+            gps.encode(GPSSerial.read());
+        }
     }
     if (gps_enabled)
     {
@@ -699,15 +525,15 @@ void loop()
     if (icm_enabled) // ERROR remove icm_gyro.gyro.v, icm_gyro.gyro.pitch;roll;heading,
     {
         // Serial << "BEGIN " << write_str << endl;
-        write_str += "," + flts(icm_temp.temperature) cm flts(icm_gyro.gyro.x) cm
-                               flts(icm_gyro.gyro.y) cm
-                                   flts(icm_gyro.gyro.z) cm flts(icm_gyro.gyro.v[0]) cm
-                                       flts(icm_gyro.gyro.v[1]) cm flts(icm_gyro.gyro.v[2]) cm flts(icm_gyro.gyro.heading) cm
-                                           flts(icm_gyro.gyro.pitch) cm flts(icm_gyro.gyro.roll) cm flts(icm_accel.acceleration.x) cm
-                                               flts(icm_accel.acceleration.y) cm flts(icm_accel.acceleration.z) cm
-                                                   flts(icm_accel.acceleration.v[0]) cm flts(icm_accel.acceleration.v[1]) cm
-                                                       flts(icm_accel.acceleration.v[2]) cm flts(icm_accel.acceleration.heading) cm
-                                                           flts(icm_accel.acceleration.pitch) cm flts(icm_accel.acceleration.roll);
+        write_str += "," +
+                flts(icm_temp.temperature) cm flts(icm_gyro.gyro.x) cm flts(icm_gyro.gyro.y) cm
+                flts(icm_gyro.gyro.z) cm flts(icm_gyro.gyro.v[0]) cm
+                flts(icm_gyro.gyro.v[1]) cm flts(icm_gyro.gyro.v[2]) cm flts(icm_gyro.gyro.heading) cm
+                flts(icm_gyro.gyro.pitch) cm flts(icm_gyro.gyro.roll) cm flts(icm_accel.acceleration.x) cm
+                flts(icm_accel.acceleration.y) cm flts(icm_accel.acceleration.z) cm
+                flts(icm_accel.acceleration.v[0]) cm flts(icm_accel.acceleration.v[1]) cm
+                flts(icm_accel.acceleration.v[2]) cm flts(icm_accel.acceleration.heading) cm
+                flts(icm_accel.acceleration.pitch) cm flts(icm_accel.acceleration.roll);
         // write to icm_data struct in All_the_data
         // icm_temp, icm_gyro, icm_accel
         toWrite.icm_data.init(icm_accel, icm_gyro, icm_temp);
@@ -749,6 +575,7 @@ void loop()
         // toWrite.gps_data.print();
     }
     write_str.append("\n");
+    Serial.print(write_str);
     // Writes data to storage medium
     // TODO: Write binary data here instead of a string
     // TODO: Write with specific set frequency until launch, implement roughly here
@@ -766,23 +593,7 @@ void loop()
     {
         File flash_file = flash.open(flash_string.c_str(), FILE_WRITE);
         flash_file.write(&toWrite, sizeof(toWrite));
-        flash_file.close();
-        // flash_file.flush();
-
-        Serial << "toWrite size: " << sizeof(toWrite) << endl;
-        toWrite.print();
-        Serial << "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE";
-
-        // testing
-        File file_to_dump = flash.open(flash_string.c_str(), FILE_READ);
-
-        Serial << "DUMPING FROM FILE: ";
-        Serial << file_to_dump.name() << endl;
-        dump_to_serial(file_to_dump);
-        file_to_dump.close();
-
-        delay(3000);
-
+        flash_file.flush();
         // testing
     }
     // SD card altitude lockout- Updates altitude from either GPS or altimeter
@@ -818,20 +629,14 @@ void loop()
             teensy_file.close();
         }
     }
-
-    // if (Serial)
-    // {
-    //     Serial.print(write_str);
-    // }
     counter++;
-    if (counter > 4096 && teensy_sd_enabled)
-    {
-        Serial.print("Data dump");
-        counter = 0;
-        File flash_file = flash.open(flash_string.c_str());
-        File teensy_file = teensy_sd.open(sd_string.c_str());
-        file_copy(&flash_file, &teensy_file, true);
-        flash.remove(flash_string.c_str());
-    }
-    // delay(1000);
+//    if (counter > 4096 && teensy_sd_enabled)
+//    {
+//        Serial.print("Data dump");
+//        counter = 0;
+//        File flash_file = flash.open(flash_string.c_str());
+//        File teensy_file = teensy_sd.open(sd_string.c_str());
+//        file_copy(&flash_file, &teensy_file, true);
+//        flash.remove(flash_string.c_str());
+//    }
 }
