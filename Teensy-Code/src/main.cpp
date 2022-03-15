@@ -7,12 +7,12 @@
 #include <TinyGPS++.h>
 #include <LittleFS.h>
 #include <Streaming.h> //allows for printing with << operator
-#include <IntervalTimer.h>
 #include "Utilities.h"
 
 // Buffer size for copying files
 // Device enable values- checks if device is enabled, skips trying to talk to it if it is not true
-bool bmp_enabled, bno_enabled, icm_enabled, xtsd_enabled, teensy_sd_enabled, gps_enabled, flash_enabled;
+bool icm_enabled, xtsd_enabled, teensy_sd_enabled, gps_enabled, flash_enabled;
+device_enables enabled;
 // GPS Time Synchronization value- Checks if GPS time is set, sets it once if it is not
 // Avoids internal clock going out of sync by updating from GPS too often
 bool time_set = false;
@@ -136,14 +136,15 @@ void icm_interrupt() {
 
 void setup()
 {
+    Serial.begin(115200);
     // Uncomment for testing
     // alt_copy = true;
     // Starts GPS UART device
     GPSSerial.begin(GPS_BAUD);
     Serial.print("Start logging\n");
     // Starts BMP390L communication over SPI
-    bmp_enabled = bmp.begin_SPI(BMP_CS);
-    if (!bmp_enabled)
+    enabled.bmp = bmp.begin_SPI(BMP_CS);
+    if (!enabled.bmp)
     {
         Serial.print("BMP Init failed!\n");
     }
@@ -176,8 +177,8 @@ void setup()
         icm.setGyroRateDivisor(0);
     }
     // Initialized BNO085
-    bno_enabled = bno.begin_SPI(BNO_CS, BNO_INT);
-    if (!bno_enabled)
+    enabled.bno = bno.begin_SPI(BNO_CS, BNO_INT);
+    if (!enabled.bno)
     {
         Serial.print("BNO Init failed!\n");
     }
@@ -203,7 +204,7 @@ void setup()
     }
     // Initializes XTSD device over SPI
     xtsd_enabled = xtsd.begin(XTSD_CS);
-    if (bmp_enabled)
+    if (enabled.bmp)
     {
         altitude = bmp_altitude;
     }
@@ -369,11 +370,11 @@ void setup()
                          "ICM Accel Velocity X, ICM Accel Velocity Y, ICM Accel Velocity Z, ICM Accel Heading, "
                          "ICM Accel Pitch, ICM Accel Roll");
     }
-    if (bmp_enabled)
+    if (enabled.bmp)
     {
         strcat(file_hdr, ", BMP Temperature, BMP Pressure, BMP Altitude");
     }
-    if (bno_enabled)
+    if (enabled.bno)
     {
         strcat(file_hdr, ", BNO Accel X, BNO Accel Y, BNO Accel Z, BNO Gyro X, BNO Gyro Y, BNO Gyro Z, BNO Mag X, "
                          "BNO Mag Y, BNO Mag Z");
@@ -414,9 +415,10 @@ void setup()
 void loop()
 {
     // Read data from internal temperature sensor
+    int x = 0;
     float teensy_temp = InternalTemperatureClass::readTemperatureC();
     // BMP Temperature, Pressure, and Altitude values
-    if (bmp_enabled)
+    if (enabled.bmp)
     {
         // Does reading using BMP driver
         bmp_altitude = bmp.readAltitude(sea_level_pressure_hpa);
@@ -430,7 +432,7 @@ void loop()
     {
         icm.getEvent(&icm_accel, &icm_gyro, &icm_temp);
     }
-    if (bno_enabled)
+    if (enabled.bno)
     {
         // Stores sensor data
         sh2_SensorValue sensor{};
@@ -484,6 +486,7 @@ void loop()
     }
     if (gps_enabled)
     {
+        elapsedMillis()
         // Updates GPS data points
         gps_altitude = gps.altitude.meters();
         gps_year = gps.date.year();
@@ -543,13 +546,13 @@ void loop()
         // Serial << endl;
     }
 
-    if (bmp_enabled)
+    if (enabled.bmp)
     {
         write_str += "," + flts(bmp_temp) cm flts(bmp_pressure)
         cm flts(bmp_altitude);
         toWrite.altimeter_data.init(bmp_temp, bmp_pressure, bmp_altitude);
     }
-    if (bno_enabled)
+    if (enabled.bno)
     {
         write_str += "," + flts(bno_accel[0]) cm flts(bno_accel[1]) cm flts(bno_accel[2]) cm
                                flts(bno_gyro[0]) cm flts(bno_gyro[1]) cm flts(bno_gyro[2]) cm flts(bno_mag[0]) cm
@@ -600,7 +603,7 @@ void loop()
     // TODO: Apogee, launch, and land detection go here
     if (teensy_sd_enabled)
     {
-        if (bmp_enabled)
+        if (enabled.bmp)
         {
             altitude = bmp_altitude;
         }
