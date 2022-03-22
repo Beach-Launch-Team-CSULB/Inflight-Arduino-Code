@@ -22,38 +22,3 @@ void file_copy(File *copy, File *paste, bool close);
 // FLTS function- returns float as string with full precision
 String flts(float s);
 String flts(double s);
-
-//struct All_the_data {
-//    uint32_t milliseconds = millis();
-//    uint32_t microseconds = micros();
-//    bno_struct bno_data;
-//    icm_struct icm_data;
-//    bmp_struct altimeter_data;
-//    gps_struct gps_data;
-//    String toString()
-//    {
-//        return String(milliseconds) cm microseconds += bno_data.toString() cm icm_data.toString()
-//                cm altimeter_data.toString() cm gps_data.toString();
-//    }
-//};
-//
-//// This method dumps data from files with the All_The_Data struct stored on them to Serial.
-//// does not handle opening/closing the file for portability
-//void dump_to_serial(File stored_data)
-//{
-//    // Serial << "File Size: " << stored_data.size() << endl;
-//
-//    size_t bytesRead;
-//    All_the_data fromFile;
-//    int counter = 0;
-//    bytesRead = stored_data.read(&fromFile, sizeof(All_the_data));
-//    Serial.println(sizeof(All_the_data));
-//    while (bytesRead == sizeof(All_the_data))
-//    {
-//        Serial.print(fromFile.toString());
-//        bytesRead = stored_data.read(&fromFile, sizeof(All_the_data));
-//        counter++;
-//    }
-//
-//    Serial << "Structs Read: " << counter << endl;
-//}
