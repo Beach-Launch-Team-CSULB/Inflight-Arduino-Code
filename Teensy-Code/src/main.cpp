@@ -61,25 +61,17 @@ void setup() {
     for(uint_fast8_t i = 0; i < num_sensors; i++) {
         //If you run into an issue getting past the beginning and you changed anything with the structs, uncomment this line and run once
         //flash.remove(devices[i]->getName().c_str());
-        Serial << "Flash path is ";
-        Serial.println(devices[i]->getName());
         File copy_file = flash.open(devices[i]->getName().c_str());
         String sd_filename = sdOutputDir + devices[i]->getName() + ".csv";
-        Serial << "Sd filename is " << sd_filename << endl;
         String sd_filename_bin = sdOutputDir + devices[i]->getName() + ".bin";
-        Serial << "Sd filename bin is " << sd_filename << endl;
         sd_files[i] = sd.open(sd_filename.c_str(), FILE_WRITE);
         sd_files_bin[i] = sd.open(sd_filename_bin.c_str(), FILE_WRITE);
         //Dump files to SD card as .bin and .csv
-        Serial.println("Dumping to file...");
         devices[i]->dumpToFile(copy_file, sd_files[i]);
-        Serial.println("Copying file...");
         copy_file.seek(0);
         file_copy(&copy_file, &sd_files_bin[i], false);
         copy_file.close();
-        Serial.println("Removing flash file...");
         flash.remove(devices[i]->getName().c_str());
-        Serial.println("Setting device file...");
         device_files[i] = flash.open(devices[i]->getName().c_str(), FILE_WRITE);
         devices[i]->setFile(&device_files[i]);
     }
@@ -87,8 +79,8 @@ void setup() {
 
 void loop() {
     for(auto & device : devices) {
-        device->updateData();
-        Serial.print(device->data_struct_ptr->toString());
+            device->updateData();
+            Serial.print(device->data_struct_ptr->toString());
     }
     Serial.println();
 }

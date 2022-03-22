@@ -15,4 +15,5 @@ String internal_temp_struct::getHeader() const {
 
 internal_temp_struct::internal_temp_struct(float temperature) {
     temp = temperature;
+    setTime();
 }
