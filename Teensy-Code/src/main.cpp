@@ -57,7 +57,6 @@ void setup() {
     sd_enable = sd.begin(BUILTIN_SDCARD);
     generate_flash_dir();
     for(uint_fast8_t i = 0; i < num_sensors; i++) {
-        //If you run into an issue getting past the beginning and you changed anything with the structs, uncomment this line and run once
         File copy_file = flash.open(devices[i]->getName().c_str());
         String sd_filename = sdOutputDir + devices[i]->getName() + ".csv";
         String sd_filename_bin = sdOutputDir + devices[i]->getName() + ".bin";

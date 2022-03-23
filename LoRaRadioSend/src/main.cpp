@@ -1,191 +1,196 @@
-// Feather9x_TX
-// -*- mode: C++ -*-
-// Example sketch showing how to create a simple messaging client (transmitter)
-// with the RH_RF95 class. RH_RF95 class does not provide for addressing or
-// reliability, so you should only use RH_RF95 if you do not need the higher
-// level messaging abilities.
-// It is designed to work with the other example Feather9x_RX
+// Teensy 3.6 and LoRa 868 (Transmitter)
+// Copyright (C) 2022 https://www.roboticboat.uk
+// e8e136c8-0250-4be3-8ee1-3a88a4400a6c
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+// These Terms shall be governed and construed in accordance with the laws of
+// England and Wales, without regard to its conflict of law provisions.
+
 
 #include <SPI.h>
 #include <RH_RF95.h>
 
-/* for feather32u4 
-#define RFM95_CS 8
-#define RFM95_RST 4
-#define RFM95_INT 7
-*/
+#define RFM95_CS  10
+#define RFM95_RST 15
+#define RFM95_INT 14
 
-/* for feather m0  
-#define RFM95_CS 8
-#define RFM95_RST 4
-#define RFM95_INT 3
-*/
+// LoRa radio frequency
+#define RF95_FREQ 868.0
 
-/* for shield 
-#define RFM95_CS 10
-#define RFM95_RST 9
-#define RFM95_INT 7
-*/
-
-/* Feather 32u4 w/wing
-#define RFM95_RST     11   // "A"
-#define RFM95_CS      10   // "B"
-#define RFM95_INT     2    // "SDA" (only SDA/SCL/RX/TX have IRQ!)
-*/
-
-/* Feather m0 w/wing 
-#define RFM95_RST     11   // "A"
-#define RFM95_CS      10   // "B"
-#define RFM95_INT     6    // "D"
-*/
-
-#if defined(ESP8266)
-/* for ESP w/featherwing */
-  #define RFM95_CS  2    // "E"
-  #define RFM95_RST 16   // "D"
-  #define RFM95_INT 15   // "B"
-
-#elif defined(ARDUINO_ADAFRUIT_FEATHER_ESP32S2)
-#define RFM95_INT     9  // "A"
-  #define RFM95_CS      10  // "B"
-  #define RFM95_RST     11  // "C"
-  #define LED           13
-
-#elif defined(ESP32)
-/* ESP32 feather w/wing */
-  #define RFM95_RST     27   // "A"
-  #define RFM95_CS      33   // "B"
-  #define RFM95_INT     12   //  next to A
-
-#elif defined(NRF52)
-/* nRF52832 feather w/wing */
-  #define RFM95_RST     7   // "A"
-  #define RFM95_CS      11   // "B"
-  #define RFM95_INT     31   // "C"
-
-#elif defined(TEENSYDUINO)
-/* Teensy 3.x w/wing */
-#define RFM95_RST     9   // "A"
-#define RFM95_CS      10   // "B"
-#define RFM95_INT     4    // "C" ORIG 4
-
-#elif defined(TARGET_RASPBERRY_PI_PICO)
-#define RFM95_RST     28   // "A"
-#define RFM95_CS      2   // "B"
-#define RFM95_INT     27    // "C" ORIG 4
-#endif
-
-// Change to 434.0 or other frequency, must match RX's freq!
-#define RF95_FREQ 915.0
-
-// Singleton instance of the radio driver
 RH_RF95 rf95(RFM95_CS, RFM95_INT);
 
-void intChange() {
-    delay(10);
-    Serial.print("State changed to ");
-    Serial.print(digitalReadFast(4));
-    delay(10);
-}
+int i=0;
+int16_t packetnum = 0;
+
+unsigned long mytime;
+unsigned long lasttime;
+
+char message[250];
+char radiopacket[250];
 
 void setup()
 {
+    // Keep the User informed
+    Serial.begin(9600);
+
+    delay(1000);
+
+    // Initialise the RFM95 pins
     pinMode(RFM95_RST, OUTPUT);
-    //pinMode(RFM95_INT, INPUT);
+
+    // Red LED pin
+    pinMode(31, OUTPUT);
+
+    // Green LED pin
+    pinMode(32, OUTPUT);
+
+    // Set Reset pin to high
     digitalWrite(RFM95_RST, HIGH);
-    attachInterrupt(RFM95_INT, intChange, RISING);
-    Serial.print(digitalReadFast(RFM95_INT));
-//    Serial.begin(115200);
-//    while (!Serial) {
-//        delay(1);
-//    }
+    delay(100);
 
-//    delay(100);
-
-    Serial.println("Feather LoRa TX Test!");
-
-    // manual reset
+    // Set Reset pin to low
     digitalWrite(RFM95_RST, LOW);
-    delay(10);
-    digitalWrite(RFM95_RST, HIGH);
-    delay(10);
+    delay(100);
 
-    while (!rf95.init()) {
+    // Set Reset pin to high (again)
+    digitalWrite(RFM95_RST, HIGH);
+    delay(100);
+
+    // Did the RFM95 start ok?
+    if (!rf95.init())
+    {
+        // Failed to start correctly
         Serial.println("LoRa radio init failed");
-        Serial.println("Uncomment '#define SERIAL_DEBUG' in RH_RF95.cpp for detailed debug info");
+
+        // Turn-on red led for 1 second
+        digitalWrite(31, HIGH);
+
         while (1);
     }
+
+    // All ok
     Serial.println("LoRa radio init OK!");
 
-    // Defaults after init are 434.0MHz, modulation GFSK_Rb250Fd250, +13dbM
-    if (!rf95.setFrequency(RF95_FREQ)) {
+    // Set the frequency we are using
+    if (!rf95.setFrequency(RF95_FREQ))
+    {
+        // Failed to set frequency
         Serial.println("setFrequency failed");
         while (1);
     }
+
+    // All ok
     Serial.print("Set Freq to: "); Serial.println(RF95_FREQ);
 
-    // Defaults after init are 434.0MHz, 13dBm, Bw = 125 kHz, Cr = 4/5, Sf = 128chips/symbol, CRC on
+    // Turn-on green led for 1 second
+    digitalWrite(32, HIGH);
+    delay(1000);
+    digitalWrite(32, LOW);
 
-    // The default transmitter power is 13dBm, using PA_BOOST.
-    // If you are using RFM95/96/97/98 modules which uses the PA_BOOST transmitter pin, then
-    // you can set transmitter powers from 5 to 23 dBm:
-    rf95.setTxPower(23, false);
-    rf95.setModeTx();
-    rf95.setPayloadCRC(false);
+    // Set transmitter power to max dBm:
+    rf95.setTxPower(20, false);
+
+    //Set the last time
+    lasttime = 0;
 }
 
-int16_t packetnum = 0;  // packet counter, we increment per xmission
+int MakeChecksum(char* msg){
+
+    // Length of the GPS message
+    int len = strlen(msg);
+
+    // Initialise the checksum
+    int cksum = 0;
+
+    // Loop over message characters
+    for (int i=0; i < len; i++) {
+        cksum ^= msg[i];
+    }
+
+    return cksum % 0xffff;
+}
 
 void loop()
 {
-    delay(10);
-    Serial.print(digitalReadFast(RFM95_INT));
-    delay(1000); // Wait 1 second between transmits, could also 'sleep' here!
-    Serial.println("Transmitting..."); // Send a message to rf95_server
+    // Timer
+    mytime = millis();
 
-    char radiopacket[20] = "Hello World # ";
-    itoa(packetnum++, radiopacket+13, 10);
-    Serial.print("Sending "); Serial.println(radiopacket);
-    radiopacket[19] = 0;
-    Serial.println("Sending...");
-    delay(10);
-    rf95.send((uint8_t *)radiopacket, 20);
-    Serial.print(digitalReadFast(RFM95_INT));
-    delay(10);
-    Serial.println("Waiting for packet to complete...");
-    delay(10);
-    Serial.print(digitalReadFast(RFM95_INT));
-//    while(true) {
-//        Serial.print(digitalReadFast(4));
-//        delay(10);
-//    }
-    //rf95.waitPacketSent();
-    Serial.print("Packet has been sent");
-    //rf95.waitAvailable();
-    // Now wait for a reply
-    /*
-    uint8_t buf[RH_RF95_MAX_MESSAGE_LEN];
-    uint8_t len = sizeof(buf);
+    // Construct a message to send
+    sprintf(message,"$MSG,%lu,113,0,-10,51.44117737,0.26763833,12,1,2,3,4",mytime);
 
-    Serial.println("Waiting for reply...");
-    if (rf95.waitAvailableTimeout(1000))
+    // Add a checksum
+    sprintf(radiopacket,"%s*%02X",message,MakeChecksum(message));
+
+    // Has 500 milliseconds passed yet?
+    if (abs(mytime - lasttime) > 500)
     {
-        // Should be a reply message for us now
-        if (rf95.recv(buf, &len))
+        // So we enter this section every 1 second
+        lasttime = mytime;
+
+        // Transmit message (strlen rather than sizeof)
+        rf95.send((uint8_t *)radiopacket, (int)strlen(radiopacket));
+
+        // Waits until the current message has been transmitted
+        rf95.waitPacketSent();
+
+        // Now wait for a reply
+        uint8_t buf[RH_RF95_MAX_MESSAGE_LEN];
+        uint8_t len = sizeof(buf);
+
+        // Timeout in milliseconds
+        if (rf95.waitAvailableTimeout(500))
         {
-            Serial.print("Got reply: ");
-            Serial.println((char*)buf);
-            Serial.print("RSSI: ");
-            Serial.println(rf95.lastRssi(), DEC);
+
+            // Should be a reply message for us now
+            if (rf95.recv(buf, &len))
+            {
+                if (Serial){
+                    Serial.print("[");
+                    Serial.print(strlen(radiopacket));
+                    Serial.print("<=");
+                    Serial.print(RH_RF95_MAX_MESSAGE_LEN);
+                    Serial.print("][");
+                    Serial.print(radiopacket);
+                    Serial.print("] ");
+                    Serial.print((char*)buf);
+                    Serial.print(" RSSI: ");
+                    Serial.print(rf95.lastRssi(), DEC);
+                    Serial.println(",");
+                }
+
+                // Turn-on green led for 100 ms
+                digitalWrite(32, HIGH);
+                delay(100);
+                digitalWrite(32, LOW);
+            }
         }
         else
         {
-            Serial.println("Receive failed");
+            // Transmission error
+            if (Serial){
+                Serial.println("No confirm of receipt");
+            }
+
+            // Turn-on red led for 100 ms
+            digitalWrite(31, HIGH);
+            delay(100);
+            digitalWrite(31, LOW);
         }
+
     }
-    else
-    {
-        Serial.println("No reply, is there a listener around?");
-    }
-     */
+
+    delay(10);
+
 }
+
