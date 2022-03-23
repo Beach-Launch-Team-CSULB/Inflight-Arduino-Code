@@ -11,8 +11,11 @@
 
 struct InternalTemp: public Sensor {
     void updateData() override;
+    //Internal Temp data struct
     internal_temp_struct data_struct;
+    //Initializes internal temp device
     InternalTemp();
+    //Returns temperature
     float getTemp() const;
 };
 

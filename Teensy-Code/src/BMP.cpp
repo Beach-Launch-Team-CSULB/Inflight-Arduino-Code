@@ -6,14 +6,16 @@
 #include "Utilities.h"
 
 void BMP::updateData() {
-    float alt = sensor.readAltitude(sea_level_pressure_hpa);
-    data_struct = bmp_struct(sensor.temperature, sensor.pressure, alt);
-    out_file->write(&data_struct, sizeof(data_struct));
-    Serial.println(out_file->size());
-    counter += sizeof(data_struct);
-    if(counter > packet_size) {
-        counter = 0;
-        out_file->flush();
+    if(enable) {
+        float alt = sensor.readAltitude(sea_level_pressure_hpa);
+        data_struct = bmp_struct(sensor.temperature, sensor.pressure, alt);
+        out_file->write(&data_struct, sizeof(data_struct));
+        Serial.println(out_file->size());
+        counter += sizeof(data_struct);
+        if (counter > packet_size) {
+            counter = 0;
+            out_file->flush();
+        }
     }
 }
 

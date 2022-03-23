@@ -7,7 +7,6 @@
 #include <LittleFS.h>
 #include <SD.h>
 #include <Streaming.h>
-#include <TeensyDebug.h>
 
 ICM * icm_device;
 BNO * bno_device;
@@ -44,7 +43,6 @@ void generate_flash_dir() {
 }
 
 void setup() {
-    debug.begin();
     icm_device = new ICM(ICM_CS, ICM_INT_1, ICM_INT_2);
     bno_device = new BNO(BNO_CS, BNO_RESET, BNO_INT);
     gps_device = new GPS(GPS_BAUD);
@@ -60,7 +58,6 @@ void setup() {
     generate_flash_dir();
     for(uint_fast8_t i = 0; i < num_sensors; i++) {
         //If you run into an issue getting past the beginning and you changed anything with the structs, uncomment this line and run once
-        //flash.remove(devices[i]->getName().c_str());
         File copy_file = flash.open(devices[i]->getName().c_str());
         String sd_filename = sdOutputDir + devices[i]->getName() + ".csv";
         String sd_filename_bin = sdOutputDir + devices[i]->getName() + ".bin";

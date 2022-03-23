@@ -9,11 +9,19 @@
 #include <TimeLib.h>
 
 struct Sensor_struct {
+    //These are functions, so they are not part of the struct and go in program code
+    //Returns string data in CSV format
     virtual String toString() = 0;
+    //Returns CSV file header
     virtual String getHeader() const = 0;
-    time_t unix_time{};
-    uint32_t milliseconds{};
-    uint32_t microseconds{};
+    //UNIX timestamp from Teensy, can get updated by GPS, computer time, or RTC
+    //The time is stored using 16 bytes
+    time_t unix_time{}; //8 bytes
+    //Milliseconds reading from millis()
+    uint32_t milliseconds{}; //4 bytes
+    //Microseconds reading from micros();
+    uint32_t microseconds{}; //4 bytes
+    //Sets the timestamps using the current time
     void setTime() {
         unix_time = now();
         milliseconds = millis();
