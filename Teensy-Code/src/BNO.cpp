@@ -47,17 +47,12 @@ void BNO::updateData() {
             }
         }
         data_struct = bno_struct(accel, gyro, mag);
-        out_file->write(&data_struct, sizeof(data_struct));
-        counter += sizeof(data_struct);
-        if (counter > packet_size) {
-            counter = 0;
-            out_file->flush();
-        }
+        new_data_update();
     }
 }
 
 BNO::BNO(uint8_t CS, int8_t RST, uint8_t INT) :
-Sensor("BNO", &data_struct, sizeof(data_struct)) {
+Sensor("BNO", &data_struct, sizeof(data_struct), 1) {
     name = "BNO";
     sensor = Adafruit_BNO08x(RST);
     enable = sensor.begin_SPI(CS, INT);

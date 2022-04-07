@@ -5,6 +5,9 @@
 #include "Utilities.h"
 #include <Streaming.h>
 
+uint8_t byte_rate = 8;
+size_t bytes_written = 0;
+
 void file_copy(File *copy, File *paste, bool close) {
     // Reads data from XTSD to buffer, writes data from buffer to SD card
     // Stores size of buffer
@@ -41,8 +44,12 @@ bytes_written += num_written;
 return bytes_written >= max_bytes;
 }
 
-bool updateBlockSize() {
+bool getBlockSize() {
     return bytes_written >= max_bytes;
+}
+
+size_t getBlockSizeVal() {
+    return bytes_written;
 }
 
 void resetBlockCounter() {

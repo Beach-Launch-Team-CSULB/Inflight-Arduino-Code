@@ -31,4 +31,5 @@ gps_struct::gps_struct(TinyGPSPlus gps) {
         gps_hdop = gps.hdop.hdop();
         gps_course_deg = gps.course.deg();
         gps_reading_age = gps.time.age();
+        setTime();
 }

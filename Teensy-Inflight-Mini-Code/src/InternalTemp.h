@@ -15,6 +15,7 @@ struct InternalTemp: public Sensor {
     //Initializes internal temp device
     InternalTemp();
     //Returns temperature
+    std::deque<internal_temp_struct> data_deque;
 };
 
 

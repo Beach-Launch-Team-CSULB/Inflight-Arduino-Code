@@ -8,16 +8,20 @@
 #include "Sensor.h"
 #include "bmp_struct.h"
 #include <Adafruit_BMP3XX.h>
-const float sea_level_pressure_hpa = 1015.578;
 
 
 struct BMP: public Sensor {
     uint8_t BMP_INT;
     Adafruit_BMP3XX sensor;
     bmp_struct data_struct;
+    time_t last_ground_altitude_update;
     void updateData() override;
     explicit BMP(uint8_t CS, uint8_t INT);
     const uint16_t update_rate = 1;
+    bool slp_reset;
+    std::deque<bmp_struct> data_deque;
+    float sea_level_pressure_hpa;
+    void reset_slp(bool set);
 };
 
 #endif //TEENSY_CODE_BMP_H

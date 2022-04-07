@@ -3,11 +3,11 @@
 //
 
 #include "InternalTemp.h"
-#include "Utilities.h"
+
 
 void InternalTemp::updateData() {
     data_struct = internal_temp_struct(tempmonGetTemp());
-    new_data_update();
+    new_data_update(&data_deque, data_struct);
 }
 
 InternalTemp::InternalTemp() :

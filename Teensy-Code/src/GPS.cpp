@@ -5,7 +5,7 @@
 #include "GPS.h"
 #include "Utilities.h"
 
-GPS::GPS(uint16_t baud) : Sensor("GPS", &data_struct, sizeof(data_struct)) {
+GPS::GPS(uint16_t baud) : Sensor("GPS", &data_struct, sizeof(data_struct), 1) {
     Serial.print("");
     name = "GPS";
     enable = false;
@@ -23,12 +23,6 @@ void GPS::updateData() {
             enable = true;
         }
         data_struct = gps_struct(parser);
-        data_struct.setTime();
-    out_file->write(&data_struct, sizeof(data_struct));
-    }
-    counter += sizeof(data_struct);
-    if(counter > packet_size) {
-        counter = 0;
-        out_file->flush();
+        new_data_update();
     }
 }

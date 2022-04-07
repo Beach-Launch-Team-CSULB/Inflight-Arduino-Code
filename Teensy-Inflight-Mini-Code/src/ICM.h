@@ -7,14 +7,16 @@
 
 #include "Sensor.h"
 #include "icm_struct.h"
-#include <Adafruit_ICM20649.h>
+#include <Adafruit_ICM20948.h>
+#include <deque>
+const uint8_t icm_update_rate = 7;
 class ICM: public Sensor {
-    uint_fast8_t INT_1, INT_2;
-    Adafruit_ICM20649 sensor;
+    Adafruit_ICM20948 sensor;
 public:
-    ICM(uint_fast8_t CS, uint_fast8_t int1, uint_fast8_t int2);
+    explicit ICM(uint8_t CS);
     void updateData() override;
     icm_struct data_struct;
+    std::deque<icm_struct> data_deque;
 };
 
 

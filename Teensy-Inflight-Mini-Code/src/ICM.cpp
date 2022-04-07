@@ -3,7 +3,7 @@
 //
 
 #include "ICM.h"
-#include "Utilities.h"
+
 
 void ICM::updateData() {
     if(enable) {
@@ -11,21 +11,19 @@ void ICM::updateData() {
             sensors_event_t icm_reading[3];
             sensor.getEvent(&icm_reading[0], &icm_reading[1], &icm_reading[2]);
             data_struct = icm_struct(icm_reading);
-            new_data_update();
-            state_detection.addIMUData(data_struct);
+            new_data_update(&data_deque, data_struct);
         }
     }
 }
 
-ICM::ICM(uint_fast8_t CS, uint_fast8_t int1,
-         uint_fast8_t int2) : Sensor("ICM", &data_struct, sizeof(data_struct), 7) {
+ICM::ICM(uint8_t CS) : Sensor("ICM", &data_struct, sizeof(data_struct), icm_update_rate) {
     name = "ICM";
-    INT_1 = int1;
-    INT_2 = int2;
     enable = sensor.begin_SPI(CS);
-    sensor.setAccelRange(ICM20649_ACCEL_RANGE_30_G);
-    sensor.setGyroRange(ICM20649_GYRO_RANGE_4000_DPS);
+    sensor.setAccelRange(ICM20948_ACCEL_RANGE_16_G);
+    sensor.setGyroRange(ICM20948_GYRO_RANGE_2000_DPS);
     // Sets output data rate to max supported by sensor
     sensor.setAccelRateDivisor(0);
+    // Accel rate divisor is 1125 / (1 + divisor)
     sensor.setGyroRateDivisor(0);
+    // Accel rate divisor is 1100 / (1 + divisor)
 }
