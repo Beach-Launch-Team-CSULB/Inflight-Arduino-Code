@@ -16,7 +16,8 @@ void Detection::setState(uint8_t state) {
     test = true;
 }
 
-bool Detection::updateDetection(std::deque<icm_struct> *icm_data, std::deque<bmp_struct> *bmp_data) {
+bool Detection::updateDetection(std::deque<bno_struct> * icm_data, std::deque<ms5607_struct> * bmp_data)
+{
     bool output = false;
     //<--- Get the averages for vertical acceleration
     double sum1 = 0;
@@ -32,7 +33,7 @@ bool Detection::updateDetection(std::deque<icm_struct> *icm_data, std::deque<bmp
     //<--- Get the averages for altitude
     sum1 = 0;
     for(auto i = bmp_data->rbegin(); distance(bmp_data->rbegin(), i) < bmp_data_size && i != bmp_data->rend(); ++i) {
-        sum1 += i->altitude;
+        sum1 += i->alt;
         Serial.println(i->toString());
         Serial.flush();
     }
@@ -41,7 +42,7 @@ bool Detection::updateDetection(std::deque<icm_struct> *icm_data, std::deque<bmp
     //---->
     // cout<< verticalAcceleration;
     // LAUNCH CONDITIONS
-    if ((launch_state == 0 && (abs(verticalAcceleration) > LAUNCH_MIN_M_PER_S) &&
+    if (((launch_state == 0 && verticalAcceleration > LAUNCH_MIN_M_PER_S) &&
          icm_data->size() >= packet_size / 2 && altitudeAvg1 > ALTITUDE_LANDING_THRESHOLD) || (launch_state == 1 && test))
     {
         Serial.println("**Launch detected***");
@@ -76,7 +77,7 @@ bool Detection::updateDetection(std::deque<icm_struct> *icm_data, std::deque<bmp
     }
     // todo add a condition for being high enough in the air.
     // APOGEE CONDITION
-    if ((launch_state == 1 && abs(verticalAcceleration) > LAUNCH_MIN_M_PER_S) || (launch_state == 2 && test))
+    if ((launch_state == 1 && verticalAcceleration > LAUNCH_MIN_M_PER_S) || (launch_state == 2 && test))
     {
         // todo increase precision/accuracy for these conditions
         launch_state = 2;

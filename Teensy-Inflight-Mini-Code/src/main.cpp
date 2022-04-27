@@ -24,7 +24,7 @@ String sdOutputDir;
 
 void sd_dump() {
         if (flash_enable) {
-            //flash.quickFormat();
+            flash.quickFormat();
             String prepend_dir = "/flash/";
             String dir_name = "flash_dump";
             if (!sd.exists(prepend_dir.c_str())) {
@@ -50,9 +50,12 @@ void sd_dump() {
                 File copy_file = flash.open(devices[i]->getName().c_str());
                 //Dump files to SD card as .bin and .csv
                 if (sd_enable) {
-                    devices[i]->dumpToFile(copy_file, sd_files[i]);
+                    Serial.println("Preparing to dump files!");
+                    devices[i]->dumpToFile(&copy_file, &sd_files[i]);
+                    Serial.println("Dumped to bin file!");
                     copy_file.seek(0);
                     file_copy(&copy_file, &sd_files_bin[i], false);
+                    Serial.println("Dumped to csv file!");
                     copy_file.close();
                     flash.remove(devices[i]->getName().c_str());
                 }
@@ -99,6 +102,8 @@ void loop()
         Serial.println(device->data_struct_ptr->toString());
     }
     Serial.println(bmp_device->sea_level_pressure_hpa);
+    Serial.println(getBlockSize());
+    Serial.println(state_detection.getState());
     if(getBlockSize() && (state_detection.getState() != 2 || state_detection.getState() != 1)) {
         eventLog.write("Dump limit reached! Dumping to SD");
         sd_dump();
@@ -109,15 +114,15 @@ void loop()
         Serial << "Setting state " << state << endl;
         state_detection.setState(state);
     }
+    Serial.println(icm_device->data_deque.size());
+    Serial.println(bmp_device->data_deque.size());
     if (state_detection.updateDetection(&icm_device->data_deque, &bmp_device->data_deque)) {
         switch (state_detection.getState()) {
             case 1:
-                //Set data logging to max speed
-                Serial.println("Previous byte rate:");
-                Serial.println(byte_rate);
                 eventLog.write("Launch detected! Updating byte rate");
                 byte_rate = 1;
                 bmp_device->reset_slp(false);
+                max_bytes = 15000000;
                 break;
             case 2:
                 eventLog.write("Apogee Detected!");
@@ -126,7 +131,7 @@ void loop()
                 //Do a data dump
                 if(!sd_dumped) {
                     Serial.println(sd_dumped);
-                    eventLog.write("Case 3 reached! Dumping to SD");
+                    eventLog.write("Case 3 reached! Rocket landed");
                     for (File f: device_files) {
                         f.close();
                     }

@@ -12,10 +12,12 @@ String icm_struct::toString() {
 
 icm_struct::icm_struct(sensors_event_t * icm_data) {
     setTime();
-    for(int_fast8_t i = 0; i < 3; i++) {
-        acceleration[i] = icm_data[0].acceleration.v[i];
-        gyro[i] = icm_data[1].gyro.v[i];
-    }
+    acceleration[0] = icm_data[0].acceleration.v[1];
+    acceleration[1] = icm_data[0].acceleration.v[0] * -1;
+    acceleration[2] = icm_data[0].acceleration.v[2];
+    gyro[0] = icm_data[0].gyro.v[1];
+    gyro[1] = icm_data[0].gyro.v[0] * -1;
+    gyro[2] = icm_data[0].gyro.v[2];
     temperature = icm_data[2].temperature;
 }
 

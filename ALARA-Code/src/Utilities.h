@@ -3,7 +3,6 @@
 #define buffer_size 128
 #define cm +"," +
 
-const uint_fast8_t BMP_CS = 4, ICM_CS = 10, BMP_INT = 3;
 const uint_fast16_t packet_size = 512;
 const uint_fast16_t max_buf_size = packet_size * 4;
 // Precision values to use when converting from float to decimal
