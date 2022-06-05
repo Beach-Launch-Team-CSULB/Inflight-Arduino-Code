@@ -1,0 +1,78 @@
+\hypertarget{class_i_c_m}{}\doxysection{ICM Class Reference}
+\label{class_i_c_m}\index{ICM@{ICM}}
+
+
+{\ttfamily \#include $<$ICM.\+h$>$}
+
+Inheritance diagram for ICM\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_i_c_m}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_i_c_m_a6e93bd217b29e251eea57064284c1482}{ICM}} (uint8\+\_\+t CS)
+\item 
+void \mbox{\hyperlink{class_i_c_m_a98ea51691e216c78b40f6223a97b0a8b}{update\+Data}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structicm__struct}{icm\+\_\+struct}} \mbox{\hyperlink{class_i_c_m_a108f632fa7cc114323aaab7f9e471d62}{data\+\_\+struct}}
+\item 
+std\+::deque$<$ \mbox{\hyperlink{structicm__struct}{icm\+\_\+struct}} $>$ \mbox{\hyperlink{class_i_c_m_afa198fc01ed30d2114100236dffa908c}{data\+\_\+deque}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{class_sensor}{Sensor}} class for the ICM20948 sensor 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_i_c_m_a6e93bd217b29e251eea57064284c1482}\label{class_i_c_m_a6e93bd217b29e251eea57064284c1482}} 
+\index{ICM@{ICM}!ICM@{ICM}}
+\index{ICM@{ICM}!ICM@{ICM}}
+\doxysubsubsection{\texorpdfstring{ICM()}{ICM()}}
+{\footnotesize\ttfamily ICM\+::\+ICM (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{CS }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+ICM20948 constructor 
+\begin{DoxyParams}{Parameters}
+{\em CS} & the SPI chip select pin for the sensor \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_i_c_m_a98ea51691e216c78b40f6223a97b0a8b}\label{class_i_c_m_a98ea51691e216c78b40f6223a97b0a8b}} 
+\index{ICM@{ICM}!updateData@{updateData}}
+\index{updateData@{updateData}!ICM@{ICM}}
+\doxysubsubsection{\texorpdfstring{updateData()}{updateData()}}
+{\footnotesize\ttfamily void ICM\+::update\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Updates the sensor data, overridden from \mbox{\hyperlink{class_sensor}{Sensor}} base class 
+
+Implements \mbox{\hyperlink{class_sensor_a49e03657e98d76dd40ef7dcbd81cfe08}{Sensor}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_i_c_m_afa198fc01ed30d2114100236dffa908c}\label{class_i_c_m_afa198fc01ed30d2114100236dffa908c}} 
+\index{ICM@{ICM}!data\_deque@{data\_deque}}
+\index{data\_deque@{data\_deque}!ICM@{ICM}}
+\doxysubsubsection{\texorpdfstring{data\_deque}{data\_deque}}
+{\footnotesize\ttfamily std\+::deque$<$\mbox{\hyperlink{structicm__struct}{icm\+\_\+struct}}$>$ ICM\+::data\+\_\+deque}
+
+Derived data\+\_\+deque used for storage \mbox{\Hypertarget{class_i_c_m_a108f632fa7cc114323aaab7f9e471d62}\label{class_i_c_m_a108f632fa7cc114323aaab7f9e471d62}} 
+\index{ICM@{ICM}!data\_struct@{data\_struct}}
+\index{data\_struct@{data\_struct}!ICM@{ICM}}
+\doxysubsubsection{\texorpdfstring{data\_struct}{data\_struct}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structicm__struct}{icm\+\_\+struct}} ICM\+::data\+\_\+struct}
+
+Derived data struct for storage 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+ICM.\+h\item 
+ICM.\+cpp\end{DoxyCompactItemize}

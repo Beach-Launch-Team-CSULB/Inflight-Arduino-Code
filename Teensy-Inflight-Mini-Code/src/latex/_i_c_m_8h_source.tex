@@ -1,0 +1,28 @@
+\hypertarget{_i_c_m_8h_source}{}\doxysection{ICM.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by shawn on 3/18/22.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef TEENSY\_CODE\_ICM\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define TEENSY\_CODE\_ICM\_H}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}Sensor.h"{}}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include "{}icm\_struct.h"{}}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <Adafruit\_ICM20948.h>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <deque>}}
+\DoxyCodeLine{16 \textcolor{keyword}{const} uint8\_t icm\_update\_rate = 7;}
+\DoxyCodeLine{20 \textcolor{keyword}{class }\mbox{\hyperlink{class_i_c_m}{ICM}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_sensor}{Sensor}} \{}
+\DoxyCodeLine{24     Adafruit\_ICM20948 sensor;}
+\DoxyCodeLine{25 \textcolor{keyword}{public}:}
+\DoxyCodeLine{30     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_i_c_m_a6e93bd217b29e251eea57064284c1482}{ICM}}(uint8\_t CS);}
+\DoxyCodeLine{34     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_i_c_m_a98ea51691e216c78b40f6223a97b0a8b}{updateData}}() \textcolor{keyword}{override};}
+\DoxyCodeLine{38     \mbox{\hyperlink{structicm__struct}{icm\_struct}} \mbox{\hyperlink{class_i_c_m_a108f632fa7cc114323aaab7f9e471d62}{data\_struct}};}
+\DoxyCodeLine{42     std::deque<icm\_struct> \mbox{\hyperlink{class_i_c_m_afa198fc01ed30d2114100236dffa908c}{data\_deque}};}
+\DoxyCodeLine{43 \};}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//TEENSY\_CODE\_ICM\_H}}
+
+\end{DoxyCode}

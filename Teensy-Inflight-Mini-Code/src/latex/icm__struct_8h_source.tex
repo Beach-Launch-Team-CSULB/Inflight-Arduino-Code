@@ -1,0 +1,26 @@
+\hypertarget{icm__struct_8h_source}{}\doxysection{icm\+\_\+struct.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by shawn on 3/18/22.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef TEENSY\_CODE\_ICM\_STRUCT\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define TEENSY\_CODE\_ICM\_STRUCT\_H}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}Sensor\_struct.h"{}}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <Adafruit\_Sensor.h>}}
+\DoxyCodeLine{10 \textcolor{keyword}{struct }\mbox{\hyperlink{structicm__struct}{icm\_struct}}: \mbox{\hyperlink{struct_sensor__struct}{Sensor\_struct}} \{}
+\DoxyCodeLine{14     String \mbox{\hyperlink{structicm__struct_a282001553aeb4c7a35de994471cfa1cb}{toString}}() \textcolor{keyword}{override};}
+\DoxyCodeLine{18     String \mbox{\hyperlink{structicm__struct_ac16b5921e89cfc887f7771769a12a89e}{getHeader}}() \textcolor{keyword}{const override};}
+\DoxyCodeLine{22     \textcolor{keywordtype}{float} \mbox{\hyperlink{structicm__struct_ae8f29c3114fcfdfbedfbea4ca43c1dda}{temperature}}\{\};}
+\DoxyCodeLine{26     \textcolor{keywordtype}{float} \mbox{\hyperlink{structicm__struct_aa40ec7a0740ca1b501f13898d66ef036}{gyro}}[3]\{\};}
+\DoxyCodeLine{30     \textcolor{keywordtype}{float} \mbox{\hyperlink{structicm__struct_a63386c21abe6cf7f42b15d66f4eb2e55}{acceleration}}[3]\{\};}
+\DoxyCodeLine{35     \textcolor{keyword}{explicit} \mbox{\hyperlink{structicm__struct_abed6fa75769c15ddacbf7df4d1aa6358}{icm\_struct}}(sensors\_event\_t * icm\_data);}
+\DoxyCodeLine{39     \mbox{\hyperlink{structicm__struct_abed6fa75769c15ddacbf7df4d1aa6358}{icm\_struct}}() = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{40 \};}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//TEENSY\_CODE\_ICM\_STRUCT\_H}}
+
+\end{DoxyCode}

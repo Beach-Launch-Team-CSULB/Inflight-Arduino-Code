@@ -1,0 +1,210 @@
+\hypertarget{class_sensor}{}\doxysection{Sensor Class Reference}
+\label{class_sensor}\index{Sensor@{Sensor}}
+
+
+{\ttfamily \#include $<$Sensor.\+h$>$}
+
+Inheritance diagram for Sensor\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_sensor}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \mbox{\hyperlink{class_sensor_a49e03657e98d76dd40ef7dcbd81cfe08}{update\+Data}} ()=0
+\item 
+void \mbox{\hyperlink{class_sensor_ab1289d06386c8b264c3dec43c4544e56}{set\+File}} (File $\ast$F)
+\item 
+String \mbox{\hyperlink{class_sensor_a60ec96ed03660b42681c1bcc99007033}{get\+Name}} () const
+\item 
+void \mbox{\hyperlink{class_sensor_a5bbe55e24152987d3a08bd03c2a15834}{dump\+To\+File}} (File $\ast$in, File $\ast$out) const
+\item 
+\mbox{\hyperlink{class_sensor_a19f71ed1109bcd686facd5d8dc0fafc9}{Sensor}} (String n, \mbox{\hyperlink{struct_sensor__struct}{Sensor\+\_\+struct}} $\ast$data\+\_\+type, size\+\_\+t data\+\_\+type\+\_\+size, uint16\+\_\+t update\+Rate)
+\item 
+void \mbox{\hyperlink{class_sensor_a1e1744b48a04a0187b0f2e3059ae9167}{write}} (\mbox{\hyperlink{struct_sensor__struct}{Sensor\+\_\+struct}} $\ast$data)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_sensor__struct}{Sensor\+\_\+struct}} $\ast$ \mbox{\hyperlink{class_sensor_a7d62c00363f6891b085adc042c1098ab}{data\+\_\+struct\+\_\+ptr}}
+\item 
+bool \mbox{\hyperlink{class_sensor_af0c71c21a793f85ac60de9c077dd02c6}{enable}}
+\item 
+size\+\_\+t \mbox{\hyperlink{class_sensor_a52010ac57011fc08adc10e227f699241}{data\+\_\+struct\+\_\+size}}
+\item 
+uint16\+\_\+t \mbox{\hyperlink{class_sensor_a0efe6c677f0f76b1e08488b749981565}{update\+\_\+rate}}
+\item 
+uint16\+\_\+t \mbox{\hyperlink{class_sensor_aa9b88dea64a757d5aa87458c33ebaba3}{buf\+\_\+count}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{class_sensor_a015d86c534dc90ffbf140ea34a3c952b}{divider\+\_\+counter}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class D $>$ }\\void \mbox{\hyperlink{class_sensor_a46d00a0a3e29cd7ff29e16fa7ba58392}{new\+\_\+data\+\_\+update}} (std\+::deque$<$ D $>$ $\ast$derived\+List, D current\+\_\+element)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+String \mbox{\hyperlink{class_sensor_a9cf70c3e41501d89f6f9f48a3e9d1296}{name}}
+\item 
+File $\ast$ \mbox{\hyperlink{class_sensor_a4ade4186ff5f6a01ad4a8f230af11607}{out\+\_\+file}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{class_sensor}{Sensor}} base class, each sensor is derived from this class 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_sensor_a19f71ed1109bcd686facd5d8dc0fafc9}\label{class_sensor_a19f71ed1109bcd686facd5d8dc0fafc9}} 
+\index{Sensor@{Sensor}!Sensor@{Sensor}}
+\index{Sensor@{Sensor}!Sensor@{Sensor}}
+\doxysubsubsection{\texorpdfstring{Sensor()}{Sensor()}}
+{\footnotesize\ttfamily Sensor\+::\+Sensor (\begin{DoxyParamCaption}\item[{String}]{n,  }\item[{\mbox{\hyperlink{struct_sensor__struct}{Sensor\+\_\+struct}} $\ast$}]{data\+\_\+type,  }\item[{size\+\_\+t}]{data\+\_\+type\+\_\+size,  }\item[{uint16\+\_\+t}]{update\+Rate }\end{DoxyParamCaption})}
+
+Initializes a sensor with the data struct, size of the data struct, and name of the sensor 
+\begin{DoxyParams}{Parameters}
+{\em n} & The name of the sensor \\
+\hline
+{\em data\+\_\+type} & A struct of the corresponding sensor type. \\
+\hline
+{\em data\+\_\+type\+\_\+size} & The size of the struct of the corresponding sensor type. \\
+\hline
+{\em update\+Rate} & The update rate of the sensor relative to each loop \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_sensor_a5bbe55e24152987d3a08bd03c2a15834}\label{class_sensor_a5bbe55e24152987d3a08bd03c2a15834}} 
+\index{Sensor@{Sensor}!dumpToFile@{dumpToFile}}
+\index{dumpToFile@{dumpToFile}!Sensor@{Sensor}}
+\doxysubsubsection{\texorpdfstring{dumpToFile()}{dumpToFile()}}
+{\footnotesize\ttfamily void Sensor\+::dump\+To\+File (\begin{DoxyParamCaption}\item[{File $\ast$}]{in,  }\item[{File $\ast$}]{out }\end{DoxyParamCaption}) const}
+
+Dumps a struct file into a CSV formatted file 
+\begin{DoxyParams}{Parameters}
+{\em in} & The input file \\
+\hline
+{\em out} & The output file \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sensor_a60ec96ed03660b42681c1bcc99007033}\label{class_sensor_a60ec96ed03660b42681c1bcc99007033}} 
+\index{Sensor@{Sensor}!getName@{getName}}
+\index{getName@{getName}!Sensor@{Sensor}}
+\doxysubsubsection{\texorpdfstring{getName()}{getName()}}
+{\footnotesize\ttfamily String Sensor\+::get\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Returns the name of the sensor \begin{DoxyReturn}{Returns}
+the sensor name 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_sensor_a46d00a0a3e29cd7ff29e16fa7ba58392}\label{class_sensor_a46d00a0a3e29cd7ff29e16fa7ba58392}} 
+\index{Sensor@{Sensor}!new\_data\_update@{new\_data\_update}}
+\index{new\_data\_update@{new\_data\_update}!Sensor@{Sensor}}
+\doxysubsubsection{\texorpdfstring{new\_data\_update()}{new\_data\_update()}}
+{\footnotesize\ttfamily template$<$class D $>$ \\
+void Sensor\+::new\+\_\+data\+\_\+update (\begin{DoxyParamCaption}\item[{std\+::deque$<$ D $>$ $\ast$}]{derived\+List,  }\item[{D}]{current\+\_\+element }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+Takes in a list of elements and the current element, pushes element into list and writes data when full 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em D} & The class the element is the same type as \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em derived\+List} & The derived list of elements used as the write buffer \\
+\hline
+{\em current\+\_\+element} & The most recent element to push into the list and/or write \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sensor_ab1289d06386c8b264c3dec43c4544e56}\label{class_sensor_ab1289d06386c8b264c3dec43c4544e56}} 
+\index{Sensor@{Sensor}!setFile@{setFile}}
+\index{setFile@{setFile}!Sensor@{Sensor}}
+\doxysubsubsection{\texorpdfstring{setFile()}{setFile()}}
+{\footnotesize\ttfamily void Sensor\+::set\+File (\begin{DoxyParamCaption}\item[{File $\ast$}]{F }\end{DoxyParamCaption})}
+
+Sets the file pointer to the output file 
+\begin{DoxyParams}{Parameters}
+{\em F} & The file pointer \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sensor_a49e03657e98d76dd40ef7dcbd81cfe08}\label{class_sensor_a49e03657e98d76dd40ef7dcbd81cfe08}} 
+\index{Sensor@{Sensor}!updateData@{updateData}}
+\index{updateData@{updateData}!Sensor@{Sensor}}
+\doxysubsubsection{\texorpdfstring{updateData()}{updateData()}}
+{\footnotesize\ttfamily virtual void Sensor\+::update\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Grabs new data values and saves them to flash file 
+
+Implemented in \mbox{\hyperlink{struct_b_m_p_a92626cb81a56cd289b28577fe2ffc363}{BMP}}, \mbox{\hyperlink{class_event_log_a535d7c16496e7fdbaba47a91185bb3b8}{Event\+Log}}, \mbox{\hyperlink{class_i_c_m_a98ea51691e216c78b40f6223a97b0a8b}{ICM}}, and \mbox{\hyperlink{struct_internal_temp_ab71eb1aae59a1ebb958022574b1155b3}{Internal\+Temp}}.
+
+\mbox{\Hypertarget{class_sensor_a1e1744b48a04a0187b0f2e3059ae9167}\label{class_sensor_a1e1744b48a04a0187b0f2e3059ae9167}} 
+\index{Sensor@{Sensor}!write@{write}}
+\index{write@{write}!Sensor@{Sensor}}
+\doxysubsubsection{\texorpdfstring{write()}{write()}}
+{\footnotesize\ttfamily void Sensor\+::write (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_sensor__struct}{Sensor\+\_\+struct}} $\ast$}]{data }\end{DoxyParamCaption})}
+
+Writes an input sensor struct directly to the output file 
+\begin{DoxyParams}{Parameters}
+{\em data} & A pointer to the input sensor struct to be written \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_sensor_aa9b88dea64a757d5aa87458c33ebaba3}\label{class_sensor_aa9b88dea64a757d5aa87458c33ebaba3}} 
+\index{Sensor@{Sensor}!buf\_count@{buf\_count}}
+\index{buf\_count@{buf\_count}!Sensor@{Sensor}}
+\doxysubsubsection{\texorpdfstring{buf\_count}{buf\_count}}
+{\footnotesize\ttfamily uint16\+\_\+t Sensor\+::buf\+\_\+count}
+
+Amount of sensor structs to hold in buffer before writing \mbox{\Hypertarget{class_sensor_a7d62c00363f6891b085adc042c1098ab}\label{class_sensor_a7d62c00363f6891b085adc042c1098ab}} 
+\index{Sensor@{Sensor}!data\_struct\_ptr@{data\_struct\_ptr}}
+\index{data\_struct\_ptr@{data\_struct\_ptr}!Sensor@{Sensor}}
+\doxysubsubsection{\texorpdfstring{data\_struct\_ptr}{data\_struct\_ptr}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_sensor__struct}{Sensor\+\_\+struct}}$\ast$ Sensor\+::data\+\_\+struct\+\_\+ptr}
+
+Pointer to a data struct to write data into \mbox{\Hypertarget{class_sensor_a52010ac57011fc08adc10e227f699241}\label{class_sensor_a52010ac57011fc08adc10e227f699241}} 
+\index{Sensor@{Sensor}!data\_struct\_size@{data\_struct\_size}}
+\index{data\_struct\_size@{data\_struct\_size}!Sensor@{Sensor}}
+\doxysubsubsection{\texorpdfstring{data\_struct\_size}{data\_struct\_size}}
+{\footnotesize\ttfamily size\+\_\+t Sensor\+::data\+\_\+struct\+\_\+size}
+
+Saves full contents of buffer to memory \mbox{\Hypertarget{class_sensor_a015d86c534dc90ffbf140ea34a3c952b}\label{class_sensor_a015d86c534dc90ffbf140ea34a3c952b}} 
+\index{Sensor@{Sensor}!divider\_counter@{divider\_counter}}
+\index{divider\_counter@{divider\_counter}!Sensor@{Sensor}}
+\doxysubsubsection{\texorpdfstring{divider\_counter}{divider\_counter}}
+{\footnotesize\ttfamily uint8\+\_\+t Sensor\+::divider\+\_\+counter}
+
+Used to limit update rate before launch \mbox{\Hypertarget{class_sensor_af0c71c21a793f85ac60de9c077dd02c6}\label{class_sensor_af0c71c21a793f85ac60de9c077dd02c6}} 
+\index{Sensor@{Sensor}!enable@{enable}}
+\index{enable@{enable}!Sensor@{Sensor}}
+\doxysubsubsection{\texorpdfstring{enable}{enable}}
+{\footnotesize\ttfamily bool Sensor\+::enable}
+
+Stores if the sensor is enabled \mbox{\Hypertarget{class_sensor_a9cf70c3e41501d89f6f9f48a3e9d1296}\label{class_sensor_a9cf70c3e41501d89f6f9f48a3e9d1296}} 
+\index{Sensor@{Sensor}!name@{name}}
+\index{name@{name}!Sensor@{Sensor}}
+\doxysubsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily String Sensor\+::name\hspace{0.3cm}{\ttfamily [protected]}}
+
+Name of the sensor and file on flash \mbox{\Hypertarget{class_sensor_a4ade4186ff5f6a01ad4a8f230af11607}\label{class_sensor_a4ade4186ff5f6a01ad4a8f230af11607}} 
+\index{Sensor@{Sensor}!out\_file@{out\_file}}
+\index{out\_file@{out\_file}!Sensor@{Sensor}}
+\doxysubsubsection{\texorpdfstring{out\_file}{out\_file}}
+{\footnotesize\ttfamily File$\ast$ Sensor\+::out\+\_\+file\hspace{0.3cm}{\ttfamily [protected]}}
+
+File pointer used for writing data \mbox{\Hypertarget{class_sensor_a0efe6c677f0f76b1e08488b749981565}\label{class_sensor_a0efe6c677f0f76b1e08488b749981565}} 
+\index{Sensor@{Sensor}!update\_rate@{update\_rate}}
+\index{update\_rate@{update\_rate}!Sensor@{Sensor}}
+\doxysubsubsection{\texorpdfstring{update\_rate}{update\_rate}}
+{\footnotesize\ttfamily uint16\+\_\+t Sensor\+::update\+\_\+rate}
+
+The rate at which the sensor updates, roughly relative to the rate other system sensors update For example, one sensor may update 4 times per cycle while another updates 3 times 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Sensor.\+h\item 
+Sensor.\+cpp\end{DoxyCompactItemize}

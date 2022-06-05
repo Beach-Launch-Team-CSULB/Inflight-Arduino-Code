@@ -1,0 +1,129 @@
+\hypertarget{struct_b_m_p}{}\doxysection{BMP Struct Reference}
+\label{struct_b_m_p}\index{BMP@{BMP}}
+Inheritance diagram for BMP\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{struct_b_m_p}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{struct_b_m_p_a92626cb81a56cd289b28577fe2ffc363}{update\+Data}} () override
+\item 
+\mbox{\hyperlink{struct_b_m_p_a1d2b615253676275ab983288fe3c2f62}{BMP}} (uint8\+\_\+t CS, uint8\+\_\+t INT)
+\item 
+void \mbox{\hyperlink{struct_b_m_p_af0760997345154eb017d73551cf9a045}{reset\+\_\+slp}} (bool set)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{struct_b_m_p_a1290f087fc74a1cab62366b3ab77690e}{BMP\+\_\+\+INT}}
+\item 
+Adafruit\+\_\+\+BMP3\+XX \mbox{\hyperlink{struct_b_m_p_a23696372fbd3fa008ed2874ba123f321}{sensor}}
+\item 
+\mbox{\hyperlink{structbmp__struct}{bmp\+\_\+struct}} \mbox{\hyperlink{struct_b_m_p_a7e8cd17ec00499fea629517080b79045}{data\+\_\+struct}}
+\item 
+time\+\_\+t \mbox{\hyperlink{struct_b_m_p_a8a871ac952d1ac48cbd2d9390f81e396}{last\+\_\+ground\+\_\+altitude\+\_\+update}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{struct_b_m_p_a2fa8943fc81f317f7a61d21f4caff917}{update\+\_\+rate}} = 1
+\item 
+bool \mbox{\hyperlink{struct_b_m_p_a035ad88c5179caf92829a1709576c750}{slp\+\_\+reset}}
+\item 
+std\+::deque$<$ \mbox{\hyperlink{structbmp__struct}{bmp\+\_\+struct}} $>$ \mbox{\hyperlink{struct_b_m_p_a67c0bb11e999927f2e77f6cf11fedd83}{data\+\_\+deque}}
+\item 
+float \mbox{\hyperlink{struct_b_m_p_aece8dc3787b8b99ab21dc3b0255ef1ca}{sea\+\_\+level\+\_\+pressure\+\_\+hpa}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{struct_b_m_p_a1d2b615253676275ab983288fe3c2f62}\label{struct_b_m_p_a1d2b615253676275ab983288fe3c2f62}} 
+\index{BMP@{BMP}!BMP@{BMP}}
+\index{BMP@{BMP}!BMP@{BMP}}
+\doxysubsubsection{\texorpdfstring{BMP()}{BMP()}}
+{\footnotesize\ttfamily BMP\+::\+BMP (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{CS,  }\item[{uint8\+\_\+t}]{INT }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+Constructor for the \mbox{\hyperlink{struct_b_m_p}{BMP}} device, creates a \mbox{\hyperlink{struct_b_m_p}{BMP}} device 
+\begin{DoxyParams}{Parameters}
+{\em CS} & Arduino pin number for the SPI Chip select pin \\
+\hline
+{\em INT} & Arduino pin number for the SPI interrupt pin \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{struct_b_m_p_af0760997345154eb017d73551cf9a045}\label{struct_b_m_p_af0760997345154eb017d73551cf9a045}} 
+\index{BMP@{BMP}!reset\_slp@{reset\_slp}}
+\index{reset\_slp@{reset\_slp}!BMP@{BMP}}
+\doxysubsubsection{\texorpdfstring{reset\_slp()}{reset\_slp()}}
+{\footnotesize\ttfamily void BMP\+::reset\+\_\+slp (\begin{DoxyParamCaption}\item[{bool}]{set }\end{DoxyParamCaption})}
+
+Tells the sensor to or not to reset the sea level pressure \mbox{\Hypertarget{struct_b_m_p_a92626cb81a56cd289b28577fe2ffc363}\label{struct_b_m_p_a92626cb81a56cd289b28577fe2ffc363}} 
+\index{BMP@{BMP}!updateData@{updateData}}
+\index{updateData@{updateData}!BMP@{BMP}}
+\doxysubsubsection{\texorpdfstring{updateData()}{updateData()}}
+{\footnotesize\ttfamily void BMP\+::update\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Derived function to update sensor data 
+
+Implements \mbox{\hyperlink{class_sensor_a49e03657e98d76dd40ef7dcbd81cfe08}{Sensor}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{struct_b_m_p_a1290f087fc74a1cab62366b3ab77690e}\label{struct_b_m_p_a1290f087fc74a1cab62366b3ab77690e}} 
+\index{BMP@{BMP}!BMP\_INT@{BMP\_INT}}
+\index{BMP\_INT@{BMP\_INT}!BMP@{BMP}}
+\doxysubsubsection{\texorpdfstring{BMP\_INT}{BMP\_INT}}
+{\footnotesize\ttfamily uint8\+\_\+t BMP\+::\+BMP\+\_\+\+INT}
+
+BMP3\+XX Interrupt pin Not used in current version of code, but could be in a future iteration so the interface supports the pin \mbox{\Hypertarget{struct_b_m_p_a67c0bb11e999927f2e77f6cf11fedd83}\label{struct_b_m_p_a67c0bb11e999927f2e77f6cf11fedd83}} 
+\index{BMP@{BMP}!data\_deque@{data\_deque}}
+\index{data\_deque@{data\_deque}!BMP@{BMP}}
+\doxysubsubsection{\texorpdfstring{data\_deque}{data\_deque}}
+{\footnotesize\ttfamily std\+::deque$<$\mbox{\hyperlink{structbmp__struct}{bmp\+\_\+struct}}$>$ BMP\+::data\+\_\+deque}
+
+Derived data\+\_\+deque sensor buffer \mbox{\Hypertarget{struct_b_m_p_a7e8cd17ec00499fea629517080b79045}\label{struct_b_m_p_a7e8cd17ec00499fea629517080b79045}} 
+\index{BMP@{BMP}!data\_struct@{data\_struct}}
+\index{data\_struct@{data\_struct}!BMP@{BMP}}
+\doxysubsubsection{\texorpdfstring{data\_struct}{data\_struct}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structbmp__struct}{bmp\+\_\+struct}} BMP\+::data\+\_\+struct}
+
+derived data struct used for storing collected sensor data \mbox{\Hypertarget{struct_b_m_p_a8a871ac952d1ac48cbd2d9390f81e396}\label{struct_b_m_p_a8a871ac952d1ac48cbd2d9390f81e396}} 
+\index{BMP@{BMP}!last\_ground\_altitude\_update@{last\_ground\_altitude\_update}}
+\index{last\_ground\_altitude\_update@{last\_ground\_altitude\_update}!BMP@{BMP}}
+\doxysubsubsection{\texorpdfstring{last\_ground\_altitude\_update}{last\_ground\_altitude\_update}}
+{\footnotesize\ttfamily time\+\_\+t BMP\+::last\+\_\+ground\+\_\+altitude\+\_\+update}
+
+Used to store the last time the system updated the altitude for what it thought was the ground Needs to update the ground altitude periodically so the ground altitude use for calculations is always accurate \mbox{\Hypertarget{struct_b_m_p_aece8dc3787b8b99ab21dc3b0255ef1ca}\label{struct_b_m_p_aece8dc3787b8b99ab21dc3b0255ef1ca}} 
+\index{BMP@{BMP}!sea\_level\_pressure\_hpa@{sea\_level\_pressure\_hpa}}
+\index{sea\_level\_pressure\_hpa@{sea\_level\_pressure\_hpa}!BMP@{BMP}}
+\doxysubsubsection{\texorpdfstring{sea\_level\_pressure\_hpa}{sea\_level\_pressure\_hpa}}
+{\footnotesize\ttfamily float BMP\+::sea\+\_\+level\+\_\+pressure\+\_\+hpa}
+
+Stores the sea level pressure in HPA \mbox{\Hypertarget{struct_b_m_p_a23696372fbd3fa008ed2874ba123f321}\label{struct_b_m_p_a23696372fbd3fa008ed2874ba123f321}} 
+\index{BMP@{BMP}!sensor@{sensor}}
+\index{sensor@{sensor}!BMP@{BMP}}
+\doxysubsubsection{\texorpdfstring{sensor}{sensor}}
+{\footnotesize\ttfamily Adafruit\+\_\+\+BMP3\+XX BMP\+::sensor}
+
+Adafruit sensor object for the BMP3\+XX \mbox{\Hypertarget{struct_b_m_p_a035ad88c5179caf92829a1709576c750}\label{struct_b_m_p_a035ad88c5179caf92829a1709576c750}} 
+\index{BMP@{BMP}!slp\_reset@{slp\_reset}}
+\index{slp\_reset@{slp\_reset}!BMP@{BMP}}
+\doxysubsubsection{\texorpdfstring{slp\_reset}{slp\_reset}}
+{\footnotesize\ttfamily bool BMP\+::slp\+\_\+reset}
+
+stores whether the sensor should activate the sea level pressure update code Once the rocket launches we don\textquotesingle{}t want this to happen \mbox{\Hypertarget{struct_b_m_p_a2fa8943fc81f317f7a61d21f4caff917}\label{struct_b_m_p_a2fa8943fc81f317f7a61d21f4caff917}} 
+\index{BMP@{BMP}!update\_rate@{update\_rate}}
+\index{update\_rate@{update\_rate}!BMP@{BMP}}
+\doxysubsubsection{\texorpdfstring{update\_rate}{update\_rate}}
+{\footnotesize\ttfamily const uint16\+\_\+t BMP\+::update\+\_\+rate = 1}
+
+Update rate of the sensor, 1 because it has a low update rate relative to other sensors 
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+BMP.\+h\item 
+BMP.\+cpp\end{DoxyCompactItemize}

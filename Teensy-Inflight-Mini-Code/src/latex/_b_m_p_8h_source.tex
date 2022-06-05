@@ -1,0 +1,32 @@
+\hypertarget{_b_m_p_8h_source}{}\doxysection{BMP.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by shawn on 3/18/22.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef TEENSY\_CODE\_BMP\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define TEENSY\_CODE\_BMP\_H}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}Sensor.h"{}}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include "{}bmp\_struct.h"{}}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <Adafruit\_BMP3XX.h>}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{keyword}{struct }\mbox{\hyperlink{struct_b_m_p}{BMP}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_sensor}{Sensor}} \{}
+\DoxyCodeLine{18     uint8\_t \mbox{\hyperlink{struct_b_m_p_a1290f087fc74a1cab62366b3ab77690e}{BMP\_INT}};}
+\DoxyCodeLine{22     Adafruit\_BMP3XX \mbox{\hyperlink{struct_b_m_p_a23696372fbd3fa008ed2874ba123f321}{sensor}};}
+\DoxyCodeLine{26     \mbox{\hyperlink{structbmp__struct}{bmp\_struct}} \mbox{\hyperlink{struct_b_m_p_a7e8cd17ec00499fea629517080b79045}{data\_struct}};}
+\DoxyCodeLine{31     time\_t \mbox{\hyperlink{struct_b_m_p_a8a871ac952d1ac48cbd2d9390f81e396}{last\_ground\_altitude\_update}};}
+\DoxyCodeLine{35     \textcolor{keywordtype}{void} \mbox{\hyperlink{struct_b_m_p_a92626cb81a56cd289b28577fe2ffc363}{updateData}}() \textcolor{keyword}{override};}
+\DoxyCodeLine{41     \textcolor{keyword}{explicit} \mbox{\hyperlink{struct_b_m_p_a1d2b615253676275ab983288fe3c2f62}{BMP}}(uint8\_t CS, uint8\_t INT);}
+\DoxyCodeLine{45     \textcolor{keyword}{const} uint16\_t \mbox{\hyperlink{struct_b_m_p_a2fa8943fc81f317f7a61d21f4caff917}{update\_rate}} = 1;}
+\DoxyCodeLine{50     \textcolor{keywordtype}{bool} \mbox{\hyperlink{struct_b_m_p_a035ad88c5179caf92829a1709576c750}{slp\_reset}};}
+\DoxyCodeLine{54     std::deque<bmp\_struct> \mbox{\hyperlink{struct_b_m_p_a67c0bb11e999927f2e77f6cf11fedd83}{data\_deque}};}
+\DoxyCodeLine{58     \textcolor{keywordtype}{float} \mbox{\hyperlink{struct_b_m_p_aece8dc3787b8b99ab21dc3b0255ef1ca}{sea\_level\_pressure\_hpa}};}
+\DoxyCodeLine{62     \textcolor{keywordtype}{void} \mbox{\hyperlink{struct_b_m_p_af0760997345154eb017d73551cf9a045}{reset\_slp}}(\textcolor{keywordtype}{bool} set);}
+\DoxyCodeLine{63 \};}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//TEENSY\_CODE\_BMP\_H}}
+
+\end{DoxyCode}

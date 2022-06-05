@@ -1,0 +1,89 @@
+\hypertarget{structeventlog__struct}{}\doxysection{eventlog\+\_\+struct Struct Reference}
+\label{structeventlog__struct}\index{eventlog\_struct@{eventlog\_struct}}
+Inheritance diagram for eventlog\+\_\+struct\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{structeventlog__struct}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+String \mbox{\hyperlink{structeventlog__struct_a0723b7cbc8d50e17fe417c4516a3c741}{to\+String}} () override
+\item 
+String \mbox{\hyperlink{structeventlog__struct_afed3a9e5b13481c3c5a55a293d730421}{get\+Header}} () const override
+\item 
+\mbox{\hyperlink{structeventlog__struct_a70c1fb9a2fb9f030b854227a50ef131f}{eventlog\+\_\+struct}} ()
+\item 
+\mbox{\hyperlink{structeventlog__struct_a501b8ac063a7f9a99c5a99b109712db9}{eventlog\+\_\+struct}} (const char $\ast$msg\+\_\+in)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+char \mbox{\hyperlink{structeventlog__struct_a28f7b801f6ddc551aa80de8c0d66e572}{msg}} \mbox{[}EVENTLOG\+\_\+\+LENGTH\mbox{]} \{\}
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{structeventlog__struct_a70c1fb9a2fb9f030b854227a50ef131f}\label{structeventlog__struct_a70c1fb9a2fb9f030b854227a50ef131f}} 
+\index{eventlog\_struct@{eventlog\_struct}!eventlog\_struct@{eventlog\_struct}}
+\index{eventlog\_struct@{eventlog\_struct}!eventlog\_struct@{eventlog\_struct}}
+\doxysubsubsection{\texorpdfstring{eventlog\_struct()}{eventlog\_struct()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily eventlog\+\_\+struct\+::eventlog\+\_\+struct (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+Default empty constructor for an event \mbox{\Hypertarget{structeventlog__struct_a501b8ac063a7f9a99c5a99b109712db9}\label{structeventlog__struct_a501b8ac063a7f9a99c5a99b109712db9}} 
+\index{eventlog\_struct@{eventlog\_struct}!eventlog\_struct@{eventlog\_struct}}
+\index{eventlog\_struct@{eventlog\_struct}!eventlog\_struct@{eventlog\_struct}}
+\doxysubsubsection{\texorpdfstring{eventlog\_struct()}{eventlog\_struct()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily eventlog\+\_\+struct\+::eventlog\+\_\+struct (\begin{DoxyParamCaption}\item[{const char $\ast$}]{msg\+\_\+in }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+Crates a new event log message 
+\begin{DoxyParams}{Parameters}
+{\em msg\+\_\+in} & the formatted string to turn into the message \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structeventlog__struct_afed3a9e5b13481c3c5a55a293d730421}\label{structeventlog__struct_afed3a9e5b13481c3c5a55a293d730421}} 
+\index{eventlog\_struct@{eventlog\_struct}!getHeader@{getHeader}}
+\index{getHeader@{getHeader}!eventlog\_struct@{eventlog\_struct}}
+\doxysubsubsection{\texorpdfstring{getHeader()}{getHeader()}}
+{\footnotesize\ttfamily String eventlog\+\_\+struct\+::get\+Header (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Returns CSV file header for the \mbox{\hyperlink{class_event_log}{Event\+Log}} \begin{DoxyReturn}{Returns}
+CSV file header 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{struct_sensor__struct_aad34dcd9941948595749b24cfba4fd3d}{Sensor\+\_\+struct}}.
+
+\mbox{\Hypertarget{structeventlog__struct_a0723b7cbc8d50e17fe417c4516a3c741}\label{structeventlog__struct_a0723b7cbc8d50e17fe417c4516a3c741}} 
+\index{eventlog\_struct@{eventlog\_struct}!toString@{toString}}
+\index{toString@{toString}!eventlog\_struct@{eventlog\_struct}}
+\doxysubsubsection{\texorpdfstring{toString()}{toString()}}
+{\footnotesize\ttfamily String eventlog\+\_\+struct\+::to\+String (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Returns string data in CSV format \begin{DoxyReturn}{Returns}
+A string with the data in CSV format 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{struct_sensor__struct_aeff44e4574245d4fabb160acce4c613b}{Sensor\+\_\+struct}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structeventlog__struct_a28f7b801f6ddc551aa80de8c0d66e572}\label{structeventlog__struct_a28f7b801f6ddc551aa80de8c0d66e572}} 
+\index{eventlog\_struct@{eventlog\_struct}!msg@{msg}}
+\index{msg@{msg}!eventlog\_struct@{eventlog\_struct}}
+\doxysubsubsection{\texorpdfstring{msg}{msg}}
+{\footnotesize\ttfamily char eventlog\+\_\+struct\+::msg\mbox{[}EVENTLOG\+\_\+\+LENGTH\mbox{]} \{\}}
+
+Character array message in each event 
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+eventlog\+\_\+struct.\+h\item 
+eventlog\+\_\+struct.\+cpp\end{DoxyCompactItemize}

@@ -5,8 +5,18 @@
 #include "Utilities.h"
 #include <Streaming.h>
 
+/**
+ * Global divisor for number of bytes
+ */
 uint8_t byte_rate = 8;
+/**
+ * Stores amount of bytes written to flash
+ */
 size_t bytes_written = 0;
+/**
+ * Maximum number of bytes allowed on flash
+ * half of "real" max flash size so half of the flash is always available in an emergency
+ */
 size_t max_bytes = 8000000;
 
 void file_copy(File *copy, File *paste, bool close) {
@@ -41,7 +51,9 @@ String flts(double s) {
 }
 
 bool updateBlockSize(size_t num_written){
+    //Updates total count
 bytes_written += num_written;
+    //Returns when the count is too big so the program can do something about it
 return bytes_written >= max_bytes;
 }
 

@@ -1,0 +1,106 @@
+\hypertarget{structbmp__struct}{}\doxysection{bmp\+\_\+struct Struct Reference}
+\label{structbmp__struct}\index{bmp\_struct@{bmp\_struct}}
+Inheritance diagram for bmp\+\_\+struct\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{structbmp__struct}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+String \mbox{\hyperlink{structbmp__struct_aec0ed4f77d3a32fb043eeb04d4791acd}{to\+String}} () override
+\item 
+\mbox{\hyperlink{structbmp__struct_adf051a80cef46d8107a06e4c2fe27229}{bmp\+\_\+struct}} (double temp, double press, float alt)
+\item 
+\mbox{\hyperlink{structbmp__struct_a11a111b05e0e667ddb1abfef47c6b786}{bmp\+\_\+struct}} ()=default
+\item 
+String \mbox{\hyperlink{structbmp__struct_a7a25377644fa3629a7129ba0dfd6ca99}{get\+Header}} () const override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+double \mbox{\hyperlink{structbmp__struct_a3f8555edea2f69739884d5f44d1822d4}{temperature}} \{\}
+\item 
+double \mbox{\hyperlink{structbmp__struct_aed28e8f47ad1be444db6db1781d3d277}{pressure}} \{\}
+\item 
+float \mbox{\hyperlink{structbmp__struct_a3ea17d3a5e9528bd1ecf890a9fe123d5}{altitude}} \{\}
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{structbmp__struct_adf051a80cef46d8107a06e4c2fe27229}\label{structbmp__struct_adf051a80cef46d8107a06e4c2fe27229}} 
+\index{bmp\_struct@{bmp\_struct}!bmp\_struct@{bmp\_struct}}
+\index{bmp\_struct@{bmp\_struct}!bmp\_struct@{bmp\_struct}}
+\doxysubsubsection{\texorpdfstring{bmp\_struct()}{bmp\_struct()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily bmp\+\_\+struct\+::bmp\+\_\+struct (\begin{DoxyParamCaption}\item[{double}]{temp,  }\item[{double}]{press,  }\item[{float}]{alt }\end{DoxyParamCaption})}
+
+Constructor for the \mbox{\hyperlink{structbmp__struct}{bmp\+\_\+struct}}, used by the \mbox{\hyperlink{struct_b_m_p}{BMP}} \mbox{\hyperlink{class_sensor}{Sensor}} class to pack data 
+\begin{DoxyParams}{Parameters}
+{\em temp} & Temperature of the sensor \\
+\hline
+{\em press} & Air Pressure near the sensor \\
+\hline
+{\em alt} & Altitude of the sensor \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structbmp__struct_a11a111b05e0e667ddb1abfef47c6b786}\label{structbmp__struct_a11a111b05e0e667ddb1abfef47c6b786}} 
+\index{bmp\_struct@{bmp\_struct}!bmp\_struct@{bmp\_struct}}
+\index{bmp\_struct@{bmp\_struct}!bmp\_struct@{bmp\_struct}}
+\doxysubsubsection{\texorpdfstring{bmp\_struct()}{bmp\_struct()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily bmp\+\_\+struct\+::bmp\+\_\+struct (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+Default constructor, used to make the struct a data structure usable within certain other data structures 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structbmp__struct_a7a25377644fa3629a7129ba0dfd6ca99}\label{structbmp__struct_a7a25377644fa3629a7129ba0dfd6ca99}} 
+\index{bmp\_struct@{bmp\_struct}!getHeader@{getHeader}}
+\index{getHeader@{getHeader}!bmp\_struct@{bmp\_struct}}
+\doxysubsubsection{\texorpdfstring{getHeader()}{getHeader()}}
+{\footnotesize\ttfamily String bmp\+\_\+struct\+::get\+Header (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Generates the CSV header for this sensor \begin{DoxyReturn}{Returns}
+the CSV formatted header for this sensor 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{struct_sensor__struct_aad34dcd9941948595749b24cfba4fd3d}{Sensor\+\_\+struct}}.
+
+\mbox{\Hypertarget{structbmp__struct_aec0ed4f77d3a32fb043eeb04d4791acd}\label{structbmp__struct_aec0ed4f77d3a32fb043eeb04d4791acd}} 
+\index{bmp\_struct@{bmp\_struct}!toString@{toString}}
+\index{toString@{toString}!bmp\_struct@{bmp\_struct}}
+\doxysubsubsection{\texorpdfstring{toString()}{toString()}}
+{\footnotesize\ttfamily String bmp\+\_\+struct\+::to\+String (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Overridden from \mbox{\hyperlink{struct_sensor__struct}{Sensor\+\_\+struct}} Returns the temperature, pressure, altitude, and reading time as a string 
+
+Implements \mbox{\hyperlink{struct_sensor__struct_aeff44e4574245d4fabb160acce4c613b}{Sensor\+\_\+struct}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structbmp__struct_a3ea17d3a5e9528bd1ecf890a9fe123d5}\label{structbmp__struct_a3ea17d3a5e9528bd1ecf890a9fe123d5}} 
+\index{bmp\_struct@{bmp\_struct}!altitude@{altitude}}
+\index{altitude@{altitude}!bmp\_struct@{bmp\_struct}}
+\doxysubsubsection{\texorpdfstring{altitude}{altitude}}
+{\footnotesize\ttfamily float bmp\+\_\+struct\+::altitude \{\}}
+
+The calculated altitude of the sensor using a recorded sea level pressure and a barometric calculation \mbox{\Hypertarget{structbmp__struct_aed28e8f47ad1be444db6db1781d3d277}\label{structbmp__struct_aed28e8f47ad1be444db6db1781d3d277}} 
+\index{bmp\_struct@{bmp\_struct}!pressure@{pressure}}
+\index{pressure@{pressure}!bmp\_struct@{bmp\_struct}}
+\doxysubsubsection{\texorpdfstring{pressure}{pressure}}
+{\footnotesize\ttfamily double bmp\+\_\+struct\+::pressure \{\}}
+
+The air pressure near the sensor \mbox{\Hypertarget{structbmp__struct_a3f8555edea2f69739884d5f44d1822d4}\label{structbmp__struct_a3f8555edea2f69739884d5f44d1822d4}} 
+\index{bmp\_struct@{bmp\_struct}!temperature@{temperature}}
+\index{temperature@{temperature}!bmp\_struct@{bmp\_struct}}
+\doxysubsubsection{\texorpdfstring{temperature}{temperature}}
+{\footnotesize\ttfamily double bmp\+\_\+struct\+::temperature \{\}}
+
+The temperature of the sensor 
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+bmp\+\_\+struct.\+h\item 
+bmp\+\_\+struct.\+cpp\end{DoxyCompactItemize}

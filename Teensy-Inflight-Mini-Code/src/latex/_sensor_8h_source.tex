@@ -1,0 +1,64 @@
+\hypertarget{_sensor_8h_source}{}\doxysection{Sensor.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by shawn on 3/17/22.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef TEENSY\_CODE\_SENSOR\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define TEENSY\_CODE\_SENSOR\_H}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}Sensor\_struct.h"{}}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <FS.h>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <utility>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <deque>}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{16 \textcolor{keyword}{class }\mbox{\hyperlink{class_sensor}{Sensor}} \{}
+\DoxyCodeLine{17 \textcolor{keyword}{public}:}
+\DoxyCodeLine{21     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_sensor_a49e03657e98d76dd40ef7dcbd81cfe08}{updateData}}() = 0;}
+\DoxyCodeLine{26     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_sensor_ab1289d06386c8b264c3dec43c4544e56}{setFile}}(File * F);}
+\DoxyCodeLine{31     String \mbox{\hyperlink{class_sensor_a60ec96ed03660b42681c1bcc99007033}{getName}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{37     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_sensor_a5bbe55e24152987d3a08bd03c2a15834}{dumpToFile}}(File * in, File * out) \textcolor{keyword}{const};}
+\DoxyCodeLine{45     \mbox{\hyperlink{class_sensor_a19f71ed1109bcd686facd5d8dc0fafc9}{Sensor}}(String n, \mbox{\hyperlink{struct_sensor__struct}{Sensor\_struct}} * data\_type, \textcolor{keywordtype}{size\_t} data\_type\_size, uint16\_t updateRate);}
+\DoxyCodeLine{49     \mbox{\hyperlink{struct_sensor__struct}{Sensor\_struct}} * \mbox{\hyperlink{class_sensor_a7d62c00363f6891b085adc042c1098ab}{data\_struct\_ptr}};}
+\DoxyCodeLine{53     \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_sensor_af0c71c21a793f85ac60de9c077dd02c6}{enable}};}
+\DoxyCodeLine{57     \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{class_sensor_a52010ac57011fc08adc10e227f699241}{data\_struct\_size}};}
+\DoxyCodeLine{62     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_sensor_a1e1744b48a04a0187b0f2e3059ae9167}{write}}(\mbox{\hyperlink{struct_sensor__struct}{Sensor\_struct}} * data);}
+\DoxyCodeLine{63     \textcolor{comment}{//}}
+\DoxyCodeLine{68 \textcolor{comment}{}    uint16\_t \mbox{\hyperlink{class_sensor_a0efe6c677f0f76b1e08488b749981565}{update\_rate}};}
+\DoxyCodeLine{72     uint16\_t \mbox{\hyperlink{class_sensor_aa9b88dea64a757d5aa87458c33ebaba3}{buf\_count}};}
+\DoxyCodeLine{76     uint8\_t \mbox{\hyperlink{class_sensor_a015d86c534dc90ffbf140ea34a3c952b}{divider\_counter}};}
+\DoxyCodeLine{77 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{81     String \mbox{\hyperlink{class_sensor_a9cf70c3e41501d89f6f9f48a3e9d1296}{name}};}
+\DoxyCodeLine{85     File * \mbox{\hyperlink{class_sensor_a4ade4186ff5f6a01ad4a8f230af11607}{out\_file}};}
+\DoxyCodeLine{92     \textcolor{keyword}{template} <\textcolor{keyword}{class} D> \textcolor{keywordtype}{void} \mbox{\hyperlink{class_sensor_a46d00a0a3e29cd7ff29e16fa7ba58392}{new\_data\_update}}(std::deque<D> * derivedList, D current\_element) \{}
+\DoxyCodeLine{93         derivedList-\/>push\_back(current\_element);}
+\DoxyCodeLine{94         \textcolor{keywordflow}{while}(derivedList-\/>size() >= packet\_size * \mbox{\hyperlink{class_sensor_a0efe6c677f0f76b1e08488b749981565}{update\_rate}}) \{}
+\DoxyCodeLine{95                 \mbox{\hyperlink{class_sensor_a015d86c534dc90ffbf140ea34a3c952b}{divider\_counter}}++;}
+\DoxyCodeLine{96                 \textcolor{comment}{//Quick and easy way to reduce the write rate}}
+\DoxyCodeLine{97                 \textcolor{comment}{//Will count up to divider\_counter before it actually writes}}
+\DoxyCodeLine{98                 \textcolor{keywordflow}{if}(\mbox{\hyperlink{class_sensor_a015d86c534dc90ffbf140ea34a3c952b}{divider\_counter}} == byte\_rate) \{}
+\DoxyCodeLine{99 \textcolor{comment}{//                   Serial.println(buf\_count);}}
+\DoxyCodeLine{100                     \textcolor{comment}{//Writes data to file}}
+\DoxyCodeLine{101                     \mbox{\hyperlink{class_sensor_a4ade4186ff5f6a01ad4a8f230af11607}{out\_file}}-\/>write(\&derivedList-\/>front(), \textcolor{keyword}{sizeof}(derivedList-\/>front()));}
+\DoxyCodeLine{102                     \textcolor{comment}{// Updates the block size so that the system knows how much more data can be written before}}
+\DoxyCodeLine{103                     \textcolor{comment}{// a data dump is needed}}
+\DoxyCodeLine{104                     updateBlockSize(\mbox{\hyperlink{class_sensor_a52010ac57011fc08adc10e227f699241}{data\_struct\_size}});}
+\DoxyCodeLine{105                     \mbox{\hyperlink{class_sensor_aa9b88dea64a757d5aa87458c33ebaba3}{buf\_count}}++;}
+\DoxyCodeLine{106                     Serial.println(\mbox{\hyperlink{class_sensor_aa9b88dea64a757d5aa87458c33ebaba3}{buf\_count}});}
+\DoxyCodeLine{107                     Serial.println(max\_buf\_size);}
+\DoxyCodeLine{108                     \textcolor{keywordflow}{if}(\mbox{\hyperlink{class_sensor_aa9b88dea64a757d5aa87458c33ebaba3}{buf\_count}} > max\_buf\_size) \{}
+\DoxyCodeLine{109                         Serial.println(\textcolor{stringliteral}{"{}File flush!"{}});}
+\DoxyCodeLine{110                         \mbox{\hyperlink{class_sensor_a4ade4186ff5f6a01ad4a8f230af11607}{out\_file}}-\/>flush();}
+\DoxyCodeLine{111                         \mbox{\hyperlink{class_sensor_aa9b88dea64a757d5aa87458c33ebaba3}{buf\_count}} = 0;}
+\DoxyCodeLine{112                     \}}
+\DoxyCodeLine{113                     \mbox{\hyperlink{class_sensor_a015d86c534dc90ffbf140ea34a3c952b}{divider\_counter}} = 0;}
+\DoxyCodeLine{114                 \}}
+\DoxyCodeLine{115                 derivedList-\/>pop\_front();}
+\DoxyCodeLine{116         \}}
+\DoxyCodeLine{117     \}}
+\DoxyCodeLine{118 \};}
+\DoxyCodeLine{119 }
+\DoxyCodeLine{120 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//TEENSY\_CODE\_SENSOR\_H}}
+
+\end{DoxyCode}

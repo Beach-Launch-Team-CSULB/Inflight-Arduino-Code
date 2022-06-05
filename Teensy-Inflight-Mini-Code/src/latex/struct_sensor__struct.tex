@@ -1,0 +1,130 @@
+\hypertarget{struct_sensor__struct}{}\doxysection{Sensor\+\_\+struct Struct Reference}
+\label{struct_sensor__struct}\index{Sensor\_struct@{Sensor\_struct}}
+Inheritance diagram for Sensor\+\_\+struct\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{struct_sensor__struct}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual String \mbox{\hyperlink{struct_sensor__struct_aeff44e4574245d4fabb160acce4c613b}{to\+String}} ()=0
+\item 
+virtual String \mbox{\hyperlink{struct_sensor__struct_aad34dcd9941948595749b24cfba4fd3d}{get\+Header}} () const =0
+\item 
+void \mbox{\hyperlink{struct_sensor__struct_a7c8879301b4cf39b8de8c10a0252c63a}{set\+Time}} ()
+\item 
+void \mbox{\hyperlink{struct_sensor__struct_a69c250dce189f492a9dd20a631e37479}{set\+Time}} (time\+\_\+t unix\+\_\+t, uint32\+\_\+t millis, uint32\+\_\+t micros)
+\item 
+String \mbox{\hyperlink{struct_sensor__struct_abc60e02e47543554baf06d4781ff6e46}{get\+\_\+time}} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static String \mbox{\hyperlink{struct_sensor__struct_ab64f6135a6d3034f909dec9a67d8f310}{get\+\_\+time\+\_\+hdr}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+time\+\_\+t \mbox{\hyperlink{struct_sensor__struct_a5cd79fe619435b655a783c7660146408}{unix\+\_\+time}} \{\}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{struct_sensor__struct_ac2694d67168d24563af5a61a34f21ec7}{milliseconds}} \{\}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{struct_sensor__struct_aeddb485cdd3851647959e860ca89ad5a}{microseconds}} \{\}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{struct_sensor__struct_abc60e02e47543554baf06d4781ff6e46}\label{struct_sensor__struct_abc60e02e47543554baf06d4781ff6e46}} 
+\index{Sensor\_struct@{Sensor\_struct}!get\_time@{get\_time}}
+\index{get\_time@{get\_time}!Sensor\_struct@{Sensor\_struct}}
+\doxysubsubsection{\texorpdfstring{get\_time()}{get\_time()}}
+{\footnotesize\ttfamily String Sensor\+\_\+struct\+::get\+\_\+time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Returns the current time as a string \begin{DoxyReturn}{Returns}
+the current time as a string 
+\end{DoxyReturn}
+\mbox{\Hypertarget{struct_sensor__struct_ab64f6135a6d3034f909dec9a67d8f310}\label{struct_sensor__struct_ab64f6135a6d3034f909dec9a67d8f310}} 
+\index{Sensor\_struct@{Sensor\_struct}!get\_time\_hdr@{get\_time\_hdr}}
+\index{get\_time\_hdr@{get\_time\_hdr}!Sensor\_struct@{Sensor\_struct}}
+\doxysubsubsection{\texorpdfstring{get\_time\_hdr()}{get\_time\_hdr()}}
+{\footnotesize\ttfamily String Sensor\+\_\+struct\+::get\+\_\+time\+\_\+hdr (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Returns a time header for creation of a CSV \begin{DoxyReturn}{Returns}
+A time header for creation of a CSV 
+\end{DoxyReturn}
+\mbox{\Hypertarget{struct_sensor__struct_aad34dcd9941948595749b24cfba4fd3d}\label{struct_sensor__struct_aad34dcd9941948595749b24cfba4fd3d}} 
+\index{Sensor\_struct@{Sensor\_struct}!getHeader@{getHeader}}
+\index{getHeader@{getHeader}!Sensor\_struct@{Sensor\_struct}}
+\doxysubsubsection{\texorpdfstring{getHeader()}{getHeader()}}
+{\footnotesize\ttfamily virtual String Sensor\+\_\+struct\+::get\+Header (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+CSV file header return operation \begin{DoxyReturn}{Returns}
+the CSV file header 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{structbmp__struct_a7a25377644fa3629a7129ba0dfd6ca99}{bmp\+\_\+struct}}, \mbox{\hyperlink{structeventlog__struct_afed3a9e5b13481c3c5a55a293d730421}{eventlog\+\_\+struct}}, \mbox{\hyperlink{structicm__struct_ac16b5921e89cfc887f7771769a12a89e}{icm\+\_\+struct}}, and \mbox{\hyperlink{structinternal__temp__struct_a09ad2ce67940df3d7135eacc3f04acb2}{internal\+\_\+temp\+\_\+struct}}.
+
+\mbox{\Hypertarget{struct_sensor__struct_a7c8879301b4cf39b8de8c10a0252c63a}\label{struct_sensor__struct_a7c8879301b4cf39b8de8c10a0252c63a}} 
+\index{Sensor\_struct@{Sensor\_struct}!setTime@{setTime}}
+\index{setTime@{setTime}!Sensor\_struct@{Sensor\_struct}}
+\doxysubsubsection{\texorpdfstring{setTime()}{setTime()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Sensor\+\_\+struct\+::set\+Time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Sets the timestamps using the current time \mbox{\Hypertarget{struct_sensor__struct_a69c250dce189f492a9dd20a631e37479}\label{struct_sensor__struct_a69c250dce189f492a9dd20a631e37479}} 
+\index{Sensor\_struct@{Sensor\_struct}!setTime@{setTime}}
+\index{setTime@{setTime}!Sensor\_struct@{Sensor\_struct}}
+\doxysubsubsection{\texorpdfstring{setTime()}{setTime()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Sensor\+\_\+struct\+::set\+Time (\begin{DoxyParamCaption}\item[{time\+\_\+t}]{unix\+\_\+t,  }\item[{uint32\+\_\+t}]{millis,  }\item[{uint32\+\_\+t}]{micros }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Sets time manually for if an override is needed 
+\begin{DoxyParams}{Parameters}
+{\em unix\+\_\+t} & the UNIX timestamp \\
+\hline
+{\em millis} & the milliseconds value \\
+\hline
+{\em micros} & the microseconds value \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{struct_sensor__struct_aeff44e4574245d4fabb160acce4c613b}\label{struct_sensor__struct_aeff44e4574245d4fabb160acce4c613b}} 
+\index{Sensor\_struct@{Sensor\_struct}!toString@{toString}}
+\index{toString@{toString}!Sensor\_struct@{Sensor\_struct}}
+\doxysubsubsection{\texorpdfstring{toString()}{toString()}}
+{\footnotesize\ttfamily virtual String Sensor\+\_\+struct\+::to\+String (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Returns string data in CSV format \begin{DoxyReturn}{Returns}
+A string with the data in CSV format 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{structbmp__struct_aec0ed4f77d3a32fb043eeb04d4791acd}{bmp\+\_\+struct}}, \mbox{\hyperlink{structeventlog__struct_a0723b7cbc8d50e17fe417c4516a3c741}{eventlog\+\_\+struct}}, \mbox{\hyperlink{structicm__struct_a282001553aeb4c7a35de994471cfa1cb}{icm\+\_\+struct}}, and \mbox{\hyperlink{structinternal__temp__struct_aef2cfe3f12b7107b04e640f7445ff4eb}{internal\+\_\+temp\+\_\+struct}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{struct_sensor__struct_aeddb485cdd3851647959e860ca89ad5a}\label{struct_sensor__struct_aeddb485cdd3851647959e860ca89ad5a}} 
+\index{Sensor\_struct@{Sensor\_struct}!microseconds@{microseconds}}
+\index{microseconds@{microseconds}!Sensor\_struct@{Sensor\_struct}}
+\doxysubsubsection{\texorpdfstring{microseconds}{microseconds}}
+{\footnotesize\ttfamily uint32\+\_\+t Sensor\+\_\+struct\+::microseconds \{\}}
+
+Microseconds reading from micros(); \mbox{\Hypertarget{struct_sensor__struct_ac2694d67168d24563af5a61a34f21ec7}\label{struct_sensor__struct_ac2694d67168d24563af5a61a34f21ec7}} 
+\index{Sensor\_struct@{Sensor\_struct}!milliseconds@{milliseconds}}
+\index{milliseconds@{milliseconds}!Sensor\_struct@{Sensor\_struct}}
+\doxysubsubsection{\texorpdfstring{milliseconds}{milliseconds}}
+{\footnotesize\ttfamily uint32\+\_\+t Sensor\+\_\+struct\+::milliseconds \{\}}
+
+Milliseconds reading from millis() \mbox{\Hypertarget{struct_sensor__struct_a5cd79fe619435b655a783c7660146408}\label{struct_sensor__struct_a5cd79fe619435b655a783c7660146408}} 
+\index{Sensor\_struct@{Sensor\_struct}!unix\_time@{unix\_time}}
+\index{unix\_time@{unix\_time}!Sensor\_struct@{Sensor\_struct}}
+\doxysubsubsection{\texorpdfstring{unix\_time}{unix\_time}}
+{\footnotesize\ttfamily time\+\_\+t Sensor\+\_\+struct\+::unix\+\_\+time \{\}}
+
+UNIX timestamp from Teensy, can get updated by GPS, computer time, or RTC The time is stored using 16 bytes 
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Sensor\+\_\+struct.\+h\item 
+Sensor\+\_\+struct.\+cpp\end{DoxyCompactItemize}

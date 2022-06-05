@@ -1,0 +1,27 @@
+\hypertarget{_internal_temp_8h_source}{}\doxysection{Internal\+Temp.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by shawn on 3/20/22.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef TEENSY\_CODE\_INTERNALTEMP\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define TEENSY\_CODE\_INTERNALTEMP\_H}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}Sensor.h"{}}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include "{}internal\_temp\_struct.h"{}}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{keyword}{struct }\mbox{\hyperlink{struct_internal_temp}{InternalTemp}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_sensor}{Sensor}} \{}
+\DoxyCodeLine{15     \textcolor{keywordtype}{void} \mbox{\hyperlink{struct_internal_temp_ab71eb1aae59a1ebb958022574b1155b3}{updateData}}() \textcolor{keyword}{override};}
+\DoxyCodeLine{16     \textcolor{comment}{//Internal Temp data struct}}
+\DoxyCodeLine{20 \textcolor{comment}{}    \mbox{\hyperlink{structinternal__temp__struct}{internal\_temp\_struct}} \mbox{\hyperlink{struct_internal_temp_a1f340fe5f1c2a019180f92dc6cb153c6}{data\_struct}};}
+\DoxyCodeLine{21     \textcolor{comment}{//Initializes internal temp device}}
+\DoxyCodeLine{25 \textcolor{comment}{}    \mbox{\hyperlink{struct_internal_temp_add0adcf22be4f4098d8db0836a0a9be6}{InternalTemp}}();}
+\DoxyCodeLine{26     \textcolor{comment}{//Returns temperature}}
+\DoxyCodeLine{30 \textcolor{comment}{}    std::deque<internal\_temp\_struct> \mbox{\hyperlink{struct_internal_temp_a5447c1620bb7f82792a00292299fa7c9}{data\_deque}};}
+\DoxyCodeLine{31 \};}
+\DoxyCodeLine{32 }
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//TEENSY\_CODE\_INTERNALTEMP\_H}}
+
+\end{DoxyCode}

@@ -6,6 +6,7 @@
 #include <Streaming.h>
 
 void EventLog::updateData() {
+    // Iterates through data deque, writes everything to the output file
     while(!data_deque.empty()) {
         data_struct = data_deque.front();
         out_file->write(&data_struct, data_struct_size);

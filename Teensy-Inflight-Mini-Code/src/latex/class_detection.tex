@@ -1,0 +1,74 @@
+\hypertarget{class_detection}{}\doxysection{Detection Class Reference}
+\label{class_detection}\index{Detection@{Detection}}
+
+
+{\ttfamily \#include $<$Detection.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_detection_a664d1e00ae6041eafcb536f302ca53ec}{update\+Detection}} (std\+::deque$<$ \mbox{\hyperlink{structicm__struct}{icm\+\_\+struct}} $>$ $\ast$icm\+\_\+data, std\+::deque$<$ \mbox{\hyperlink{structbmp__struct}{bmp\+\_\+struct}} $>$ $\ast$bmp\+\_\+data)
+\item 
+uint8\+\_\+t \mbox{\hyperlink{class_detection_aa5f5d1cbda9406d0cda3cd2085beb58f}{get\+State}} () const
+\item 
+\mbox{\hyperlink{class_detection_a86e6ebf5a660a29e78ee7a7f08292260}{Detection}} ()
+\item 
+void \mbox{\hyperlink{class_detection_af63740d8ad4772a88808460cd1ae8ba6}{set\+State}} (uint8\+\_\+t state)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \mbox{\hyperlink{class_detection}{Detection}} class, handles all of the data, etc. used to tell the system what state the rocket is currently in 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_detection_a86e6ebf5a660a29e78ee7a7f08292260}\label{class_detection_a86e6ebf5a660a29e78ee7a7f08292260}} 
+\index{Detection@{Detection}!Detection@{Detection}}
+\index{Detection@{Detection}!Detection@{Detection}}
+\doxysubsubsection{\texorpdfstring{Detection()}{Detection()}}
+{\footnotesize\ttfamily Detection\+::\+Detection (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Creates a new detection object 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_detection_aa5f5d1cbda9406d0cda3cd2085beb58f}\label{class_detection_aa5f5d1cbda9406d0cda3cd2085beb58f}} 
+\index{Detection@{Detection}!getState@{getState}}
+\index{getState@{getState}!Detection@{Detection}}
+\doxysubsubsection{\texorpdfstring{getState()}{getState()}}
+{\footnotesize\ttfamily uint8\+\_\+t Detection\+::get\+State (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+The current state of the rocket \begin{DoxyReturn}{Returns}
+The current state of the rocket 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_detection_af63740d8ad4772a88808460cd1ae8ba6}\label{class_detection_af63740d8ad4772a88808460cd1ae8ba6}} 
+\index{Detection@{Detection}!setState@{setState}}
+\index{setState@{setState}!Detection@{Detection}}
+\doxysubsubsection{\texorpdfstring{setState()}{setState()}}
+{\footnotesize\ttfamily void Detection\+::set\+State (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{state }\end{DoxyParamCaption})}
+
+Manually sets a state, used for debugging 
+\begin{DoxyParams}{Parameters}
+{\em state} & The state number to set \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_detection_a664d1e00ae6041eafcb536f302ca53ec}\label{class_detection_a664d1e00ae6041eafcb536f302ca53ec}} 
+\index{Detection@{Detection}!updateDetection@{updateDetection}}
+\index{updateDetection@{updateDetection}!Detection@{Detection}}
+\doxysubsubsection{\texorpdfstring{updateDetection()}{updateDetection()}}
+{\footnotesize\ttfamily bool Detection\+::update\+Detection (\begin{DoxyParamCaption}\item[{std\+::deque$<$ \mbox{\hyperlink{structicm__struct}{icm\+\_\+struct}} $>$ $\ast$}]{icm\+\_\+data,  }\item[{std\+::deque$<$ \mbox{\hyperlink{structbmp__struct}{bmp\+\_\+struct}} $>$ $\ast$}]{bmp\+\_\+data }\end{DoxyParamCaption})}
+
+Updates the current state of the rocket using input IMU and BPS data 
+\begin{DoxyParams}{Parameters}
+{\em icm\+\_\+data} & The buffer of \mbox{\hyperlink{structicm__struct}{icm\+\_\+struct}}\textquotesingle{}s to use for gyro, magnetometer, and accel data \\
+\hline
+{\em bmp\+\_\+data} & The buffer of \mbox{\hyperlink{structbmp__struct}{bmp\+\_\+struct}}\textquotesingle{}s to use for barometric pressure/altitude \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The current state of the rocket 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Detection.\+h\item 
+Detection.\+cpp\end{DoxyCompactItemize}

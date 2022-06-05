@@ -4,19 +4,27 @@
 
 #include "Detection.h"
 #include "EventLog.h"
+#include <Arduino.h>
 #include <Streaming.h>
 
 Detection::Detection() {
+//Constructor for the Detection class
+//Initializes the launch state to 0 and assumes the system is not in test mode until set otherwise
     launch_state = 0;
     test = false;
 }
 
 void Detection::setState(uint8_t state) {
+    //Used for testing purposes
+    // Allows the tester to set the system state over serial
+
     launch_state = state;
     test = true;
 }
 
 bool Detection::updateDetection(std::deque<icm_struct> *icm_data, std::deque<bmp_struct> *bmp_data) {
+    //Updates what the detection system does with new data
+    //Returns true when there is a state change
     bool output = false;
     //<--- Get the averages for vertical acceleration
     double sum1 = 0;

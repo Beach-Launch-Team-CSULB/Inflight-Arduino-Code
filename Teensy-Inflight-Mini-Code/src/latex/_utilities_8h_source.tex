@@ -1,0 +1,28 @@
+\hypertarget{_utilities_8h_source}{}\doxysection{Utilities.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#include <FS.h>}}
+\DoxyCodeLine{2 }
+\DoxyCodeLine{3 \textcolor{preprocessor}{\#define buffer\_size 128}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#define cm +"{},"{}} +}
+\DoxyCodeLine{5 }
+\DoxyCodeLine{6 \textcolor{comment}{// Chip select and interrupt pins for sensors}}
+\DoxyCodeLine{7 \textcolor{keyword}{const} uint\_fast8\_t BMP\_CS = 4, ICM\_CS = 10, BMP\_INT = 3;}
+\DoxyCodeLine{8 \textcolor{comment}{//Data storage constants}}
+\DoxyCodeLine{9 \textcolor{keyword}{const} uint\_fast16\_t packet\_size = 512;}
+\DoxyCodeLine{10 \textcolor{keyword}{const} uint\_fast16\_t max\_buf\_size = packet\_size * 4;}
+\DoxyCodeLine{11 \textcolor{comment}{// Precision values to use when converting from float to decimal}}
+\DoxyCodeLine{12 \textcolor{keyword}{const} u\_char float\_depth = 18, double\_depth = 18;}
+\DoxyCodeLine{20 \textcolor{keywordtype}{bool} updateBlockSize(\textcolor{keywordtype}{size\_t} num\_written);}
+\DoxyCodeLine{25 \textcolor{keywordtype}{size\_t} getBlockSizeVal();}
+\DoxyCodeLine{30 \textcolor{keywordtype}{bool} getBlockSize();}
+\DoxyCodeLine{34 \textcolor{keywordtype}{void} resetBlockCounter();}
+\DoxyCodeLine{42 \textcolor{keywordtype}{void} file\_copy(File *copy, File *paste, \textcolor{keywordtype}{bool} close);}
+\DoxyCodeLine{48 String flts(\textcolor{keywordtype}{float} s);}
+\DoxyCodeLine{54 String flts(\textcolor{keywordtype}{double} s);}
+\DoxyCodeLine{55 \textcolor{comment}{// External variables in Utilities.cpp, your compiler will yell at you if you put these in the header}}
+\DoxyCodeLine{56 \textcolor{keyword}{extern} uint8\_t byte\_rate;}
+\DoxyCodeLine{57 \textcolor{keyword}{extern} \textcolor{keywordtype}{size\_t} max\_bytes;}
+\DoxyCodeLine{58 \textcolor{keyword}{extern} \textcolor{keywordtype}{size\_t} bytes\_written;}
+
+\end{DoxyCode}

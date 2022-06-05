@@ -1,0 +1,40 @@
+\hypertarget{_sensor__struct_8h_source}{}\doxysection{Sensor\+\_\+struct.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by shawn on 3/15/22.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef TEENSY\_CODE\_SENSOR\_STRUCT\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define TEENSY\_CODE\_SENSOR\_STRUCT\_H}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <WString.h>}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <core\_pins.h>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <TimeLib.h>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include "{}Utilities.h"{}}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{keyword}{struct }\mbox{\hyperlink{struct_sensor__struct}{Sensor\_struct}} \{}
+\DoxyCodeLine{13     \textcolor{comment}{//These are functions, so they are not part of the struct and go in program code}}
+\DoxyCodeLine{18 \textcolor{comment}{}    \textcolor{keyword}{virtual} String \mbox{\hyperlink{struct_sensor__struct_aeff44e4574245d4fabb160acce4c613b}{toString}}() = 0;}
+\DoxyCodeLine{23     \textcolor{keyword}{virtual} String \mbox{\hyperlink{struct_sensor__struct_aad34dcd9941948595749b24cfba4fd3d}{getHeader}}() \textcolor{keyword}{const} = 0;}
+\DoxyCodeLine{28     time\_t \mbox{\hyperlink{struct_sensor__struct_a5cd79fe619435b655a783c7660146408}{unix\_time}}\{\}; \textcolor{comment}{//8 bytes}}
+\DoxyCodeLine{32 \textcolor{comment}{}    uint32\_t \mbox{\hyperlink{struct_sensor__struct_ac2694d67168d24563af5a61a34f21ec7}{milliseconds}}\{\}; \textcolor{comment}{//4 bytes}}
+\DoxyCodeLine{36 \textcolor{comment}{}    uint32\_t \mbox{\hyperlink{struct_sensor__struct_aeddb485cdd3851647959e860ca89ad5a}{microseconds}}\{\}; \textcolor{comment}{//4 bytes}}
+\DoxyCodeLine{40 \textcolor{comment}{}    \textcolor{keywordtype}{void} \mbox{\hyperlink{struct_sensor__struct_a7c8879301b4cf39b8de8c10a0252c63a}{setTime}}() \{}
+\DoxyCodeLine{41         \mbox{\hyperlink{struct_sensor__struct_a5cd79fe619435b655a783c7660146408}{unix\_time}} = now();}
+\DoxyCodeLine{42         \mbox{\hyperlink{struct_sensor__struct_ac2694d67168d24563af5a61a34f21ec7}{milliseconds}} = millis();}
+\DoxyCodeLine{43         \mbox{\hyperlink{struct_sensor__struct_aeddb485cdd3851647959e860ca89ad5a}{microseconds}} = micros();}
+\DoxyCodeLine{44     \}}
+\DoxyCodeLine{51     \textcolor{keywordtype}{void} \mbox{\hyperlink{struct_sensor__struct_a69c250dce189f492a9dd20a631e37479}{setTime}}(time\_t unix\_t, uint32\_t millis, uint32\_t micros) \{}
+\DoxyCodeLine{52         \mbox{\hyperlink{struct_sensor__struct_a5cd79fe619435b655a783c7660146408}{unix\_time}} = unix\_t;}
+\DoxyCodeLine{53         \mbox{\hyperlink{struct_sensor__struct_ac2694d67168d24563af5a61a34f21ec7}{milliseconds}} = millis;}
+\DoxyCodeLine{54         \mbox{\hyperlink{struct_sensor__struct_aeddb485cdd3851647959e860ca89ad5a}{microseconds}} = micros;}
+\DoxyCodeLine{55     \}}
+\DoxyCodeLine{60     String \mbox{\hyperlink{struct_sensor__struct_abc60e02e47543554baf06d4781ff6e46}{get\_time}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{65     \textcolor{keyword}{static} String \mbox{\hyperlink{struct_sensor__struct_ab64f6135a6d3034f909dec9a67d8f310}{get\_time\_hdr}}();}
+\DoxyCodeLine{66 \};}
+\DoxyCodeLine{67 }
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69 }
+\DoxyCodeLine{70 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//TEENSY\_CODE\_SENSOR\_STRUCT\_H}}
+
+\end{DoxyCode}
