@@ -20,9 +20,11 @@ enable = true;
 }
 
 void EventLog::write(String s) {
+    // Cuts off string if it is too long
     if(s.length() > EVENTLOG_LENGTH) {
         s = s.substring(0, EVENTLOG_LENGTH);
     }
+    // Adds message to the back of the data deque
     data_deque.emplace_back(s.c_str());
     Serial.println(s);
 }

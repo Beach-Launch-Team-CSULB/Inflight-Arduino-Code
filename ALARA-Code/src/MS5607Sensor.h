@@ -11,12 +11,27 @@
 
 class MS5607Sensor: public Sensor {
 public:
+    /**
+     * Updates temp data from MS507 sensor, updates data deque
+     */
     void updateData() override;
+    /**
+     * Internal MS507 sensor object used to collect data
+     */
     MS5607 sensor;
-    //Initializes internal temp device
+    /**
+     * Constructor for new sensor
+     * No parameters needed since the driver is ALARA-specific and this derived sensor class is only designed for use
+     * with ALARAv1
+     */
     MS5607Sensor();
-    //Returns temperature
+    /**
+     * Internal ms5607_struct used for object data storage
+     */
     ms5607_struct data_struct;
+    /**
+     * deque of derived MS5607 objects
+     */
     std::deque<ms5607_struct> data_deque;
 };
 

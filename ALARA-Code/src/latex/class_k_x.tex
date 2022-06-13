@@ -1,0 +1,81 @@
+\hypertarget{class_k_x}{}\doxysection{KX Class Reference}
+\label{class_k_x}\index{KX@{KX}}
+Inheritance diagram for KX\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_k_x}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_k_x_ac641934784d319fd5bc8a316b731e316}{update\+Data}} () override
+\item 
+\mbox{\hyperlink{class_k_x_aa63a9735b920068f39ea5c0d9ba2aff7}{KX}} (uint8\+\_\+t CS, uint8\+\_\+t int\+\_\+pin)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Qwiic\+KX134 \mbox{\hyperlink{class_k_x_aac5bfea089dcb3f66a321c2d923d6d74}{sensor}}
+\item 
+\mbox{\hyperlink{structkx__struct}{kx\+\_\+struct}} \mbox{\hyperlink{class_k_x_a83374300b4957acf3477437ca05d3a71}{data\+\_\+struct}}
+\item 
+std\+::deque$<$ \mbox{\hyperlink{structkx__struct}{kx\+\_\+struct}} $>$ \mbox{\hyperlink{class_k_x_aa75ce94d44ec1d9eb579e5eef9d51670}{data\+\_\+deque}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_k_x_aa63a9735b920068f39ea5c0d9ba2aff7}\label{class_k_x_aa63a9735b920068f39ea5c0d9ba2aff7}} 
+\index{KX@{KX}!KX@{KX}}
+\index{KX@{KX}!KX@{KX}}
+\doxysubsubsection{\texorpdfstring{KX()}{KX()}}
+{\footnotesize\ttfamily KX\+::\+KX (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{CS,  }\item[{uint8\+\_\+t}]{int\+\_\+pin }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+\mbox{\hyperlink{class_k_x}{KX}} initialization constructor 
+\begin{DoxyParams}{Parameters}
+{\em CS} & SPI Chip Select pin for KX134 sensor \\
+\hline
+{\em int\+\_\+pin} & SPI digital interrupt pin for KX134 sensor \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_k_x_ac641934784d319fd5bc8a316b731e316}\label{class_k_x_ac641934784d319fd5bc8a316b731e316}} 
+\index{KX@{KX}!updateData@{updateData}}
+\index{updateData@{updateData}!KX@{KX}}
+\doxysubsubsection{\texorpdfstring{updateData()}{updateData()}}
+{\footnotesize\ttfamily void KX\+::update\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Overridden sensor update function 
+
+Implements \mbox{\hyperlink{class_sensor_a49e03657e98d76dd40ef7dcbd81cfe08}{Sensor}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_k_x_aa75ce94d44ec1d9eb579e5eef9d51670}\label{class_k_x_aa75ce94d44ec1d9eb579e5eef9d51670}} 
+\index{KX@{KX}!data\_deque@{data\_deque}}
+\index{data\_deque@{data\_deque}!KX@{KX}}
+\doxysubsubsection{\texorpdfstring{data\_deque}{data\_deque}}
+{\footnotesize\ttfamily std\+::deque$<$\mbox{\hyperlink{structkx__struct}{kx\+\_\+struct}}$>$ KX\+::data\+\_\+deque}
+
+Data deque used for data storage \mbox{\Hypertarget{class_k_x_a83374300b4957acf3477437ca05d3a71}\label{class_k_x_a83374300b4957acf3477437ca05d3a71}} 
+\index{KX@{KX}!data\_struct@{data\_struct}}
+\index{data\_struct@{data\_struct}!KX@{KX}}
+\doxysubsubsection{\texorpdfstring{data\_struct}{data\_struct}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structkx__struct}{kx\+\_\+struct}} KX\+::data\+\_\+struct}
+
+data struct used for data storage \mbox{\Hypertarget{class_k_x_aac5bfea089dcb3f66a321c2d923d6d74}\label{class_k_x_aac5bfea089dcb3f66a321c2d923d6d74}} 
+\index{KX@{KX}!sensor@{sensor}}
+\index{sensor@{sensor}!KX@{KX}}
+\doxysubsubsection{\texorpdfstring{sensor}{sensor}}
+{\footnotesize\ttfamily Qwiic\+KX134 KX\+::sensor}
+
+\mbox{\hyperlink{class_sensor}{Sensor}} object used to generate data 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+KX.\+h\item 
+KX.\+cpp\end{DoxyCompactItemize}

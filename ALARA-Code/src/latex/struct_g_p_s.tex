@@ -1,0 +1,79 @@
+\hypertarget{struct_g_p_s}{}\doxysection{GPS Struct Reference}
+\label{struct_g_p_s}\index{GPS@{GPS}}
+Inheritance diagram for GPS\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{struct_g_p_s}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_g_p_s_a854b51010388a519cba0d8802a37e0ed}{GPS}} (uint16\+\_\+t baud)
+\item 
+void \mbox{\hyperlink{struct_g_p_s_abc31d43e3bfca2066951bcf635d435e4}{update\+Data}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Tiny\+GPSPlus \mbox{\hyperlink{struct_g_p_s_a593d8aee0e1c66f653628b7036a9ba52}{parser}}
+\item 
+\mbox{\hyperlink{structgps__struct}{gps\+\_\+struct}} \mbox{\hyperlink{struct_g_p_s_afc001763e52209dbb4ec95b35cd3311b}{data\+\_\+struct}}
+\item 
+std\+::deque$<$ \mbox{\hyperlink{structgps__struct}{gps\+\_\+struct}} $>$ \mbox{\hyperlink{struct_g_p_s_a0af5a9e93d5d9245a2a9b901c83ecd92}{data\+\_\+deque}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{struct_g_p_s_a854b51010388a519cba0d8802a37e0ed}\label{struct_g_p_s_a854b51010388a519cba0d8802a37e0ed}} 
+\index{GPS@{GPS}!GPS@{GPS}}
+\index{GPS@{GPS}!GPS@{GPS}}
+\doxysubsubsection{\texorpdfstring{GPS()}{GPS()}}
+{\footnotesize\ttfamily GPS\+::\+GPS (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{baud }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+Initializes the \mbox{\hyperlink{struct_g_p_s}{GPS}} The one ALARA I had used when I wrote this code had a broken \mbox{\hyperlink{struct_g_p_s}{GPS}} so I didn\textquotesingle{}t bother wriitng code for that \mbox{\hyperlink{struct_g_p_s}{GPS}} so this code assumes a \char`\"{}generic\char`\"{} UART \mbox{\hyperlink{struct_g_p_s}{GPS}} Hopefully ALARAv2 and/or ALARAv3 fix this issue and we rewrite this \mbox{\hyperlink{struct_g_p_s}{GPS}} interface to use not UART since UART is garbage 
+\begin{DoxyParams}{Parameters}
+{\em baud} & The baud rate to use to connect the \mbox{\hyperlink{struct_g_p_s}{GPS}} \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{struct_g_p_s_abc31d43e3bfca2066951bcf635d435e4}\label{struct_g_p_s_abc31d43e3bfca2066951bcf635d435e4}} 
+\index{GPS@{GPS}!updateData@{updateData}}
+\index{updateData@{updateData}!GPS@{GPS}}
+\doxysubsubsection{\texorpdfstring{updateData()}{updateData()}}
+{\footnotesize\ttfamily void GPS\+::update\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Function used to update sensor data 
+
+Implements \mbox{\hyperlink{class_sensor_a49e03657e98d76dd40ef7dcbd81cfe08}{Sensor}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{struct_g_p_s_a0af5a9e93d5d9245a2a9b901c83ecd92}\label{struct_g_p_s_a0af5a9e93d5d9245a2a9b901c83ecd92}} 
+\index{GPS@{GPS}!data\_deque@{data\_deque}}
+\index{data\_deque@{data\_deque}!GPS@{GPS}}
+\doxysubsubsection{\texorpdfstring{data\_deque}{data\_deque}}
+{\footnotesize\ttfamily std\+::deque$<$\mbox{\hyperlink{structgps__struct}{gps\+\_\+struct}}$>$ GPS\+::data\+\_\+deque}
+
+data deque used to store \mbox{\hyperlink{struct_g_p_s}{GPS}} data points prior to flash write \mbox{\Hypertarget{struct_g_p_s_afc001763e52209dbb4ec95b35cd3311b}\label{struct_g_p_s_afc001763e52209dbb4ec95b35cd3311b}} 
+\index{GPS@{GPS}!data\_struct@{data\_struct}}
+\index{data\_struct@{data\_struct}!GPS@{GPS}}
+\doxysubsubsection{\texorpdfstring{data\_struct}{data\_struct}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structgps__struct}{gps\+\_\+struct}} GPS\+::data\+\_\+struct}
+
+the gps data structure used to store data \mbox{\Hypertarget{struct_g_p_s_a593d8aee0e1c66f653628b7036a9ba52}\label{struct_g_p_s_a593d8aee0e1c66f653628b7036a9ba52}} 
+\index{GPS@{GPS}!parser@{parser}}
+\index{parser@{parser}!GPS@{GPS}}
+\doxysubsubsection{\texorpdfstring{parser}{parser}}
+{\footnotesize\ttfamily Tiny\+GPSPlus GPS\+::parser}
+
+The Tiny\+GPSPlus object used to parse the UART data into not gibberish 
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+GPS.\+h\item 
+GPS.\+cpp\end{DoxyCompactItemize}

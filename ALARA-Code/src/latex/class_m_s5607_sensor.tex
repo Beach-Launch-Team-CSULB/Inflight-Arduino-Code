@@ -1,0 +1,74 @@
+\hypertarget{class_m_s5607_sensor}{}\doxysection{MS5607\+Sensor Class Reference}
+\label{class_m_s5607_sensor}\index{MS5607Sensor@{MS5607Sensor}}
+Inheritance diagram for MS5607\+Sensor\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_m_s5607_sensor}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_m_s5607_sensor_a42b04bd97f44ca5327ec382ffb544566}{update\+Data}} () override
+\item 
+\mbox{\hyperlink{class_m_s5607_sensor_ac9ddcc9b88d4a3a1ae25bad7e8414395}{MS5607\+Sensor}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+MS5607 \mbox{\hyperlink{class_m_s5607_sensor_a7c4bffcdc063e6eaeefe57ebfe3d16a6}{sensor}}
+\item 
+\mbox{\hyperlink{structms5607__struct}{ms5607\+\_\+struct}} \mbox{\hyperlink{class_m_s5607_sensor_a262e36fc5903e808eb2fa2c3222c17da}{data\+\_\+struct}}
+\item 
+std\+::deque$<$ \mbox{\hyperlink{structms5607__struct}{ms5607\+\_\+struct}} $>$ \mbox{\hyperlink{class_m_s5607_sensor_a67f349cbd2c790c16e750eefb4e0bd74}{data\+\_\+deque}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_m_s5607_sensor_ac9ddcc9b88d4a3a1ae25bad7e8414395}\label{class_m_s5607_sensor_ac9ddcc9b88d4a3a1ae25bad7e8414395}} 
+\index{MS5607Sensor@{MS5607Sensor}!MS5607Sensor@{MS5607Sensor}}
+\index{MS5607Sensor@{MS5607Sensor}!MS5607Sensor@{MS5607Sensor}}
+\doxysubsubsection{\texorpdfstring{MS5607Sensor()}{MS5607Sensor()}}
+{\footnotesize\ttfamily MS5607\+Sensor\+::\+MS5607\+Sensor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Constructor for new sensor No parameters needed since the driver is ALARA-\/specific and this derived sensor class is only designed for use with ALARAv1 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_m_s5607_sensor_a42b04bd97f44ca5327ec382ffb544566}\label{class_m_s5607_sensor_a42b04bd97f44ca5327ec382ffb544566}} 
+\index{MS5607Sensor@{MS5607Sensor}!updateData@{updateData}}
+\index{updateData@{updateData}!MS5607Sensor@{MS5607Sensor}}
+\doxysubsubsection{\texorpdfstring{updateData()}{updateData()}}
+{\footnotesize\ttfamily void MS5607\+Sensor\+::update\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Updates temp data from MS507 sensor, updates data deque 
+
+Implements \mbox{\hyperlink{class_sensor_a49e03657e98d76dd40ef7dcbd81cfe08}{Sensor}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_m_s5607_sensor_a67f349cbd2c790c16e750eefb4e0bd74}\label{class_m_s5607_sensor_a67f349cbd2c790c16e750eefb4e0bd74}} 
+\index{MS5607Sensor@{MS5607Sensor}!data\_deque@{data\_deque}}
+\index{data\_deque@{data\_deque}!MS5607Sensor@{MS5607Sensor}}
+\doxysubsubsection{\texorpdfstring{data\_deque}{data\_deque}}
+{\footnotesize\ttfamily std\+::deque$<$\mbox{\hyperlink{structms5607__struct}{ms5607\+\_\+struct}}$>$ MS5607\+Sensor\+::data\+\_\+deque}
+
+deque of derived MS5607 objects \mbox{\Hypertarget{class_m_s5607_sensor_a262e36fc5903e808eb2fa2c3222c17da}\label{class_m_s5607_sensor_a262e36fc5903e808eb2fa2c3222c17da}} 
+\index{MS5607Sensor@{MS5607Sensor}!data\_struct@{data\_struct}}
+\index{data\_struct@{data\_struct}!MS5607Sensor@{MS5607Sensor}}
+\doxysubsubsection{\texorpdfstring{data\_struct}{data\_struct}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structms5607__struct}{ms5607\+\_\+struct}} MS5607\+Sensor\+::data\+\_\+struct}
+
+Internal \mbox{\hyperlink{structms5607__struct}{ms5607\+\_\+struct}} used for object data storage \mbox{\Hypertarget{class_m_s5607_sensor_a7c4bffcdc063e6eaeefe57ebfe3d16a6}\label{class_m_s5607_sensor_a7c4bffcdc063e6eaeefe57ebfe3d16a6}} 
+\index{MS5607Sensor@{MS5607Sensor}!sensor@{sensor}}
+\index{sensor@{sensor}!MS5607Sensor@{MS5607Sensor}}
+\doxysubsubsection{\texorpdfstring{sensor}{sensor}}
+{\footnotesize\ttfamily MS5607 MS5607\+Sensor\+::sensor}
+
+Internal MS507 sensor object used to collect data 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+MS5607\+Sensor.\+h\item 
+MS5607\+Sensor.\+cpp\end{DoxyCompactItemize}

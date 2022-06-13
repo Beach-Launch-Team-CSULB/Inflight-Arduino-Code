@@ -9,13 +9,22 @@
 #include "internal_temp_struct.h"
 
 struct InternalTemp: public Sensor {
+    /**
+     * Overridden sensor data update function
+     */
     void updateData() override;
-    //Internal Temp data struct
+    /**
+     * Internal Temp data struct
+     */
     internal_temp_struct data_struct;
-    //Initializes internal temp device
+    /**
+     * Initializes internal temp device
+     */
     InternalTemp();
+    /**
+     * Data deque used to store data_structs prior to writing to flash
+     */
     std::deque<internal_temp_struct> data_deque;
-    //Returns temperature
 };
 
 

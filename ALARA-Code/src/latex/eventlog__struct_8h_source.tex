@@ -1,0 +1,26 @@
+\hypertarget{eventlog__struct_8h_source}{}\doxysection{eventlog\+\_\+struct.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by shawn on 3/28/22.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef TEENSY\_INFLIGHT\_MINI\_CODE\_EVENTLOG\_STRUCT\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define TEENSY\_INFLIGHT\_MINI\_CODE\_EVENTLOG\_STRUCT\_H}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include "{}Sensor\_struct.h"{}}}
+\DoxyCodeLine{13 \textcolor{keyword}{const} uint8\_t EVENTLOG\_LENGTH =  128;}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{keyword}{struct }\mbox{\hyperlink{structeventlog__struct}{eventlog\_struct}}: \textcolor{keyword}{public} \mbox{\hyperlink{struct_sensor__struct}{Sensor\_struct}} \{}
+\DoxyCodeLine{16     String \mbox{\hyperlink{structeventlog__struct_a0723b7cbc8d50e17fe417c4516a3c741}{toString}}() \textcolor{keyword}{override};}
+\DoxyCodeLine{21     String \mbox{\hyperlink{structeventlog__struct_afed3a9e5b13481c3c5a55a293d730421}{getHeader}}() \textcolor{keyword}{const override};}
+\DoxyCodeLine{25     \mbox{\hyperlink{structeventlog__struct_a70c1fb9a2fb9f030b854227a50ef131f}{eventlog\_struct}}();}
+\DoxyCodeLine{29     \textcolor{keywordtype}{char} \mbox{\hyperlink{structeventlog__struct_a28f7b801f6ddc551aa80de8c0d66e572}{msg}}[EVENTLOG\_LENGTH]\{\};}
+\DoxyCodeLine{34     \textcolor{keyword}{explicit} \mbox{\hyperlink{structeventlog__struct_a70c1fb9a2fb9f030b854227a50ef131f}{eventlog\_struct}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *msg\_in);}
+\DoxyCodeLine{35 \};}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//TEENSY\_INFLIGHT\_MINI\_CODE\_EVENTLOG\_STRUCT\_H}}
+
+\end{DoxyCode}

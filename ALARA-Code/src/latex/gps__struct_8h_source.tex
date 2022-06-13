@@ -1,0 +1,40 @@
+\hypertarget{gps__struct_8h_source}{}\doxysection{gps\+\_\+struct.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by shawn on 3/17/22.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef TEENSY\_CODE\_GPS\_STRUCT\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define TEENSY\_CODE\_GPS\_STRUCT\_H}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}Sensor\_struct.h"{}}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <TinyGPS++.h>}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{keyword}{struct }\mbox{\hyperlink{structgps__struct}{gps\_struct}}: \mbox{\hyperlink{struct_sensor__struct}{Sensor\_struct}}}
+\DoxyCodeLine{12 \{}
+\DoxyCodeLine{16     \textcolor{keyword}{explicit} \mbox{\hyperlink{structgps__struct_a40f03ee309493a546b5dcb80464ef9b5}{gps\_struct}}(TinyGPSPlus gps);}
+\DoxyCodeLine{17     \textcolor{comment}{// TESTING -\/ KNOWN BUG -\/ GPS MODULE HAS NOT GOTTEN A LOCATION SYNC}}
+\DoxyCodeLine{21 \textcolor{comment}{}    \mbox{\hyperlink{structgps__struct_a40f03ee309493a546b5dcb80464ef9b5}{gps\_struct}}() = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{22     \textcolor{comment}{// Updates GPS data points}}
+\DoxyCodeLine{26 \textcolor{comment}{}    \textcolor{keywordtype}{double} \mbox{\hyperlink{structgps__struct_a2dd502c4c5a76e02553f7328a46f3edf}{gps\_altitude}}\{\};}
+\DoxyCodeLine{30     uint16\_t \mbox{\hyperlink{structgps__struct_ad6686745529548a9916154c792d05792}{gps\_year}}\{\};}
+\DoxyCodeLine{34     uint8\_t \mbox{\hyperlink{structgps__struct_ae756099ae4254b3a519699e697c9c0ff}{gps\_month}}\{\};}
+\DoxyCodeLine{38     uint8\_t \mbox{\hyperlink{structgps__struct_a736d9c59003d78e33200744e73bc5a4d}{gps\_day}}\{\};}
+\DoxyCodeLine{42     uint8\_t \mbox{\hyperlink{structgps__struct_a7166280531c0fac2097861a25a7c6a89}{gps\_hour}}\{\};}
+\DoxyCodeLine{46     uint8\_t \mbox{\hyperlink{structgps__struct_a001ef10ab093ba34263cca494c7afc73}{gps\_minute}}\{\};}
+\DoxyCodeLine{50     uint8\_t \mbox{\hyperlink{structgps__struct_abf91f8e933763a2bf56139789c015793}{gps\_second}}\{\};}
+\DoxyCodeLine{54     \textcolor{keywordtype}{double} \mbox{\hyperlink{structgps__struct_aedf9de34c61fef44cdcb55cb75db86b4}{gps\_latitude}}\{\};}
+\DoxyCodeLine{58     \textcolor{keywordtype}{double} \mbox{\hyperlink{structgps__struct_a181e0129518dd486b7405b53995490af}{gps\_longitude}}\{\};}
+\DoxyCodeLine{62     int32\_t \mbox{\hyperlink{structgps__struct_ad0e57ff4749d9864c1ba9f9550bcc1e5}{gps\_speed}}\{\};}
+\DoxyCodeLine{66     \textcolor{keywordtype}{double} \mbox{\hyperlink{structgps__struct_a04f423e2d18680b1d3772fba538c4a82}{gps\_hdop}}\{\};}
+\DoxyCodeLine{70     \textcolor{keywordtype}{double} \mbox{\hyperlink{structgps__struct_a1eccb34f401fb43253c6b1be131cee01}{gps\_course\_deg}}\{\};}
+\DoxyCodeLine{74     uint32\_t \mbox{\hyperlink{structgps__struct_a9be137f4ad0687447c8353494378fe1b}{gps\_reading\_age}}\{\};}
+\DoxyCodeLine{78     String \mbox{\hyperlink{structgps__struct_af4e9f39af82a31235ba758c4e2aa5dc7}{toString}}() \textcolor{keyword}{override};}
+\DoxyCodeLine{82     String \mbox{\hyperlink{structgps__struct_a24550b91e223cd241e90804ff38b77e8}{getHeader}}() \textcolor{keyword}{const override};}
+\DoxyCodeLine{83 \};}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{85 }
+\DoxyCodeLine{86 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//TEENSY\_CODE\_GPS\_STRUCT\_H}}
+
+\end{DoxyCode}

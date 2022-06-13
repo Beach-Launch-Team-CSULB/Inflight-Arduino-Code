@@ -1,0 +1,30 @@
+\hypertarget{_event_log_8h_source}{}\doxysection{Event\+Log.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by shawn on 3/28/22.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef TEENSY\_INFLIGHT\_MINI\_CODE\_EVENTLOG\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define TEENSY\_INFLIGHT\_MINI\_CODE\_EVENTLOG\_H}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include "{}Sensor.h"{}}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include "{}eventlog\_struct.h"{}}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <deque>}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{17 \textcolor{keyword}{class }\mbox{\hyperlink{class_event_log}{EventLog}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_sensor}{Sensor}} \{}
+\DoxyCodeLine{18 \textcolor{keyword}{public}:}
+\DoxyCodeLine{22     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_event_log_a535d7c16496e7fdbaba47a91185bb3b8}{updateData}}() \textcolor{keyword}{override};}
+\DoxyCodeLine{28     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_event_log_ae11cf0da6d4269f26aa2b1ab989bef4d}{write}}(String s);}
+\DoxyCodeLine{32     \mbox{\hyperlink{class_event_log_af13c963aa685216b8e9fd61e008c7486}{EventLog}}();}
+\DoxyCodeLine{33 \textcolor{keyword}{private}:}
+\DoxyCodeLine{37     std::deque<eventlog\_struct> data\_deque;}
+\DoxyCodeLine{41     \mbox{\hyperlink{structeventlog__struct}{eventlog\_struct}} data\_struct;}
+\DoxyCodeLine{42 \};}
+\DoxyCodeLine{43 }
+\DoxyCodeLine{47 \textcolor{keyword}{static} \mbox{\hyperlink{class_event_log}{EventLog}} eventLog;}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//TEENSY\_INFLIGHT\_MINI\_CODE\_EVENTLOG\_H}}
+
+\end{DoxyCode}

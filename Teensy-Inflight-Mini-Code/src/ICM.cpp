@@ -16,9 +16,12 @@ void ICM::updateData() {
     }
 }
 
+// Sets data_struct to icm_struct, and sets rate from ICM.h
 ICM::ICM(uint8_t CS) : Sensor("ICM", &data_struct, sizeof(data_struct), icm_update_rate) {
     name = "ICM";
+    // Attempts to start sensor over SPI
     enable = sensor.begin_SPI(CS);
+    // Sets accel and gro ranges, from Adafruit library
     sensor.setAccelRange(ICM20948_ACCEL_RANGE_16_G);
     sensor.setGyroRange(ICM20948_GYRO_RANGE_2000_DPS);
     // Sets output data rate to max supported by sensor

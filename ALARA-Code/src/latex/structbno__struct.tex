@@ -1,0 +1,119 @@
+\hypertarget{structbno__struct}{}\doxysection{bno\+\_\+struct Struct Reference}
+\label{structbno__struct}\index{bno\_struct@{bno\_struct}}
+Inheritance diagram for bno\+\_\+struct\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{structbno__struct}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structbno__struct_a7b618c724574eaac97ba8e6a037d5e25}{bno\+\_\+struct}} (imu\+::\+Vector$<$ 3 $>$ accel, imu\+::\+Vector$<$ 3 $>$ gyro, imu\+::\+Vector$<$ 3 $>$ mag, int8\+\_\+t \mbox{\hyperlink{structbno__struct_af3499c4cc7c4b80140f9e9dcfa3dd551}{temp}})
+\item 
+\mbox{\hyperlink{structbno__struct_aad5bf60ae91314bff36eb99f6a60c6c6}{bno\+\_\+struct}} ()=default
+\item 
+String \mbox{\hyperlink{structbno__struct_a92b4e96ee4b686f6b872cb8a1f0b2aad}{get\+Header}} () const override
+\item 
+String \mbox{\hyperlink{structbno__struct_ae4637a5b0af10de13f4b2f565566e330}{to\+String}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+double \mbox{\hyperlink{structbno__struct_a3788f50cec778a4e05b288224202e8d3}{acceleration}} \mbox{[}3\mbox{]} \{\}
+\item 
+double \mbox{\hyperlink{structbno__struct_aa16b753fd856d62ad3681cb4332929e6}{gyroscope}} \mbox{[}3\mbox{]} \{\}
+\item 
+double \mbox{\hyperlink{structbno__struct_aae70b9c61e103b0a392e6e572d6a48fa}{magnetometer}} \mbox{[}3\mbox{]} \{\}
+\item 
+int8\+\_\+t \mbox{\hyperlink{structbno__struct_af3499c4cc7c4b80140f9e9dcfa3dd551}{temp}} \{\}
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{structbno__struct_a7b618c724574eaac97ba8e6a037d5e25}\label{structbno__struct_a7b618c724574eaac97ba8e6a037d5e25}} 
+\index{bno\_struct@{bno\_struct}!bno\_struct@{bno\_struct}}
+\index{bno\_struct@{bno\_struct}!bno\_struct@{bno\_struct}}
+\doxysubsubsection{\texorpdfstring{bno\_struct()}{bno\_struct()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily bno\+\_\+struct\+::bno\+\_\+struct (\begin{DoxyParamCaption}\item[{imu\+::\+Vector$<$ 3 $>$}]{accel,  }\item[{imu\+::\+Vector$<$ 3 $>$}]{gyro,  }\item[{imu\+::\+Vector$<$ 3 $>$}]{mag,  }\item[{int8\+\_\+t}]{temp }\end{DoxyParamCaption})}
+
+Creates new \mbox{\hyperlink{struct_b_n_o}{BNO}} struct from sensor data 
+\begin{DoxyParams}{Parameters}
+{\em accel} & Acceleration in proper format for sensor data type \\
+\hline
+{\em gyro} & Gyroscope data in BNO055 library data format \\
+\hline
+{\em mag} & The magnetometer data in BNO055 library data format \\
+\hline
+{\em temp} & The temperature of the BNO085 \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structbno__struct_aad5bf60ae91314bff36eb99f6a60c6c6}\label{structbno__struct_aad5bf60ae91314bff36eb99f6a60c6c6}} 
+\index{bno\_struct@{bno\_struct}!bno\_struct@{bno\_struct}}
+\index{bno\_struct@{bno\_struct}!bno\_struct@{bno\_struct}}
+\doxysubsubsection{\texorpdfstring{bno\_struct()}{bno\_struct()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily bno\+\_\+struct\+::bno\+\_\+struct (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+Default constructor for the BNO055 struct 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structbno__struct_a92b4e96ee4b686f6b872cb8a1f0b2aad}\label{structbno__struct_a92b4e96ee4b686f6b872cb8a1f0b2aad}} 
+\index{bno\_struct@{bno\_struct}!getHeader@{getHeader}}
+\index{getHeader@{getHeader}!bno\_struct@{bno\_struct}}
+\doxysubsubsection{\texorpdfstring{getHeader()}{getHeader()}}
+{\footnotesize\ttfamily String bno\+\_\+struct\+::get\+Header (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Returns the header for the accel/gyro/mag/temp string \begin{DoxyReturn}{Returns}
+Formatted string with the sensor info header 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{struct_sensor__struct_aad34dcd9941948595749b24cfba4fd3d}{Sensor\+\_\+struct}}.
+
+\mbox{\Hypertarget{structbno__struct_ae4637a5b0af10de13f4b2f565566e330}\label{structbno__struct_ae4637a5b0af10de13f4b2f565566e330}} 
+\index{bno\_struct@{bno\_struct}!toString@{toString}}
+\index{toString@{toString}!bno\_struct@{bno\_struct}}
+\doxysubsubsection{\texorpdfstring{toString()}{toString()}}
+{\footnotesize\ttfamily String bno\+\_\+struct\+::to\+String (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Returns the accel/gyro/mag/temp string \begin{DoxyReturn}{Returns}
+Formatted string with the sensor info 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{struct_sensor__struct_aeff44e4574245d4fabb160acce4c613b}{Sensor\+\_\+struct}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structbno__struct_a3788f50cec778a4e05b288224202e8d3}\label{structbno__struct_a3788f50cec778a4e05b288224202e8d3}} 
+\index{bno\_struct@{bno\_struct}!acceleration@{acceleration}}
+\index{acceleration@{acceleration}!bno\_struct@{bno\_struct}}
+\doxysubsubsection{\texorpdfstring{acceleration}{acceleration}}
+{\footnotesize\ttfamily double bno\+\_\+struct\+::acceleration\mbox{[}3\mbox{]} \{\}}
+
+Acceleration readings from sensor in m/s/s \mbox{\Hypertarget{structbno__struct_aa16b753fd856d62ad3681cb4332929e6}\label{structbno__struct_aa16b753fd856d62ad3681cb4332929e6}} 
+\index{bno\_struct@{bno\_struct}!gyroscope@{gyroscope}}
+\index{gyroscope@{gyroscope}!bno\_struct@{bno\_struct}}
+\doxysubsubsection{\texorpdfstring{gyroscope}{gyroscope}}
+{\footnotesize\ttfamily double bno\+\_\+struct\+::gyroscope\mbox{[}3\mbox{]} \{\}}
+
+Gyroscope readings from sensor in dps \mbox{\Hypertarget{structbno__struct_aae70b9c61e103b0a392e6e572d6a48fa}\label{structbno__struct_aae70b9c61e103b0a392e6e572d6a48fa}} 
+\index{bno\_struct@{bno\_struct}!magnetometer@{magnetometer}}
+\index{magnetometer@{magnetometer}!bno\_struct@{bno\_struct}}
+\doxysubsubsection{\texorpdfstring{magnetometer}{magnetometer}}
+{\footnotesize\ttfamily double bno\+\_\+struct\+::magnetometer\mbox{[}3\mbox{]} \{\}}
+
+Absolute orientation of sensor relative to Earth \mbox{\Hypertarget{structbno__struct_af3499c4cc7c4b80140f9e9dcfa3dd551}\label{structbno__struct_af3499c4cc7c4b80140f9e9dcfa3dd551}} 
+\index{bno\_struct@{bno\_struct}!temp@{temp}}
+\index{temp@{temp}!bno\_struct@{bno\_struct}}
+\doxysubsubsection{\texorpdfstring{temp}{temp}}
+{\footnotesize\ttfamily int8\+\_\+t bno\+\_\+struct\+::temp \{\}}
+
+Temperature of the sensor 
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+bno\+\_\+struct.\+h\item 
+bno\+\_\+struct.\+cpp\end{DoxyCompactItemize}

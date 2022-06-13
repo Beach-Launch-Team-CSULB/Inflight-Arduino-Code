@@ -1,0 +1,30 @@
+\hypertarget{_g_p_s_8h_source}{}\doxysection{GPS.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by shawn on 3/17/22.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef TEENSY\_CODE\_GPS\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define TEENSY\_CODE\_GPS\_H}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}Sensor.h"{}}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include "{}gps\_struct.h"{}}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <TinyGPS++.h>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include "{}Arduino.h"{}}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{comment}{//This implementation only really works with one GPS at a time, but I don't care}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#define GPSSerial Serial1}}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{keyword}{struct }\mbox{\hyperlink{struct_g_p_s}{GPS}} : \textcolor{keyword}{public} \mbox{\hyperlink{class_sensor}{Sensor}} \{}
+\DoxyCodeLine{24     \textcolor{keyword}{explicit} \mbox{\hyperlink{struct_g_p_s_a854b51010388a519cba0d8802a37e0ed}{GPS}}(uint16\_t baud);}
+\DoxyCodeLine{28     TinyGPSPlus \mbox{\hyperlink{struct_g_p_s_a593d8aee0e1c66f653628b7036a9ba52}{parser}};}
+\DoxyCodeLine{32     \mbox{\hyperlink{structgps__struct}{gps\_struct}} \mbox{\hyperlink{struct_g_p_s_afc001763e52209dbb4ec95b35cd3311b}{data\_struct}};}
+\DoxyCodeLine{36     \textcolor{keywordtype}{void} \mbox{\hyperlink{struct_g_p_s_abc31d43e3bfca2066951bcf635d435e4}{updateData}}() \textcolor{keyword}{override};}
+\DoxyCodeLine{40     std::deque<gps\_struct> \mbox{\hyperlink{struct_g_p_s_a0af5a9e93d5d9245a2a9b901c83ecd92}{data\_deque}};}
+\DoxyCodeLine{41 \};}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43 }
+\DoxyCodeLine{44 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//TEENSY\_CODE\_GPS\_H}}
+
+\end{DoxyCode}

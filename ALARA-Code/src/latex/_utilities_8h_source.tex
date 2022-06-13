@@ -1,0 +1,25 @@
+\hypertarget{_utilities_8h_source}{}\doxysection{Utilities.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#include <FS.h>}}
+\DoxyCodeLine{2 }
+\DoxyCodeLine{3 \textcolor{preprocessor}{\#define buffer\_size 128}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#define cm +"{},"{}} +}
+\DoxyCodeLine{5 \textcolor{comment}{//Data storage constants}}
+\DoxyCodeLine{6 \textcolor{keyword}{const} uint\_fast16\_t packet\_size = 512;}
+\DoxyCodeLine{7 \textcolor{keyword}{const} uint\_fast16\_t max\_buf\_size = packet\_size * 4;}
+\DoxyCodeLine{8 \textcolor{comment}{// Precision values to use when converting from float to decimal}}
+\DoxyCodeLine{9 \textcolor{keyword}{const} u\_char float\_depth = 18, double\_depth = 18;}
+\DoxyCodeLine{17 \textcolor{keywordtype}{bool} updateBlockSize(\textcolor{keywordtype}{size\_t} num\_written);}
+\DoxyCodeLine{22 \textcolor{keywordtype}{size\_t} getBlockSizeVal();}
+\DoxyCodeLine{27 \textcolor{keywordtype}{bool} getBlockSize();}
+\DoxyCodeLine{31 \textcolor{keywordtype}{void} resetBlockCounter();}
+\DoxyCodeLine{39 \textcolor{keywordtype}{void} file\_copy(File *copy, File *paste, \textcolor{keywordtype}{bool} close);}
+\DoxyCodeLine{45 String flts(\textcolor{keywordtype}{float} s);}
+\DoxyCodeLine{51 String flts(\textcolor{keywordtype}{double} s);}
+\DoxyCodeLine{52 \textcolor{comment}{// External variables in Utilities.cpp, your compiler will yell at you if you put these in the header}}
+\DoxyCodeLine{53 \textcolor{keyword}{extern} uint8\_t byte\_rate;}
+\DoxyCodeLine{54 \textcolor{keyword}{extern} \textcolor{keywordtype}{size\_t} max\_bytes;}
+\DoxyCodeLine{55 \textcolor{keyword}{extern} \textcolor{keywordtype}{size\_t} bytes\_written;}
+
+\end{DoxyCode}

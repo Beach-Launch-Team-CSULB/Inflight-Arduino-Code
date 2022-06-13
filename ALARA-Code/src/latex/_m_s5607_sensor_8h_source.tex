@@ -1,0 +1,27 @@
+\hypertarget{_m_s5607_sensor_8h_source}{}\doxysection{MS5607\+Sensor.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by shawn on 4/22/22.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef ALARA\_CODE\_MS5607SENSOR\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define ALARA\_CODE\_MS5607SENSOR\_H}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}Sensor.h"{}}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include "{}ms5607.h"{}}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include "{}ms5607\_struct.h"{}}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{keyword}{class }\mbox{\hyperlink{class_m_s5607_sensor}{MS5607Sensor}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_sensor}{Sensor}} \{}
+\DoxyCodeLine{13 \textcolor{keyword}{public}:}
+\DoxyCodeLine{17     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_m_s5607_sensor_a42b04bd97f44ca5327ec382ffb544566}{updateData}}() \textcolor{keyword}{override};}
+\DoxyCodeLine{21     MS5607 \mbox{\hyperlink{class_m_s5607_sensor_a7c4bffcdc063e6eaeefe57ebfe3d16a6}{sensor}};}
+\DoxyCodeLine{27     \mbox{\hyperlink{class_m_s5607_sensor_ac9ddcc9b88d4a3a1ae25bad7e8414395}{MS5607Sensor}}();}
+\DoxyCodeLine{31     \mbox{\hyperlink{structms5607__struct}{ms5607\_struct}} \mbox{\hyperlink{class_m_s5607_sensor_a262e36fc5903e808eb2fa2c3222c17da}{data\_struct}};}
+\DoxyCodeLine{35     std::deque<ms5607\_struct> \mbox{\hyperlink{class_m_s5607_sensor_a67f349cbd2c790c16e750eefb4e0bd74}{data\_deque}};}
+\DoxyCodeLine{36 \};}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//ALARA\_CODE\_MS5607SENSOR\_H}}
+
+\end{DoxyCode}

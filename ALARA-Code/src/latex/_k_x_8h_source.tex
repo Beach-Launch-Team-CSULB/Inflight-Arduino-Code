@@ -1,0 +1,29 @@
+\hypertarget{_k_x_8h_source}{}\doxysection{KX.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by shawn on 4/23/22.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef ALARA\_CODE\_KX\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define ALARA\_CODE\_KX\_H}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}Sensor.h"{}}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include "{}kx\_struct.h"{}}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include "{}SparkFun\_Qwiic\_KX13X.h"{}}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{keyword}{class }\mbox{\hyperlink{class_k_x}{KX}} : \textcolor{keyword}{public} \mbox{\hyperlink{class_sensor}{Sensor}} \{}
+\DoxyCodeLine{16     uint8\_t INT;}
+\DoxyCodeLine{20     outputData data\_store\{\};}
+\DoxyCodeLine{21 \textcolor{keyword}{public}:}
+\DoxyCodeLine{25     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_k_x_ac641934784d319fd5bc8a316b731e316}{updateData}}() \textcolor{keyword}{override};}
+\DoxyCodeLine{29     QwiicKX134 \mbox{\hyperlink{class_k_x_aac5bfea089dcb3f66a321c2d923d6d74}{sensor}};}
+\DoxyCodeLine{35     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_k_x_aa63a9735b920068f39ea5c0d9ba2aff7}{KX}}(uint8\_t CS, uint8\_t int\_pin);}
+\DoxyCodeLine{39     \mbox{\hyperlink{structkx__struct}{kx\_struct}} \mbox{\hyperlink{class_k_x_a83374300b4957acf3477437ca05d3a71}{data\_struct}};}
+\DoxyCodeLine{43     std::deque<kx\_struct> \mbox{\hyperlink{class_k_x_aa75ce94d44ec1d9eb579e5eef9d51670}{data\_deque}};}
+\DoxyCodeLine{44 \};}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//ALARA\_CODE\_KX\_H}}
+
+\end{DoxyCode}

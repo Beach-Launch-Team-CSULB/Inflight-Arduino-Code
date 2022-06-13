@@ -1,0 +1,26 @@
+\hypertarget{_b_n_o_8h_source}{}\doxysection{BNO.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by shawn on 3/18/22.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef TEENSY\_CODE\_BNO\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define TEENSY\_CODE\_BNO\_H}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <Adafruit\_BNO055.h>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include "{}Sensor.h"{}}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include "{}bno\_struct.h"{}}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{keyword}{struct }\mbox{\hyperlink{struct_b_n_o}{BNO}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_sensor}{Sensor}} \{}
+\DoxyCodeLine{17     \mbox{\hyperlink{struct_b_n_o_a5dafca8e93cc3ac769b3242cd92385e1}{BNO}}();}
+\DoxyCodeLine{21     \textcolor{keywordtype}{void} \mbox{\hyperlink{struct_b_n_o_a10c20a1b4e76dbf6a4a5a4822f539c69}{updateData}}() \textcolor{keyword}{override};}
+\DoxyCodeLine{25     \mbox{\hyperlink{structbno__struct}{bno\_struct}} \mbox{\hyperlink{struct_b_n_o_ae3cb408929ad553a3f96932ca1d8cdc6}{data\_struct}};}
+\DoxyCodeLine{29     Adafruit\_BNO055 \mbox{\hyperlink{struct_b_n_o_ad59080fa2245607da1c9a74145ab1885}{sensor}};}
+\DoxyCodeLine{33     std::deque<bno\_struct> \mbox{\hyperlink{struct_b_n_o_a3be8cfd0ff2127c7881908f2ee6225d1}{data\_deque}};}
+\DoxyCodeLine{34 \};}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//TEENSY\_CODE\_BNO\_H}}
+
+\end{DoxyCode}

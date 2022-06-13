@@ -1,0 +1,64 @@
+\hypertarget{class_event_log}{}\doxysection{Event\+Log Class Reference}
+\label{class_event_log}\index{EventLog@{EventLog}}
+
+
+{\ttfamily \#include $<$Event\+Log.\+h$>$}
+
+Inheritance diagram for Event\+Log\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_event_log}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_event_log_a535d7c16496e7fdbaba47a91185bb3b8}{update\+Data}} () override
+\item 
+void \mbox{\hyperlink{class_event_log_ae11cf0da6d4269f26aa2b1ab989bef4d}{write}} (String s)
+\item 
+\mbox{\hyperlink{class_event_log_af13c963aa685216b8e9fd61e008c7486}{Event\+Log}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+The Event Log, used for logging miscellaneous text to the flash such as events Can be used as a timeline of the events, etc. after the flight 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_event_log_af13c963aa685216b8e9fd61e008c7486}\label{class_event_log_af13c963aa685216b8e9fd61e008c7486}} 
+\index{EventLog@{EventLog}!EventLog@{EventLog}}
+\index{EventLog@{EventLog}!EventLog@{EventLog}}
+\doxysubsubsection{\texorpdfstring{EventLog()}{EventLog()}}
+{\footnotesize\ttfamily Event\+Log\+::\+Event\+Log (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Creates an \mbox{\hyperlink{class_event_log}{Event\+Log}} 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_event_log_a535d7c16496e7fdbaba47a91185bb3b8}\label{class_event_log_a535d7c16496e7fdbaba47a91185bb3b8}} 
+\index{EventLog@{EventLog}!updateData@{updateData}}
+\index{updateData@{updateData}!EventLog@{EventLog}}
+\doxysubsubsection{\texorpdfstring{updateData()}{updateData()}}
+{\footnotesize\ttfamily void Event\+Log\+::update\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Updates the data to flash from the storage deque 
+
+Implements \mbox{\hyperlink{class_sensor_a49e03657e98d76dd40ef7dcbd81cfe08}{Sensor}}.
+
+\mbox{\Hypertarget{class_event_log_ae11cf0da6d4269f26aa2b1ab989bef4d}\label{class_event_log_ae11cf0da6d4269f26aa2b1ab989bef4d}} 
+\index{EventLog@{EventLog}!write@{write}}
+\index{write@{write}!EventLog@{EventLog}}
+\doxysubsubsection{\texorpdfstring{write()}{write()}}
+{\footnotesize\ttfamily void Event\+Log\+::write (\begin{DoxyParamCaption}\item[{String}]{s }\end{DoxyParamCaption})}
+
+Used to write text data events into the file Must be under a certain character limit or it will get cut off 
+\begin{DoxyParams}{Parameters}
+{\em s} & The string to write \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Event\+Log.\+h\item 
+Event\+Log.\+cpp\end{DoxyCompactItemize}

@@ -7,14 +7,30 @@
 
 
 #include "Sensor_struct.h"
+/**
+ * Character length of the message in the event log
+ */
 const uint8_t EVENTLOG_LENGTH =  128;
 
 struct eventlog_struct: public Sensor_struct {
     String toString() override;
-    //Returns CSV file header
+    /**
+     * Returns CSV file header for the EventLog
+     * @return CSV file header
+     */
     String getHeader() const override;
+    /**
+     * Default empty constructor for an event
+     */
     eventlog_struct();
+    /**
+     * Character array message in each event
+     */
     char msg[EVENTLOG_LENGTH]{};
+    /**
+     * Crates a new event log message
+     * @param msg_in the formatted string to turn into the message
+     */
     explicit eventlog_struct(const char *msg_in);
 };
 

@@ -1,0 +1,28 @@
+\hypertarget{bno__struct_8h_source}{}\doxysection{bno\+\_\+struct.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by shawn on 3/18/22.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef TEENSY\_CODE\_BNO\_STRUCT\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define TEENSY\_CODE\_BNO\_STRUCT\_H}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}Sensor\_struct.h"{}}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include "{}vector.h"{}}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{keyword}{struct }\mbox{\hyperlink{structbno__struct}{bno\_struct}}: \mbox{\hyperlink{struct_sensor__struct}{Sensor\_struct}} \{}
+\DoxyCodeLine{15     \textcolor{keywordtype}{double} \mbox{\hyperlink{structbno__struct_a3788f50cec778a4e05b288224202e8d3}{acceleration}}[3]\{\};}
+\DoxyCodeLine{19     \textcolor{keywordtype}{double} \mbox{\hyperlink{structbno__struct_aa16b753fd856d62ad3681cb4332929e6}{gyroscope}}[3]\{\};}
+\DoxyCodeLine{23     \textcolor{keywordtype}{double} \mbox{\hyperlink{structbno__struct_aae70b9c61e103b0a392e6e572d6a48fa}{magnetometer}}[3]\{\};}
+\DoxyCodeLine{27     int8\_t \mbox{\hyperlink{structbno__struct_af3499c4cc7c4b80140f9e9dcfa3dd551}{temp}}\{\};}
+\DoxyCodeLine{35     \mbox{\hyperlink{structbno__struct_aad5bf60ae91314bff36eb99f6a60c6c6}{bno\_struct}}(imu::Vector<3> accel, imu::Vector<3> gyro, imu::Vector<3> mag, int8\_t \mbox{\hyperlink{structbno__struct_af3499c4cc7c4b80140f9e9dcfa3dd551}{temp}});}
+\DoxyCodeLine{39     \mbox{\hyperlink{structbno__struct_aad5bf60ae91314bff36eb99f6a60c6c6}{bno\_struct}}() = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{44     String \mbox{\hyperlink{structbno__struct_a92b4e96ee4b686f6b872cb8a1f0b2aad}{getHeader}}() \textcolor{keyword}{const override};}
+\DoxyCodeLine{49     String \mbox{\hyperlink{structbno__struct_ae4637a5b0af10de13f4b2f565566e330}{toString}}() \textcolor{keyword}{override};}
+\DoxyCodeLine{50 \};}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//TEENSY\_CODE\_BNO\_STRUCT\_H}}
+
+\end{DoxyCode}

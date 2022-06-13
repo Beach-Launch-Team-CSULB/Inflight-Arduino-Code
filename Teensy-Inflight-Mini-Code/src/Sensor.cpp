@@ -43,6 +43,7 @@ void Sensor::dumpToFile(File * in, File * out) const {
 }
 
 void Sensor::setFile(File *F) {
+    // Out file is used as internal file object
     out_file = F;
 }
 

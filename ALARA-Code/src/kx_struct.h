@@ -9,11 +9,27 @@
 #include "SparkFun_Qwiic_KX13X.h"
 
 struct kx_struct : public Sensor_struct{
+    /**
+     * Overriden toString(), returns time + acceleration values
+     */
     String toString() override;
-    //Returns CSV file header
+    /**
+     * Returns CSV file header with time headers + accel headers
+     * @return
+     */
     String getHeader() const override;
+    /**
+     * Creates new KX struct from a KX class output data structure
+     * @param data an outputData object to generate the data from
+     */
     explicit kx_struct(outputData data);
+    /**
+     * Default constructor for a KX struct
+     */
     kx_struct() = default;
+    /**
+     * Array of X/Y/Z acceleration values for a KX struct
+     */
     float accel[3]{};
 };
 

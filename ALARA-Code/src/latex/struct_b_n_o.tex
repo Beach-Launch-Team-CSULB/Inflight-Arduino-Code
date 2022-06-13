@@ -1,0 +1,80 @@
+\hypertarget{struct_b_n_o}{}\doxysection{BNO Struct Reference}
+\label{struct_b_n_o}\index{BNO@{BNO}}
+Inheritance diagram for BNO\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{struct_b_n_o}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_b_n_o_a5dafca8e93cc3ac769b3242cd92385e1}{BNO}} ()
+\item 
+void \mbox{\hyperlink{struct_b_n_o_a10c20a1b4e76dbf6a4a5a4822f539c69}{update\+Data}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structbno__struct}{bno\+\_\+struct}} \mbox{\hyperlink{struct_b_n_o_ae3cb408929ad553a3f96932ca1d8cdc6}{data\+\_\+struct}}
+\item 
+Adafruit\+\_\+\+BNO055 \mbox{\hyperlink{struct_b_n_o_ad59080fa2245607da1c9a74145ab1885}{sensor}}
+\item 
+std\+::deque$<$ \mbox{\hyperlink{structbno__struct}{bno\+\_\+struct}} $>$ \mbox{\hyperlink{struct_b_n_o_a3be8cfd0ff2127c7881908f2ee6225d1}{data\+\_\+deque}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{struct_b_n_o_a5dafca8e93cc3ac769b3242cd92385e1}\label{struct_b_n_o_a5dafca8e93cc3ac769b3242cd92385e1}} 
+\index{BNO@{BNO}!BNO@{BNO}}
+\index{BNO@{BNO}!BNO@{BNO}}
+\doxysubsubsection{\texorpdfstring{BNO()}{BNO()}}
+{\footnotesize\ttfamily BNO\+::\+BNO (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Creates a \mbox{\hyperlink{struct_b_n_o}{BNO}} object I2C sensor with (hopefully) fixed address so no parameters needed 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{struct_b_n_o_a10c20a1b4e76dbf6a4a5a4822f539c69}\label{struct_b_n_o_a10c20a1b4e76dbf6a4a5a4822f539c69}} 
+\index{BNO@{BNO}!updateData@{updateData}}
+\index{updateData@{updateData}!BNO@{BNO}}
+\doxysubsubsection{\texorpdfstring{updateData()}{updateData()}}
+{\footnotesize\ttfamily void BNO\+::update\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Updates sensor from new data acceleration in BNO055 library device format
+
+gyroscope reading in BNO055 library device format
+
+magnetometer position in BNO055 library device format
+
+Temperature from 0-\/255
+
+Implements \mbox{\hyperlink{class_sensor_a49e03657e98d76dd40ef7dcbd81cfe08}{Sensor}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{struct_b_n_o_a3be8cfd0ff2127c7881908f2ee6225d1}\label{struct_b_n_o_a3be8cfd0ff2127c7881908f2ee6225d1}} 
+\index{BNO@{BNO}!data\_deque@{data\_deque}}
+\index{data\_deque@{data\_deque}!BNO@{BNO}}
+\doxysubsubsection{\texorpdfstring{data\_deque}{data\_deque}}
+{\footnotesize\ttfamily std\+::deque$<$\mbox{\hyperlink{structbno__struct}{bno\+\_\+struct}}$>$ BNO\+::data\+\_\+deque}
+
+Data deque used for state detection and sensor writes \mbox{\Hypertarget{struct_b_n_o_ae3cb408929ad553a3f96932ca1d8cdc6}\label{struct_b_n_o_ae3cb408929ad553a3f96932ca1d8cdc6}} 
+\index{BNO@{BNO}!data\_struct@{data\_struct}}
+\index{data\_struct@{data\_struct}!BNO@{BNO}}
+\doxysubsubsection{\texorpdfstring{data\_struct}{data\_struct}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structbno__struct}{bno\+\_\+struct}} BNO\+::data\+\_\+struct}
+
+Data struct used for storing \mbox{\hyperlink{struct_b_n_o}{BNO}} data \mbox{\Hypertarget{struct_b_n_o_ad59080fa2245607da1c9a74145ab1885}\label{struct_b_n_o_ad59080fa2245607da1c9a74145ab1885}} 
+\index{BNO@{BNO}!sensor@{sensor}}
+\index{sensor@{sensor}!BNO@{BNO}}
+\doxysubsubsection{\texorpdfstring{sensor}{sensor}}
+{\footnotesize\ttfamily Adafruit\+\_\+\+BNO055 BNO\+::sensor}
+
+Base sensor used to store sensor data in 
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+BNO.\+h\item 
+BNO.\+cpp\end{DoxyCompactItemize}

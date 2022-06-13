@@ -5,6 +5,7 @@
 #ifndef ALARA_CODE_ALARA_H
 #define ALARA_CODE_ALARA_H
 // Pin definitions for ALARAv1
+// Put any other ALARA-specific pins, devices, etc. here
 const uint8_t
 BNO055_RST = 5, BNO055_CS = 47,
 MS5607_CSN = 10,
